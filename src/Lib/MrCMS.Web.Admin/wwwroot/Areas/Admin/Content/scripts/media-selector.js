@@ -263,7 +263,7 @@ function MediaSelectorWrapper(el, options) {
 
     function isImage(image) {
         const extension = image.split('.').pop().toLowerCase();
-        const imageExtensions = ["jpg", "jpeg", "gif", "png"];
+        const imageExtensions = ["jpg", "jpeg", "gif", "png", "webp", "svg"];
 
         let imageCheck = false;
         for (let i = 0; i < imageExtensions.length; i++) {

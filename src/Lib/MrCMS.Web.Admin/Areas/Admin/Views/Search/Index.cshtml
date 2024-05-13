@@ -19,7 +19,7 @@
 
     <admin-header>
         <row>
-            <admin-header-title title="@await Html.Resource("admin - search - title", "Search", option=> option.DisableInlineEditing()) @(!string.IsNullOrWhiteSpace(Model.Term) ? " - " + Model.Term : "")"/>
+            <admin-header-title title="@await Html.Resource("admin - search - title", "Search", option => option.DisableInlineEditing()) @(!string.IsNullOrWhiteSpace(Model.Term) ? " - " + Model.Term : "")"/>
 
             <admin-header-actions>
                 <input type="submit" value="Search" class="btn btn-primary"/>
@@ -32,49 +32,49 @@
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.Term)
-                @Html.TextBoxFor(x => x.Term, new {@class = "form-control"})
+                @Html.TextBoxFor(x => x.Term, new { @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.Term)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.Type)
-                @Html.DropDownListFor(x => x.Type, typeOptions, new {@class = "form-control"})
+                @Html.DropDownListFor(x => x.Type, typeOptions, new { @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.Type)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.CreatedOnFrom)
-                @Html.TextBoxFor(x => x.CreatedOnFrom, new {@class = "date-time-picker form-control", autocomplete="off"})
+                @Html.TextBoxFor(x => x.CreatedOnFrom, new { @class = "date-time-picker form-control", autocomplete = "off" })
                 @Html.ValidationMessageFor(x => x.CreatedOnFrom)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.CreatedOnTo)
-                @Html.TextBoxFor(x => x.CreatedOnTo, new {@class = "date-time-picker form-control", autocomplete="off"})
+                @Html.TextBoxFor(x => x.CreatedOnTo, new { @class = "date-time-picker form-control", autocomplete = "off" })
                 @Html.ValidationMessageFor(x => x.CreatedOnTo)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.UpdatedOnFrom)
-                @Html.TextBoxFor(x => x.UpdatedOnFrom, new {@class = "date-time-picker form-control", autocomplete="off"})
+                @Html.TextBoxFor(x => x.UpdatedOnFrom, new { @class = "date-time-picker form-control", autocomplete = "off" })
                 @Html.ValidationMessageFor(x => x.UpdatedOnFrom)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.UpdatedOnTo)
-                @Html.TextBoxFor(x => x.UpdatedOnTo, new {@class = "date-time-picker form-control", autocomplete="off"})
+                @Html.TextBoxFor(x => x.UpdatedOnTo, new { @class = "date-time-picker form-control", autocomplete = "off" })
                 @Html.ValidationMessageFor(x => x.UpdatedOnTo)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.SortBy)
-                @Html.DropDownListFor(x => x.SortBy, sortByOptions, new {@class = "form-control"})
+                @Html.DropDownListFor(x => x.SortBy, sortByOptions, new { @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.SortBy)
             </div>
         </div>
@@ -102,10 +102,9 @@
                 <tr>
                     <td>
                         <a href="@result.ActionUrl" class="">
-                            @if (result.Entity is MediaFile)
+                            @if (result.Entity is MediaFile file)
                             {
-                                var file = result.Entity as MediaFile;
-                                if (file.IsImage())
+                                if (file.IsImage() || file.IsVectorImage())
                                 {
                                     @await Html.RenderImage(file.FileUrl, new Size(100, 100))
                                 }
@@ -125,6 +124,6 @@
                 </tr>
             }
         </table>
-        @Html.PagedListPager(results, page => Url.Action("Index", new {page, Model.CreatedOnFrom, Model.CreatedOnTo, Model.Term, Model.Type}), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+        @Html.PagedListPager(results, page => Url.Action("Index", new { page, Model.CreatedOnFrom, Model.CreatedOnTo, Model.Term, Model.Type }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
     }
 </div>

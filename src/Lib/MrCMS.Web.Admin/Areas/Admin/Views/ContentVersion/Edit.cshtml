@@ -1,7 +1,9 @@
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model MrCMS.Web.Admin.Models.Content.ContentVersionModel
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutRoot.cshtml";
+    var isContentVersionCopied = Context.Session.GetInt32("CopiedContentVersion").HasValue;;
 }
 
 <div class="content-admin" data-content-admin>
@@ -27,9 +29,31 @@
     <div class="main">
         <div class="left-nav" data-content-admin-nav>
             <div class="card h-100 m-0 row flex-column flex-nowrap">
-                <h3 class="card-header col-auto">
-                    Blocks
-                </h3>
+                <div class="d-flex border-bottom">
+                    <div class="col px-0">
+                        <h3 class="card-header border-0 col-auto">
+                            Blocks
+                        </h3>
+                    </div>
+                    <div class="col-auto px-0 d-flex align-items-center">
+                        <form method="POST" asp-controller="ContentVersion" asp-action="Copy" asp-route-id="@Model.Id">
+                            <button class="btn btn-outline-primary mx-1 btn-sm">Copy</button>
+                        </form>
+                    </div>
+                    <div class="col-auto px-0 d-flex align-items-center">
+                        <form method="POST" asp-controller="ContentVersion" asp-action="Paste" asp-route-id="@Model.Id">
+                            <button class="btn btn-outline-dark mx-1 btn-sm"
+                                    @if (!isContentVersionCopied)
+                                    {
+                                        @:disabled="disabled"
+                                    }
+                                    onclick="return confirm('Are you sure you want to paste copied blocks?')">
+                                Paste
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 @if (Model != null)
                 {
                     <div class="card-body p-0 col" style="overflow-y:auto">

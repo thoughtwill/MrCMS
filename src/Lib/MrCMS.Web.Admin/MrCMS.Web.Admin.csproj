@@ -29,19 +29,6 @@
         <ProjectReference Include="..\MrCMS.Web.Admin.Infrastructure\MrCMS.Web.Admin.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Task\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Task\Execute.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Task\Index.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Areas\Admin\Views\Task\Edit.cshtml" />
-      <UpToDateCheckInput Remove="Areas\Admin\Views\Task\Execute.cshtml" />
-      <UpToDateCheckInput Remove="Areas\Admin\Views\Task\Index.cshtml" />
-    </ItemGroup>
-    
-
     <!--
           1. Install npm packages
           "Inputs" and "Outputs" are used for incremental builds. If all output items are up-to-date, MSBuild skips the target.

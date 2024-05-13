@@ -10,7 +10,7 @@
         <a href="#" class="pull-right show-hide-file-result">@await Html.Resource("Show")</a>
     </div>
     <div class="content" style="display: none">
-        @if (Model.IsImage())
+        @if (Model.IsImage() || Model.IsVectorImage())
         {
             <table>
                 <tbody>

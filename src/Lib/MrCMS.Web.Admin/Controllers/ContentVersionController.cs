@@ -1,14 +1,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MrCMS.Entities.Documents.Web;
-using MrCMS.Services;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Infrastructure.Helpers;
 using MrCMS.Web.Admin.Models.Content;
 using MrCMS.Web.Admin.Services;
-using MrCMS.Web.Admin.Services.Content;
 using MrCMS.Website;
 
 namespace MrCMS.Web.Admin.Controllers;
@@ -17,6 +16,8 @@ public class ContentVersionController : MrCMSAdminController
 {
     private readonly IContentVersionAdminService _adminService;
     private readonly IGetWebpageForPath _getWebpageForPath;
+    
+    private const string CopyContentVersionSessionKey = "CopiedContentVersion";
 
     public ContentVersionController(IContentVersionAdminService adminService,
         IGetWebpageForPath getWebpageForPath)
@@ -129,5 +130,21 @@ public class ContentVersionController : MrCMSAdminController
         
         ViewData["selected"] = selected;
         return PartialView(editModel);
+    }
+    
+    public async Task<ViewResult> Copy(int id)
+    {
+        HttpContext.Session.SetInt32(CopyContentVersionSessionKey, id);
+        return View("Edit", await _adminService.GetEditModel(id));
+    }
+
+    public async Task<ViewResult> Paste(int id)
+    {
+        var copyContentVersionId = HttpContext.Session.GetInt32(CopyContentVersionSessionKey);
+        if (copyContentVersionId.HasValue)
+        {
+            await _adminService.CopyContentVersion(copyContentVersionId.Value, id);
+        }
+        return View("Edit", await _adminService.GetEditModel(id));
     }
 }

@@ -143,4 +143,20 @@ public class ContentVersionAdminService : IContentVersionAdminService
 
         return newVersion;
     }
+
+    public async Task CopyContentVersion(int sourceId, int targetId)
+    {
+        var sourceContentBlocks = await _session.Query<ContentBlock>()
+            .Where(x => x.ContentVersion.Id == sourceId)
+            .ToListAsync();
+
+        var targetContentVersion = await _session.GetAsync<ContentVersion>(targetId);
+        
+        foreach (var sourceContentBlock in sourceContentBlocks)
+        {
+            var newContentBlock = sourceContentBlock.Clone(targetContentVersion);
+            targetContentVersion.Blocks.Add(newContentBlock);
+            await _session.TransactAsync(session => session.SaveAsync(newContentBlock));
+        }
+    }
 }

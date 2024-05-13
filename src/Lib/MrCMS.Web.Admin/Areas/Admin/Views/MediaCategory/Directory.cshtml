@@ -16,37 +16,41 @@
         {
             foreach (var folder in folders.OrderBy(x => x.DisplayOrder))
             {
-                <div class="folder" data-id="folder-@folder.Id" data-url="@Url.Action("Show", "MediaCategory", new {id = folder.Id})" title="@folder.Name">
+                <div class="folder" data-id="folder-@folder.Id" data-url="@Url.Action("Show", "MediaCategory", new { id = folder.Id })" title="@folder.Name">
                     <i class="fa fa-folder-open">&nbsp;</i> @folder.Name.TruncateString(28)
                 </div>
             }
             <div class="clearfix"></div>
         }
-        <div id="file-list" data-file-list="true" data-category-id="@(Model == null ? (int?) null : Model.Id)">
+        <div id="file-list" data-file-list="true" data-category-id="@Model?.Id">
             @if (files != null && files.Any())
             {
                 foreach (var file in files)
                 {
-                    <div class="file" data-id="file-@file.Id" data-type="file" data-url="@Url.Action("Edit", "File", new {Id = file.Id})">
-                        <div class="file-preview">
-                            <a title="@file.FileName">
-                                @if (file.IsImage())
-                                {
-                                    @await Html.RenderImage(file.FileUrl, new Size(100, 100))
-                                }
-                                else
-                                {
-                                    <i class="@file.FileExtension.GetIconClass()"> </i>
-                                }
-                            </a>
-                        </div>
-                        <div class="file-link">
-                            @Html.Link(file.FileName, file.FileUrl)
+                    <div class="file" data-id="file-@file.Id" data-type="file" data-url="@Url.Action("Edit", "File", new { Id = file.Id })">
+                        <div class="d-flex flex-column h-100">
+                            <div class="col px-0 d-flex align-items-center justify-content-center">
+                                <a title="@file.FileName" href="" class="file-preview">
+                                    @if (file.IsImage() || file.IsVectorImage())
+                                    {
+                                        @await Html.RenderImage(file.FileUrl, new Size(100, 100), attributes: new { @class = "img-fluid" })
+                                    }
+                                    else
+                                    {
+                                        <i class="@file.FileExtension.GetIconClass()"> </i>
+                                    }
+                                </a>
+                            </div>
+                            <div class="col-auto px-0">
+                                <div class="file-link text-center">
+                                    @Html.Link(file.FileName, file.FileUrl)
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }
                 <div class="clearfix"> </div>
-                @Html.PagedListPager(files, page => Url.Action("Index", "MediaCategory", new {page, Model.SearchText, Model.SortBy, Model.Id}), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+                @Html.PagedListPager(files, page => Url.Action("Index", "MediaCategory", new { page, Model.SearchText, Model.SortBy, Model.Id }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
             }
             else
             {

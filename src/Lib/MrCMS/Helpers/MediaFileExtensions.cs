@@ -13,8 +13,9 @@ namespace MrCMS.Helpers
 {
     public static class MediaFileExtensions
     {
-        public static readonly HashSet<string> JpegExtensions = new HashSet<string> { ".jpg", ".jpeg" };
-        public static readonly List<string> ImageExtensions = new List<string> { ".jpg", ".jpeg", ".gif", ".png", ".bmp" };
+        public static readonly HashSet<string> JpegExtensions = [ ".jpg", ".jpeg" ];
+        public static readonly List<string> ImageExtensions = [".jpg", ".jpeg", ".gif", ".png", ".bmp", ".webp"];
+        public static readonly List<string> VectorImageExtensions = [".svg"];
 
         public static async Task<IFileSystem> GetFileSystem(MediaFile file, IEnumerable<IFileSystem> possibleFileSystems)
         {
@@ -39,6 +40,16 @@ namespace MrCMS.Helpers
         public static bool IsImageExtension(string fileExtension)
         {
             return ImageExtensions.Any(s => s.Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
+        }
+        
+        public static bool IsVectorImage(this MediaFile file)
+        {
+            return file != null && IsVectorImageExtension(file.FileExtension);
+        }
+        
+        public static bool IsVectorImageExtension(string fileExtension)
+        {
+            return VectorImageExtensions.Any(s => s.Equals(fileExtension, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public static bool IsJpeg(this MediaFile file)

@@ -26,7 +26,7 @@
     </admin-header>
 
 
-    @if (file.IsImage())
+    @if (file.IsImage() || file.IsVectorImage())
     {
         @await Html.RenderImage(file.FileUrl, new Size(100, 100))
     }

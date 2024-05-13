@@ -7,7 +7,7 @@ namespace MrCMS.Website
 {
     public interface IProcessWebpageViews
     {
-        Task Process(ViewResult result, Webpage webpage);
+        Task Process(ViewResult result, object webpage);
         Task ProcessForDefault(ViewDataDictionary viewData);
     }
 }

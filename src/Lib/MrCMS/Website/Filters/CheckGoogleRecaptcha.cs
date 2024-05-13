@@ -34,7 +34,7 @@ namespace MrCMS.Website.Filters
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             using var client = new HttpClient();
-            var response = await client.PostAsync(new Uri($"https://recaptchaenterprise.googleapis.com/v1beta1/projects/{_settings.ProjectId}/assessments?key={_settings.ApiKey}"), data);
+            var response = await client.PostAsync(new Uri($"https://recaptchaenterprise.googleapis.com/v1/projects/{_settings.ProjectId}/assessments?key={_settings.ApiKey}"), data);
             string googleResponse = await response.Content.ReadAsStringAsync();
 
             var result = JsonConvert.DeserializeObject<GoogleRecaptchaAssessmentModel>(googleResponse);
@@ -47,7 +47,7 @@ namespace MrCMS.Website.Filters
             }
 
             //Check score
-            if (result.Score >= _settings.ByPassScore)
+            if (result.RiskAnalysis.Score >= _settings.ByPassScore)
             {
                 return GoogleRecaptchaCheckResult.Success;
             }

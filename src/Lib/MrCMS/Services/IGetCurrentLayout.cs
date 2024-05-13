@@ -5,6 +5,8 @@ namespace MrCMS.Services
 {
     public interface IGetCurrentLayout
     {
+        Layout GetSiteDefault();
+
         Layout Get(Webpage webpage);
         Layout GetUserAccountLayout();
     }
