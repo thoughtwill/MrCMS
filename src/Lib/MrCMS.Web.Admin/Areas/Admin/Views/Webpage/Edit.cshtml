@@ -13,7 +13,7 @@
     var tabs = await TabsService.GetEditTabs(Html, Model);
 }
 
-<form asp-controller="Webpage" asp-action="Edit" id="edit-document" data-are-you-sure="@await Html.Resource(AdminMessages.AreYouSureDefaultMessage,options => options.DisableInlineEditing())" method="post" data-edit-webpage autocomplete="off">
+<form asp-controller="Webpage" asp-action="Edit" id="edit-document" data-are-you-sure="@await Html.PlainResource(AdminMessages.AreYouSureDefaultMessage)" method="post" data-edit-webpage autocomplete="off">
     <admin-header>
         <row>
             <admin-header-title title="@Model.Name"/>

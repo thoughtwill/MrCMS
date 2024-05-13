@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "admin-js": "wwwroot/assets/core-admin.js",
-  "core-js": "wwwroot/assets/core-front-end.js",
-  "core-css": "wwwroot/assets/core-front-end.css",
+  "core-js": "wwwroot/assets/core.js",
+  "core-css": "wwwroot/assets/core.css",
   "targets": {
     "core-js": {},
     "core-css": {},

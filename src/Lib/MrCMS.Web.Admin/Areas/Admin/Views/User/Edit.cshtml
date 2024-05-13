@@ -128,8 +128,9 @@
                         </div>
                         <hr/>
                         <h4>Notifications</h4>
-                        @Html.InlineCheckboxFor(x => x.DisableNotifications, null, null, "Disable system notifications")
-
+                        <div class="form-check mb-3">
+                            @Html.InlineCheckboxFor(x => x.DisableNotifications, null, null, "Disable system notifications")
+                        </div>
                     </div>
 
                 </div>

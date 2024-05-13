@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Helpers;
 using NHibernate.Linq;
-using StackExchange.Profiling.Internal;
 using ISession = NHibernate.ISession;
 
 namespace MrCMS.Website.NotFound
@@ -57,7 +56,7 @@ namespace MrCMS.Website.NotFound
                 var webpage = history.Webpage.Unproxy();
                 if (webpage.Published)
                 {
-                    return (false, new RedirectResult($"/{webpage.UrlSegment.EncodeParts()}", true), history);
+                    return (false, new RedirectResult($"/{SanitizeUrl(webpage.UrlSegment)}", true), history);
                 }
             }
 
@@ -70,11 +69,44 @@ namespace MrCMS.Website.NotFound
                     return (false, new RedirectResult(history.RedirectUrl, true), history);
                 }
 
-                // otherwise encode the parts and go
-                return (false, new RedirectResult(history.RedirectUrl.EncodeParts(), true), history);
+                // var encodeParts = history.RedirectUrl.EncodeParts();
+                return (false, new RedirectResult(SanitizeUrl(history.RedirectUrl), true), history);
             }
 
             return (false, null, history);
+        }
+
+        private static string SanitizeUrl(string originalUrl)
+        {
+            // otherwise encode the parts and go
+            // split into path and query
+            var pathAndQuery = originalUrl.Split('?');
+            var pathPart = pathAndQuery[0];
+            var queryPart = pathAndQuery.Length > 1 ? pathAndQuery[1] : "";
+            queryPart = GetQueryPart(queryPart);
+            // rejoin the path and query
+            return $"{pathPart.EncodeParts()}{queryPart}";
+        }
+
+        private static string GetQueryPart(string queryPart)
+        {
+            if (string.IsNullOrWhiteSpace(queryPart))
+                return string.Empty;
+
+            var queryParts = queryPart.Split('&');
+
+            // if there's no parts, return empty
+            if (!queryParts.Any())
+                return string.Empty;
+
+            var queryDictionary = queryParts.Select(x => x.Split('=')).ToDictionary(x => x[0], x => x[1]);
+            foreach (var key in queryDictionary.Keys)
+            {
+                queryDictionary[key] = WebUtility.UrlEncode(queryDictionary[key]);
+            }
+
+            // rejoin the query
+            return "?" + string.Join("&", queryDictionary.Select(x => $"{x.Key}={x.Value}"));
         }
 
         public async Task<RedirectResult> FindByPathAndForwardQueryToPage(string path, string query)
@@ -99,7 +131,7 @@ namespace MrCMS.Website.NotFound
                 if (!result.Success)
                     continue;
                 await AddHistoryRecord(path, query, siteId, result);
-                return new RedirectResult(result.GetRedirectUrl());
+                return new RedirectResult(result.GetRedirectUrl(), true);
             }
 
             return null;
@@ -168,8 +200,10 @@ values (@urlSegment, NEWID(), GETDATE(), GETDATE(), 0, @webpageId, @siteId, @red
             //     RedirectUrl = result.Url
             // }));
         }
+
+
     }
-    
+
     public static class NotFoundHelpers
     {
         /// <summary>
@@ -177,9 +211,9 @@ values (@urlSegment, NEWID(), GETDATE(), GETDATE(), 0, @webpageId, @siteId, @red
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public static string EncodeParts (this string url)
+        public static string EncodeParts(this string url)
         {
-            return url.IsNullOrWhiteSpace() ? "" : string.Join("/", url.Split('/').Select(WebUtility.UrlEncode));
+            return string.IsNullOrWhiteSpace(url) ? "" : string.Join("/", url.Split('/').Select(WebUtility.UrlEncode));
         }
     }
 }

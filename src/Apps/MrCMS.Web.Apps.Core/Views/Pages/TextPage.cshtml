@@ -1,10 +1,5 @@
-﻿@using MrCMS.Website.Auth
-@using MrCMS.Services
-@model MrCMS.Web.Apps.Core.Pages.TextPage
-@inject IFrontEndEditingChecker _frontEndEditingChecker
-
+﻿@model MrCMS.Web.Apps.Core.Pages.TextPage
 @await Html.RenderImage(Model.FeatureImage)
-
 
 @await Html.Editable(page => page.BodyContent, true)
 

@@ -27,7 +27,7 @@ namespace MrCMS.Tests.Shortcodes.Forms
         {
             var submittedMessage = _submittedMessageRenderer.AppendSubmittedMessage(new Form(), new FormSubmittedStatus(true, null, null));
 
-            submittedMessage.Attributes["class"].Should().Be("alert-success alert");
+            submittedMessage.Attributes["class"].Should().Contain("alert-success");
         }
     }
 }

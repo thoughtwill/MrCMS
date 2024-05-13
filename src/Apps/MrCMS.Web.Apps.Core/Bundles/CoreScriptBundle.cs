@@ -6,17 +6,14 @@ namespace MrCMS.Web.Apps.Core.Bundles
 {
     public class CoreScriptBundle : IUIScriptBundle
     {
-        public int Priority { get; }
-        public Task<bool> ShouldShow(string theme) => Task.FromResult(true);
+        public int Priority => int.MaxValue;
+        public Task<bool> ShouldShow(string theme) => Task.FromResult(string.IsNullOrWhiteSpace(theme));
 
-        public string Url => "/Apps/Core/assets/core-front-end.js";
+        public string Url => "/Apps/Core/assets/core.js";
 
         public IEnumerable<string> VendorFiles
         {
-            get
-            {
-                yield break;
-            }
+            get { yield break; }
         }
     }
 }

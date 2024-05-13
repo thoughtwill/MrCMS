@@ -10,8 +10,8 @@ namespace MrCMS.Entities.Documents.Web
         public virtual string GetMessageValue()
         {
             return IsFile
-                       ? string.Format("<a href=\"http://{0}{1}\">{1}</a>", Site.BaseUrl, Value)
-                       : Value;
+                ? $"<a href=\"{(Value.StartsWith("http") ? Value : $"http://{Site.BaseUrl}{Value}")}\">{Value}</a>"
+                : Value;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace MrCMS.Events.Documents
         public async Task Execute(OnUpdatedArgs<MediaCategory> args)
         {
             var webpage = args.Item;
-            string message = string.Format("<a href=\"/Admin/MediaCategory/Edit/{1}\">{0}</a> has been updated{2}.",
+            var message = string.Format("<a href=\"/Admin/MediaCategory/Edit/{1}\">{0}</a> has been updated{2}.",
                 webpage.Name,
                 webpage.Id, await _getNotificationModifiedUserInfo.GetInfo());
             await _notificationPublisher.PublishNotification(message, PublishType.Both, NotificationType.AdminOnly);

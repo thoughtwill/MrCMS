@@ -17,6 +17,12 @@
     @Html.ValidationMessageFor(x => x.CaptionCssClass)
 </div>
 
+<div class="form-group">
+    @Html.LabelFor(x => x.BackgroundColor)
+    @Html.TextBoxFor(x => x.BackgroundColor, new {@class = "form-control"})
+    @Html.ValidationMessageFor(x => x.BackgroundColor)
+</div>
+
 <hr/>
 
 <div data-id="slider-widget">

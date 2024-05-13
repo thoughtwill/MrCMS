@@ -99,7 +99,7 @@ export function setupEditWebpage(){
         }
 
         const permissionTypeValue = permissionType.val();
-        customPermissions.find('[data-custom-permissions-type="' + permissionTypeValue + '"]').show();
+        customPermissions.find('[data-custom-permissions-type*="' + permissionTypeValue + '"]').show();
     }
 
     setPermissionVisibility(); 

@@ -11,7 +11,7 @@ namespace MrCMS.Shortcodes.Forms
         {
             var tagBuilder = new TagBuilder("input");
             tagBuilder.Attributes["type"] = "file";
-            tagBuilder.AddCssClass("form-control-file");
+            tagBuilder.AddCssClass("form-control");
             tagBuilder.Attributes["name"] = formProperty.Name;
             tagBuilder.Attributes["id"] = formProperty.GetHtmlId();
 
@@ -19,10 +19,10 @@ namespace MrCMS.Shortcodes.Forms
             {
                 tagBuilder.Attributes["data-val"] = "true";
                 tagBuilder.Attributes["data-val-required"] =
-                    string.Format("The field {0} is required",
-                        string.IsNullOrWhiteSpace(formProperty.LabelText)
-                            ? formProperty.Name
-                            : formProperty.LabelText);
+                    $"The field {(string.IsNullOrWhiteSpace(formProperty.LabelText)
+                        ? formProperty.Name
+                        : formProperty.LabelText)} is required";
+                tagBuilder.Attributes["required"] = "required";
             }
 
             return tagBuilder;
@@ -35,7 +35,6 @@ namespace MrCMS.Shortcodes.Forms
         }
 
         public bool IsSelfClosing => true;
-        
         public bool SupportsFloatingLabel => false;
     }
 }

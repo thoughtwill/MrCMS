@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MrCMS.Entities.Documents.Web;
-using MrCMS.Services;
 using MrCMS.Shortcodes.Forms;
 using NHibernate;
 using System.Collections.Generic;
@@ -13,14 +12,12 @@ namespace MrCMS.Shortcodes
     public class FormShortcodeRenderer : IShortcodeRenderer
     {
         private readonly IFormRenderer _formRenderer;
-        private readonly IGetCurrentPage _getCurrentPage;
         private readonly ISession _session;
 
-        public FormShortcodeRenderer(ISession session, IFormRenderer formRenderer, IGetCurrentPage getCurrentPage)
+        public FormShortcodeRenderer(ISession session, IFormRenderer formRenderer)
         {
             _session = session;
             _formRenderer = formRenderer;
-            _getCurrentPage = getCurrentPage;
         }
 
         public string TagName => "form";

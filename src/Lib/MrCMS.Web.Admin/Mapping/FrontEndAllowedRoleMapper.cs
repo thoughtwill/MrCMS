@@ -19,7 +19,7 @@ namespace MrCMS.Web.Admin.Mapping
         public ISet<UserRole> Resolve(PermissionsTabViewModel source, Webpage destination, ISet<UserRole> destMember, ResolutionContext context)
         {
             // if should not be set
-            if (!source.HasCustomPermissions || source.PermissionType != WebpagePermissionType.RoleBased)
+            if (!source.HasCustomPermissions || (source.PermissionType != WebpagePermissionType.RoleBased && source.PermissionType != WebpagePermissionType.RelatedContentRoleBased))
             {
                 // return empty collection
                 return new HashSet<UserRole>();

@@ -1,4 +1,3 @@
-@using MrCMS.Web.Apps.Core.Entities.ContentBlocks
 @model MrCMS.Web.Apps.Core.Areas.Admin.Models.Content.UpdateSliderModel
 
 <div class="form-group">
@@ -7,7 +6,7 @@
     @Html.ValidationMessageFor(x => x.Interval)
 </div>
 
-<div class="form-check">
+<div class="form-check mb-3">
     @Html.InlineCheckboxFor(m=>m.PauseOnHover)
     @Html.InlineCheckboxFor(m=>m.ShowIndicator)
 </div>

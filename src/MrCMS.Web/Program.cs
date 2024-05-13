@@ -18,7 +18,8 @@ namespace MrCMS.Web
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     config.AddJsonFile(
-                        "connectionstrings.json", optional: true, reloadOnChange: true);
+                        "connectionStrings.json", optional: true, reloadOnChange: true);
+                    config.AddEnvironmentVariables();
                 })
                 .UseStaticWebAssets()
                 .ConfigureKestrel(options => { options.ConfigureEndpointDefaults(x => x.UseConnectionLogging()); })

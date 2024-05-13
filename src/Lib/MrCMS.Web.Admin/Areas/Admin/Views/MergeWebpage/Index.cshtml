@@ -24,7 +24,7 @@
         @Html.DropDownListFor(x => x.MergeIntoId, ViewData["valid-parents"] as IEnumerable<SelectListItem>, new {data_parent_chooser = "", @class = "select2", @style = "width:100%;"})
     </div>
 
-    <div class="form-group">
+    <div class="form-check mb-3">
         @Html.InlineCheckboxFor(x => x.UpdateUrls, checkboxAttributes: new {data_update_urls = ""})
     </div>
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MrCMS.Entities.Multisite;
 using MrCMS.Models;
 using MrCMS.Services;
 using MrCMS.Web.Admin.ACL;
@@ -48,7 +49,7 @@ namespace MrCMS.Web.Admin.Controllers
             }
 
             var doc = await _mediaCategoryAdminService.Add(model);
-            TempData.AddSuccessMessage($"{doc.Name} successfully added");
+            TempData.AddSuccessMessage($"{doc.Name} successfully added");                                    
             return RedirectToAction("Show", new { id = (int?)doc.Id });
         }
 
@@ -137,13 +138,13 @@ namespace MrCMS.Web.Admin.Controllers
         /// <summary>
         ///     Finds out if the URL entered is valid.
         /// </summary>
-        /// <param name="urlSegment">The URL Segment entered</param>
+        /// <param name="path">The URL Segment entered</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ActionResult> ValidateUrlIsAllowed(string urlSegment, int? id)
+        public async Task<ActionResult> ValidateUrlIsAllowed(string path, int? id)
         {
             return !await _mediaCategoryAdminService.UrlIsValidForMediaCategory(_currentSiteLocator.GetCurrentSite().Id,
-                urlSegment, id)
+                path, id)
                 ? Json("Please choose a different Path as this one is already used.")
                 : Json(true);
         }

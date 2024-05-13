@@ -2,7 +2,7 @@ namespace MrCMS.Web.Admin.Services
 {
     // public class CoreAdminStyles : IAdminStyleBundle
     // {
-    //     public int Priority { get; }
+    //     public int Priority => int.MaxValue;
     //
     //     public Task<bool> ShouldShow(string theme)
     //     {

@@ -31,6 +31,10 @@ namespace MrCMS.Entities.Documents.Web
         [DisplayName("Send Form To")]
         [StringLength(500, ErrorMessage = "Send to cannot be longer than 500 characters.")]
         public virtual string SendFormTo { get; set; }
+        
+        [DisplayName("Reply To")]
+        [StringLength(500, ErrorMessage = "Send to cannot be longer than 500 characters.")]
+        public virtual string FormReplyTo { get; set; }
 
         [DisplayName("Form Email Message")]
         public virtual string FormMessage { get; set; }

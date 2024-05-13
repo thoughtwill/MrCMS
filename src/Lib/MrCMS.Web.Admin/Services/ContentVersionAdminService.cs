@@ -45,6 +45,9 @@ public class ContentVersionAdminService : IContentVersionAdminService
     public async Task<ContentVersionModel> GetEditModel(int id)
     {
         var version = await _session.GetAsync<ContentVersion>(id);
+        
+        if (version == null)
+            return null;
 
         var previewUrl = $"/{version.Webpage.UrlSegment}?version={version.Id}";
         if ((await _getHomePage.Get()).Id == version.Webpage.Id)

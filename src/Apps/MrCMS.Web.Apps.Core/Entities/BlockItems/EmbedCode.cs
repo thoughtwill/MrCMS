@@ -1,5 +1,4 @@
 ﻿using MrCMS.Entities.Documents.Web;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MrCMS.Web.Apps.Core.Entities.BlockItems

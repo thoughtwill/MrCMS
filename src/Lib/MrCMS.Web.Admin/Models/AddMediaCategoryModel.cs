@@ -13,6 +13,6 @@ namespace MrCMS.Web.Admin.Models
 
         [Required]
         [DisplayName("Path")]
-        public string UrlSegment { get; set; }
+        public string Path { get; set; }
     }
 }

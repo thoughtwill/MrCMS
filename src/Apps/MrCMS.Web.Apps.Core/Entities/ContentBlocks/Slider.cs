@@ -2,7 +2,6 @@ using MrCMS.Entities.Documents.Web;
 using MrCMS.Web.Apps.Core.Entities.BlockItems;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MrCMS.Web.Apps.Core.Entities.ContentBlocks;
@@ -35,13 +34,12 @@ public class Slider : IContentBlockWithSortableChildCollection
         Slides.Remove(item as Slide);
     }
 
-    public void Sort(List<KeyValuePair<Guid, int>> OrderedIds)
+    public void Sort(List<KeyValuePair<Guid, int>> orderedIds)
     {
         foreach (var slide in Slides)
         {
-            slide.Order = OrderedIds.FirstOrDefault(f => f.Key == slide.Id).Value;
+            slide.Order = orderedIds.FirstOrDefault(f => f.Key == slide.Id).Value;
         }
         Slides = Slides.OrderBy(f => f.Order).ToList();
     }
 }
-

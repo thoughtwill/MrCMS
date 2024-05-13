@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MrCMS.Entities.Documents.Web;
+using MrCMS.Services;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Infrastructure.Helpers;
 using MrCMS.Web.Admin.Models.Content;
 using MrCMS.Web.Admin.Services;
+using MrCMS.Web.Admin.Services.Content;
 using MrCMS.Website;
 
 namespace MrCMS.Web.Admin.Controllers;
@@ -60,9 +62,13 @@ public class ContentVersionController : MrCMSAdminController
         }
     }
 
-    public async Task<ViewResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        return View(await _adminService.GetEditModel(id));
+        var editModel = await _adminService.GetEditModel(id);
+        if (editModel == null)
+            return NotFound();
+        
+        return View(editModel);
     }
 
     public async Task<IActionResult> EditByUrl(string url)
@@ -115,9 +121,13 @@ public class ContentVersionController : MrCMSAdminController
             : RedirectToAction("Index", "Webpage");
     }
 
-    public async Task<PartialViewResult> Blocks(int id, Guid? selected)
+    public async Task<IActionResult> Blocks(int id, Guid? selected)
     {
+        var editModel = await _adminService.GetEditModel(id);
+        if (editModel == null)
+            return NotFound();
+        
         ViewData["selected"] = selected;
-        return PartialView(await _adminService.GetEditModel(id));
+        return PartialView(editModel);
     }
 }

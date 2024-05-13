@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Common;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Text.Json;
 using NHibernate;
 using NHibernate.Engine;
 using NHibernate.SqlTypes;
@@ -32,50 +32,35 @@ namespace MrCMS.DbConfiguration.Types
 
     public static class BinaryData
     {
-        private static readonly BinaryFormatter BinaryFormatter = new BinaryFormatter();
-
+        // This method isn't directly applicable since all types that can be serialized to JSON should be supported.
         public static bool CanSerialize(object value)
         {
-            try
-            {
-                Serialize(value);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            // With System.Text.Json, it's generally safe to assume most types can be serialized;
+            // however, you might want to implement specific checks for unserializable types if necessary.
+            return value != null; // Simplistic check, may need to be more complex depending on requirements
         }
 
         public static byte[] Serialize(object value)
         {
-            if (value == null)
-                return null;
-            using var memoryStream = new MemoryStream();
-            
-#pragma warning disable SYSLIB0011
-            BinaryFormatter.Serialize(memoryStream, value);
-#pragma warning restore SYSLIB0011
-            
-            return memoryStream.ToArray();
+            if (value == null) return null;
+            // Serialize the object to a JSON string, then get the bytes of the string.
+            string jsonString = JsonSerializer.Serialize(value);
+            return Encoding.UTF8.GetBytes(jsonString);
         }
 
         public static T Deserialize<T>(byte[] bytes) where T : class, new()
         {
-            if (bytes == null)
-                return new T();
+            if (bytes == null || bytes.Length == 0) return new T();
             try
             {
-                using (var memoryStream = new MemoryStream(bytes))
-                {
-#pragma warning disable SYSLIB0011
-                    object deserialize = BinaryFormatter.Deserialize(memoryStream);
-#pragma warning restore SYSLIB0011
-                    return deserialize as T ?? new T();
-                }
+                // Deserialize the JSON bytes to the specified type.
+                string jsonString = Encoding.UTF8.GetString(bytes);
+                T result = JsonSerializer.Deserialize<T>(jsonString);
+                return result ?? new T();
             }
             catch
             {
+                // Return a new instance of T if deserialization fails.
                 return new T();
             }
         }

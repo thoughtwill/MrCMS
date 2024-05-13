@@ -1,8 +1,7 @@
+@using MrCMS.Web.Apps.Core.Areas.Admin.Models
 @model MrCMS.Web.Apps.Core.Areas.Admin.Models.Content.UpdateTextAdminModel
-@using MrCMS.Web.Apps.Core.Entities.ContentBlocks
-
 @{
-    var aligmentOptions = EnumHelper<Text.Alignment>.GetOptions();
+    var options = EnumHelper<BackgroundColour>.GetOptions();
 }
 <div class="form-group">
     @Html.LabelFor(x => x.Heading)
@@ -11,13 +10,13 @@
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(x => x.HeadingAlignment)
-    @Html.DropDownListFor(x => x.HeadingAlignment,aligmentOptions, new { @class = "form-control" })
-    @Html.ValidationMessageFor(x => x.HeadingAlignment)
-</div>
-
-<div class="form-group">
     @Html.LabelFor(x => x.Subtext)
     @Html.TextAreaFor(x => x.Subtext, new { @class = "ckedit-enabled" })
     @Html.ValidationMessageFor(x => x.Subtext)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.BackgroundColour)
+    @Html.DropDownListFor(x => x.BackgroundColour, options, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.BackgroundColour)
 </div>

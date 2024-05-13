@@ -9,7 +9,7 @@
     var tabs = await TabsService.GetEditTabs(Html, Model);
 }
 
-<form asp-controller="Form" asp-action="Edit" method="post" data-are-you-sure="@await Html.Resource(AdminMessages.AreYouSureDefaultMessage,options => options.DisableInlineEditing())">
+<form asp-controller="Form" asp-action="Edit" method="post" data-are-you-sure="@await Html.PlainResource(AdminMessages.AreYouSureDefaultMessage)">
 
     <admin-header>
         <row>

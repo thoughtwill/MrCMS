@@ -68,9 +68,9 @@ namespace MrCMS.Services
                 }
             }
 
-            multipleToAddress = queuedMessage.Cc?.Split(new[] {',', ';'},
+            multipleToAddress = queuedMessage.Cc?.Split(new[] { ',', ';' },
                 StringSplitOptions.RemoveEmptyEntries);
-            if (multipleToAddress != null && multipleToAddress.Any())
+            if (multipleToAddress?.Any() ?? false)
             {
                 foreach (var email in multipleToAddress)
                 {
@@ -78,13 +78,23 @@ namespace MrCMS.Services
                 }
             }
 
-            multipleToAddress = queuedMessage.Bcc?.Split(new[] {',', ';'},
+            multipleToAddress = queuedMessage.Bcc?.Split(new[] { ',', ';' },
                 StringSplitOptions.RemoveEmptyEntries);
-            if (multipleToAddress != null && multipleToAddress.Any())
+            if (multipleToAddress?.Any() ?? false)
             {
                 foreach (var email in multipleToAddress)
                 {
                     mailMessage.Bcc.Add(new MailAddress(email.Trim(), queuedMessage.ToName));
+                }
+            }
+
+            multipleToAddress = queuedMessage.ReplayTo?.Split(new[] { ',', ';' },
+                StringSplitOptions.RemoveEmptyEntries);
+            if (multipleToAddress?.Any() ?? false)
+            {
+                foreach (var email in multipleToAddress)
+                {
+                    mailMessage.ReplyToList.Add(new MailAddress(email.Trim(), queuedMessage.FromName));
                 }
             }
 

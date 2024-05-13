@@ -11,6 +11,7 @@ using MrCMS.DbConfiguration.Configuration;
 using MrCMS.DbConfiguration.Conventions;
 using MrCMS.DbConfiguration.Mapping;
 using MrCMS.Entities;
+using MrCMS.Entities.Documents;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Entities.Documents.Web.FormProperties;
 using MrCMS.Entities.People;
@@ -82,7 +83,7 @@ namespace MrCMS.DbConfiguration
                 {
 #if DEBUG
                     c.SetProperty(Environment.GenerateStatistics, "true");
-                    c.DataBaseIntegration(x => { _databaseProvider.DebugDatabaseIntegration(x); });
+                    // c.DataBaseIntegration(x => { _databaseProvider.DebugDatabaseIntegration(x); });
 #else
                     c.SetProperty(Environment.GenerateStatistics, "false");
 #endif

@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlClient;
 using System.Threading;
 using Microsoft.Data.SqlClient;
 using MrCMS.Apps;
@@ -86,10 +87,14 @@ namespace MrCMS.DbConfiguration
                 string query = string.Format("CREATE DATABASE [{0}] COLLATE SQL_Latin1_General_CP1_CI_AS",
                     databaseName);
 
-                using var conn = new SqlConnection(masterCatalogConnectionString);
-                conn.Open();
-                using var command = new SqlCommand(query, conn);
-                command.ExecuteNonQuery();
+                using (var conn = new SqlConnection(masterCatalogConnectionString))
+                {
+                    conn.Open();
+                    using (var command = new SqlCommand(query, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
 
                 return string.Empty;
             }

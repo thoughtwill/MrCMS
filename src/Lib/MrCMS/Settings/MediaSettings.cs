@@ -19,6 +19,7 @@ namespace MrCMS.Settings
 
         public MediaSettings()
         {
+            MaxFileSizeUpload = 5;
             EnforceMaxImageSize = true;
             MaxImageSizeHeight = 1200;
             MaxImageSizeWidth = 1200;
@@ -121,6 +122,9 @@ namespace MrCMS.Settings
 
         [DisplayName("Max Image Size Width")]
         public int MaxImageSizeWidth { get; set; }
+
+        [DisplayName("Admin max file upload size MB")]
+        public int MaxFileSizeUpload { get; set; }
 
         public Size MaxSize
         {

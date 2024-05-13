@@ -1,9 +1,11 @@
 @model MrCMS.Web.Apps.Core.Entities.ContentBlocks.Text
 
-@if (!string.IsNullOrWhiteSpace(Model.Heading))
-{
-    <h2 class="text-@(Model.HeadingAlignment.ToString().ToLower())">
-        @Model.Heading
-    </h2>
-}
-@Html.Raw(Model.Subtext)
+<div class="p-3 @($"bg-{Model.BackgroundColour.ToString().ToLower()}")">
+    @if (!string.IsNullOrWhiteSpace(Model.Heading))
+    {
+        <h2>
+            @Model.Heading
+        </h2>
+    }
+    @Html.Raw(Model.Subtext)
+</div>

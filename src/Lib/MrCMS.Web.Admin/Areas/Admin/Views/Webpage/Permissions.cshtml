@@ -19,7 +19,7 @@
             <select asp-for="PermissionType" asp-items="@EnumHelper<WebpagePermissionType>.GetOptions()" class="form-control"></select>
         </div>
 
-        <div data-custom-permissions-type="@nameof(WebpagePermissionType.RoleBased)">
+        <div data-custom-permissions-type="@nameof(WebpagePermissionType.RoleBased)|@nameof(WebpagePermissionType.RelatedContentRoleBased)">
             <div data-custom-permissions-roles class="form-group">
                 <label asp-for="FrontEndRoles"></label>
                 <input type="text" asp-for="FrontEndRoles" class="form-control"/>

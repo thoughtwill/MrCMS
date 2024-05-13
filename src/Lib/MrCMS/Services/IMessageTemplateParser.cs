@@ -8,7 +8,7 @@ namespace MrCMS.Services
     {
         Task<string> Parse<T>(string template, T instance);
         Task<string> Parse(string template);
-        List<string> GetAllTokens<T>();
-        List<string> GetAllTokens(MessageTemplate template);
+        HashSet<string> GetAllTokens<T>();
+        HashSet<string> GetAllTokens(MessageTemplate template);
     }
 }
