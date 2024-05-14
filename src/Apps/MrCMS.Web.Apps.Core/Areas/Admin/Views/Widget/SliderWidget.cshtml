@@ -1,26 +1,33 @@
+@using MrCMS.Web.Admin.Infrastructure.TagHelpers
 @model MrCMS.Web.Apps.Core.Areas.Admin.Models.Widgets.SliderWidgetModel
 
 <div class="form-group">
     @Html.LabelFor(x => x.Interval)
-    @Html.TextBoxFor(x => x.Interval, new {@class = "form-control"})
+    @Html.TextBoxFor(x => x.Interval, new { @class = "form-control" })
     @Html.ValidationMessageFor(x => x.Interval)
 </div>
 
-<div class="form-check mb-3">
-    @Html.InlineCheckboxFor(m => m.PauseOnHover, labelAttributes: new {@class = "mr-3"})
+<div class="form-group">
+    @Html.InlineCheckboxFor(m => m.PauseOnHover, labelAttributes: new { @class = "mr-3" })
     @Html.InlineCheckboxFor(m => m.ShowIndicator)
 </div>
 
 <div class="form-group">
     @Html.LabelFor(x => x.CaptionCssClass)
-    @Html.TextBoxFor(x => x.CaptionCssClass, new {@class = "form-control"})
+    @Html.TextBoxFor(x => x.CaptionCssClass, new { @class = "form-control" })
     @Html.ValidationMessageFor(x => x.CaptionCssClass)
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(x => x.BackgroundColor)
-    @Html.TextBoxFor(x => x.BackgroundColor, new {@class = "form-control"})
-    @Html.ValidationMessageFor(x => x.BackgroundColor)
+    @Html.LabelFor(x => x.DesktopSlideRatio)
+    @Html.TextBoxFor(x => x.DesktopSlideRatio, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.DesktopSlideRatio)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.MobileSlideRatio)
+    @Html.TextBoxFor(x => x.MobileSlideRatio, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.MobileSlideRatio)
 </div>
 
 <hr/>
@@ -56,7 +63,7 @@
             </div>
             <input type="button" class="btn btn-primary" value="Add"/>
             <div data-id="error-holder" class="text-danger py-3 d-block">
-                
+
             </div>
         </card-body>
     </card>
@@ -65,6 +72,7 @@
             <table class="table table-striped table-condensed mt-3" style="overflow: scroll">
                 <thead>
                 <tr>
+                    <th width="1%"></th>
                     <th>
                         @await Html.Resource("admin-slider-image", "Image")
                     </th>
@@ -87,6 +95,9 @@
                 {
                     <tr data-index="@slide.index">
                         <td>
+                            <i class="fa fa-arrows-alt"></i>
+                        </td>
+                        <td>
                             <a href="@slide.item.Image" target="_blank">
                                 <img src="@slide.item.Image" height="50"/>
                             </a>
@@ -103,12 +114,7 @@
                             <input type="hidden" name="SlideList[@slide.index].Caption" value="@slide.item.Caption"/>
                         </td>
                         <td>
-                            @if (!string.IsNullOrWhiteSpace(slide.item.Link))
-                            {
-                                <a href="@slide.item.Link" target="_blank">
-                                    Target Link
-                                </a>
-                            }
+                            @slide.item.Link
                             <input type="hidden" name="SlideList[@slide.index].Link" value="@slide.item.Link"/>
                         </td>
                         <td>
@@ -116,6 +122,9 @@
                                 <button type="button" data-id="delete" class="btn btn-danger btn-sm">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </button>
+                                <a href="/Admin/SliderWidget/Edit?widgetId=@(Model.Id)&SlideIndex=@(slide.index)" class="btn btn-primary btn-xs d-flex align-items-center" data-toggle="fb-modal">
+                                    Edit
+                                </a>
                             </div>
                         </td>
                     </tr>

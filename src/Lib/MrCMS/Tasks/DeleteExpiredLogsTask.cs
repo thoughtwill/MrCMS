@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using MrCMS.Entities.Multisite;
 using MrCMS.Helpers;

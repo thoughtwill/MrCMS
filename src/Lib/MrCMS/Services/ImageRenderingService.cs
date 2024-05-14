@@ -26,8 +26,6 @@ namespace MrCMS.Services
         private readonly MediaSettings _mediaSettings;
         private readonly ISession _session;
 
-
-
         public ImageRenderingService(ISession session, IImageProcessor imageProcessor, IFileService fileService,
             MediaSettings mediaSettings, ICacheManager cacheManager, IOptions<ExternalImageResizeConfig> externalImageResizeConfig)
         {

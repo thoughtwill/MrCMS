@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using MrCMS.Services;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Infrastructure.Helpers;
-using MrCMS.Web.Apps.Core;
 using MrCMS.Web.Apps.Core.Models.Widgets;
 using MrCMS.Web.Apps.Core.Widgets;
 using Newtonsoft.Json;
 
-namespace MrCMS.Web.Apps.ElliottBrothers.Areas.Admin.Controllers;
+namespace MrCMS.Web.Apps.Core.Areas.Admin.Controllers;
 
 public class SliderWidgetController : MrCMSAppAdminController<MrCMSCoreApp>
 {
