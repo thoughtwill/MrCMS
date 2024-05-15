@@ -3,5 +3,14 @@
 public enum BackgroundColour
 {
     White,
-    Grey
+    Transparent,
+    Primary,
+    Secondary,
+    Warning,
+    Danger,
+    Success,
+    Info,
+    Light,
+    Dark,
+    Body
 }

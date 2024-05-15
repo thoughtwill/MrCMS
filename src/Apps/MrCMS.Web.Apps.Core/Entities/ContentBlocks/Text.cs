@@ -9,6 +9,6 @@ public class Text : IContentBlock
     public string DisplayName => "Text";
     public string Heading { get; set; }
     public string Subtext { get; set; }
-    public BackgroundColour BackgroundColour { get; set; } = BackgroundColour.Grey;
+    public BackgroundColour BackgroundColour { get; set; } = BackgroundColour.White;
     public IReadOnlyList<BlockItem> Items => new BlockItem[] { };
 }
