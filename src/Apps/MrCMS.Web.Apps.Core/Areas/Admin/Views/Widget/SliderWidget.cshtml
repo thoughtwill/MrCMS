@@ -7,9 +7,11 @@
     @Html.ValidationMessageFor(x => x.Interval)
 </div>
 
-<div class="form-group">
-    @Html.InlineCheckboxFor(m => m.PauseOnHover, labelAttributes: new { @class = "mr-3" })
-    @Html.InlineCheckboxFor(m => m.ShowIndicator)
+<div class="mb-3">
+    <div class="form-check form-check-inline">
+        @Html.InlineCheckboxFor(m => m.PauseOnHover)
+        @Html.InlineCheckboxFor(m => m.ShowIndicator)
+    </div>
 </div>
 
 <div class="form-group">
