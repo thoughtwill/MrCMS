@@ -114,8 +114,10 @@ function ToggleExpandBlock() {
 
     if (editor.closest("[data-content-parent]").hasClass("expand")) {
         collapseEditor();
+        triggerContentAdminExpandEditorEvent(false);
     } else {
         expandEditor();
+        triggerContentAdminExpandEditorEvent(true);
     }
 }
 
@@ -324,6 +326,18 @@ function updateContentEditor(e) {
     //         $(this).attr('data-initiated', true);
     //     }
     // }
+}
+
+function triggerContentAdminExpandEditorEvent(isExpanded) {
+    const event = new CustomEvent('ContentBlockEditorExpand', {
+        detail: {
+            message: `Content Block Editor has been ${isExpanded ? 'expanded' : 'collapsed'}.`,
+            isExpanded: isExpanded
+        }
+    });
+
+    // Dispatch the event on the document
+    document.dispatchEvent(event);
 }
 
 export function setupContentAdmin() {
