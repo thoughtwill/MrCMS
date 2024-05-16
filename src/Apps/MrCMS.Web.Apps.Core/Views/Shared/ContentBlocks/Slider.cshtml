@@ -18,20 +18,15 @@
         <div class="carousel-inner">
             @for (var i = 0; i < Model.Slides.Count; i++)
             {
-                var hasMobileImage = !string.IsNullOrWhiteSpace(Model.Slides[i].MobileImage);
                 <div class="carousel-item @(i == 0 ? "active" : "")">
                     <div class="ratio ratio-16x9">
-                        @await Html.RenderImage(Model.Slides[i].Image, attributes: new { @class = hasMobileImage ? "d-none d-sm-block img-fluid" : "img-fluid" })
-                        @if (hasMobileImage)
-                        {
-                            @await Html.RenderImage(Model.Slides[i].MobileImage, attributes: new { @class = "d-sm-none img-fluid" })
-                        }
+                        @await Html.RenderImage(Model.Slides[i].Url, attributes: new { @class = "img-fluid" })
                     </div>
                     @if (!string.IsNullOrWhiteSpace(Model.Slides[i].Caption))
                     {
-                        <a href="@Model.Slides[i].Url" class="carousel-caption @Model.CaptionCssClass">
+                        <div class="carousel-caption @Model.CaptionCssClass">
                             @Model.Slides[i].Caption
-                        </a>
+                        </div>
                     }
                 </div>
             }

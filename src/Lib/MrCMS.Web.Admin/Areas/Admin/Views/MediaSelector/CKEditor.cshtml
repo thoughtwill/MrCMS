@@ -23,7 +23,7 @@
             @Html.ValidationMessageFor(query => query.CategoryId)
         </div>
         <div class="form-group search-text">
-            @Html.TextBoxFor(query => query.Query, new {@class = "form-control ", @placeholder = await Html.PlainResource("Admin - Media Selector Search Placeholder", "Search")})
+            @Html.TextBoxFor(query => query.Query, new {@class = "form-control ", placeholder = await Html.PlainResource("Admin - Media Selector Search Placeholder", "Search")})
             @Html.ValidationMessageFor(query => query.Query)
         </div>
         <input type="submit" class="btn btn-primary  search-btn" value="@await Html.Resource("Search", options => options.DisableInlineEditing())"/>

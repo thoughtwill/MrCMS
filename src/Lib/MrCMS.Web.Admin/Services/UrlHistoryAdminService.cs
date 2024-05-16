@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using AutoMapper;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Helpers;
 using MrCMS.Mapping;

@@ -6,11 +6,11 @@
     @Html.ValidationMessageFor(x => x.Interval)
 </div>
 
-<div class="mb-3">
-    <div class="form-check form-check-inline">
-        @Html.InlineCheckboxFor(m => m.PauseOnHover)
-        @Html.InlineCheckboxFor(m => m.ShowIndicator)
-    </div>
+<div class="form-check mb-3">
+    @Html.InlineCheckboxFor(m => m.PauseOnHover)
+</div>
+<div class="form-check mb-3">
+    @Html.InlineCheckboxFor(m => m.ShowIndicator)
 </div>
 
 <div class="form-group">

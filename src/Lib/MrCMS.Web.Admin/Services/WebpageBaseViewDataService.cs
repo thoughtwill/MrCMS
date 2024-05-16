@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MrCMS.Entities.Documents;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Services;
-using MrCMS.Web.Admin.Infrastructure.Routing;
-using MrCMS.Website.Auth;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

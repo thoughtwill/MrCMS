@@ -1,4 +1,5 @@
-﻿@model MrCMS.Web.Admin.Models.Forms.FormMessageTabViewModel
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model MrCMS.Web.Admin.Models.Forms.FormMessageTabViewModel
 
 @Html.InfoBlock(await Html.PlainResource("Heads up") + "!", await Html.PlainResource("admin-forms-how-to-use-text", "To include this form in your page simply use the short code [form id={formId}] where you would like it rendered. Should you want to render this form in another page you can use [form id={formId}]", configureOptions => configureOptions.AddReplacement("formId", Model.Id.ToString())))
 

@@ -1,4 +1,6 @@
-﻿@model MrCMS.Messages.MessageTemplate
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MrCMS.Web.Admin.Infrastructure.TagHelpers
+@model MrCMS.Messages.MessageTemplate
 @{
     ViewBag.Title = "Edit Message Template";
 }
@@ -11,7 +13,7 @@
             <admin-header-actions>
                 <span class="btn-group">
                     @Html.ActionLink(await Html.PlainResource("Back"), "Index", "MessageTemplate", null, new { @class = "btn btn-secondary" })
-                    <input class="btn btn-primary" type="submit" value="@await Html.Resource("Save")"/>
+                    <input class="btn btn-primary" type="submit" value="@await Html.PlainResource("Save")"/>
                 </span>
             </admin-header-actions>
         </row>

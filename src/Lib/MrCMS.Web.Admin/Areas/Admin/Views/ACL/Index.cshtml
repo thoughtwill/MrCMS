@@ -6,8 +6,8 @@
 @inject ACLSettings ACLSettings
 @model IEnumerable<AclInfo>
 @{
-    var rules = ViewData["acl-rules"] as List<AclInfo>;
-    var roles = Model.SelectMany(x => x.Roles).Where(x => x.Name != UserRole.Administrator).Select(x => x.Name).Distinct().OrderBy(x => x).ToList();
+    var rules = ViewData["acl-rules"] as List<AclInfo> ?? [];
+    var roles = rules.SelectMany(x => x.Roles).Where(x => x.Name != UserRole.Administrator).Select(x => x.Name).Distinct().OrderBy(x => x).ToList();
 }
 <form asp-controller="ACL" asp-action="Index" method="post">
     <admin-header>

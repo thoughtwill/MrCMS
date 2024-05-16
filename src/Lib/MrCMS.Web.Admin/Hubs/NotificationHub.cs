@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using MrCMS.Entities.People;
 using MrCMS.Helpers;
 using MrCMS.Services;
 

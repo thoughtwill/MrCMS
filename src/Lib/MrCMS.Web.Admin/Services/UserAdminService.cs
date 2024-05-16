@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using MrCMS.Entities.People;
 using MrCMS.Mapping;
 using MrCMS.Services;
