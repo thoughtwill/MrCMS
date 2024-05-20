@@ -20,6 +20,7 @@ namespace MrCMS.Web.Admin.Bundles
             get
             {
                 yield return "/Areas/Admin/Content/lib/ckeditor/ckeditor.js";
+                yield return "/Areas/Admin/Content/lib/ckeditor/config.js";
                 yield return "/Areas/Admin/Content/lib/signalr/signalr.js";
                 yield return "https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.js";
                 yield return $"https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/cultures/globalize.culture.{CultureInfo.CurrentCulture.Name}.js";
