@@ -7,7 +7,7 @@
     @Html.TextBoxFor(model => model.PageSize, new{@class="form-control"})
     @Html.ValidationMessageFor(model => model.PageSize)
 </div>
-<div class="form-group">
+<div class="form-check mb-3">
     @Html.InlineCheckboxFor(model => model.AllowPaging, null, null, "Allow paging?")
 </div>
 <div class="form-group">

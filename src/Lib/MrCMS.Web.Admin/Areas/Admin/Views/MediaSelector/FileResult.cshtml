@@ -1,9 +1,8 @@
 ﻿@using System.Drawing
-@using MrCMS.Helpers
 @model MrCMS.Entities.Documents.Media.MediaFile
 <div class="file-result" data-file-result="@Model.Id">
     <div class="header">
-        @if (Model.IsImage())
+        @if (Model.IsImage() || Model.IsVectorImage())
         {
             <a href="#" data-media-toggle="@Model.Id">
                 @await Html.RenderImage(Model.FileUrl, new Size(180, 180), attributes: new { @class = "img-thumbnail" })

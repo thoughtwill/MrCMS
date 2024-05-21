@@ -18,10 +18,10 @@ namespace MrCMS.Shortcodes.Forms
             {
                 tagBuilder.Attributes["data-val"] = "true";
                 tagBuilder.Attributes["data-val-required"] =
-                    string.Format("The field {0} is required",
-                        string.IsNullOrWhiteSpace(formProperty.LabelText)
-                            ? formProperty.Name
-                            : formProperty.LabelText);
+                    $"The field {(string.IsNullOrWhiteSpace(formProperty.LabelText)
+                        ? formProperty.Name
+                        : formProperty.LabelText)} is required";
+                tagBuilder.Attributes["required"] = "required";
             }
 
             if (!string.IsNullOrWhiteSpace(formProperty.CssClass))

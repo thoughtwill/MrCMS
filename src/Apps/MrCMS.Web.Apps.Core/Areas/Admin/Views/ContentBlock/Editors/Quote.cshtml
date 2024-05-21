@@ -1,5 +1,8 @@
+@using MrCMS.Web.Apps.Core.Areas.Admin.Models
 @model MrCMS.Web.Apps.Core.Areas.Admin.Models.Content.UpdateQuoteAdminModel
-
+@{
+    var options = EnumHelper<BackgroundColour>.GetOptions();
+}
 <div class="form-group">
     @Html.LabelFor(x => x.QuoteText)
     @Html.TextBoxFor(x => x.QuoteText, new { @class = "form-control" })
@@ -14,4 +17,9 @@
     @Html.LabelFor(x => x.CssClasses)
     @Html.TextBoxFor(x => x.CssClasses, new { @class = "form-control" })
     @Html.ValidationMessageFor(x => x.CssClasses)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.BackgroundColour)
+    @Html.DropDownListFor(x => x.BackgroundColour, options, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.BackgroundColour)
 </div>

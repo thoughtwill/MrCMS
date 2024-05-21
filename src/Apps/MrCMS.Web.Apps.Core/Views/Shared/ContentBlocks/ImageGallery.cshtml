@@ -6,7 +6,7 @@
 
 @if (Model.Images?.Any() ?? false)
 {
-    <div class="row my-3 g-2">
+    <div class="row my-3 g-2 @($"bg-{Model.BackgroundColour.ToString().ToLower()}")">
         @for (var i = 0; i < Model.Images.Count; i++)
         {
             <div class="@Model.ResponsiveClasses">

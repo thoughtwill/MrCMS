@@ -133,7 +133,7 @@ namespace MrCMS.Web.Apps.Core.Services.Installation
             yield return new TextWidget
             {
                 Name = "Footer text",
-                Text = string.Format("<p>&copy; Mr CMS {0}</p>", DateTime.UtcNow.Year),
+                Text = $"<p>&copy; Mr CMS {DateTime.UtcNow.Year}</p>",
                 LayoutArea = layoutAreas.Single(x => x.AreaName == "Footer")
             };
         }

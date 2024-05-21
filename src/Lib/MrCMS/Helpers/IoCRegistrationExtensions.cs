@@ -22,7 +22,7 @@ namespace MrCMS.Helpers
             foreach (var interfaceType in pairings.Keys)
             {
                 if (!container.Any(x =>
-                    x.ServiceType == interfaceType && x.ImplementationType == pairings[interfaceType]))
+                        x.ServiceType == interfaceType && x.ImplementationType == pairings[interfaceType]))
                     container.AddScoped(interfaceType, pairings[interfaceType]);
             }
         }
@@ -34,7 +34,7 @@ namespace MrCMS.Helpers
             foreach (var interfaceType in interfaces)
             {
                 foreach (var type in TypeHelper.GetAllConcreteTypesAssignableFromGeneric(interfaceType)
-                    .Where(x => x.IsGenericTypeDefinition))
+                             .Where(x => x.IsGenericTypeDefinition))
                 {
                     container.AddScoped(interfaceType, type);
                 }
@@ -174,6 +174,5 @@ namespace MrCMS.Helpers
                 container.AddTransient(type);
             }
         }
-
     }
 }

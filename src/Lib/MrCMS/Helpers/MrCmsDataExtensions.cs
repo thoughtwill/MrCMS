@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -50,7 +51,6 @@ namespace MrCMS.Helpers
 
                 services.AddSingleton<NHibernateConfigurator>(provider =>
                 {
-                    //todo make this appsettings configurable
                     Action<CacheSettingsBuilder> configureCache;
                     if (webHostEnvironment.EnvironmentName == "Development")
                     {

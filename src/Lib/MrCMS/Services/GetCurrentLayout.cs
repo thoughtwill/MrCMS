@@ -59,7 +59,7 @@ namespace MrCMS.Services
             return null;
         }
 
-        private Layout GetSiteDefault()
+        public Layout GetSiteDefault()
         {
             var settingValue = _siteSettings.DefaultLayoutId;
 

@@ -1,5 +1,4 @@
 ﻿@import "../lib/adminlte/scss/AdminLTE";
-@import "dropzone";
 @import "featherlight";
 @import "jquery.mrcms-mediaselector";
 @import "jquery.tagit";
@@ -8,6 +7,9 @@
 @import url("../lib/jstree/themes/default/style.css");
 @import url("../lib/sweetalert-master/lib/sweet-alert.scss");
 @import url("../lib/cropper/cropper.css");
+
+@import url("../lib/dropzone/dropzone.css");
+@import "dropzone-override";
 
 h1 {
     font-size: 1.8em;

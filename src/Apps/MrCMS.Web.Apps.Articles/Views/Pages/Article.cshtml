@@ -17,7 +17,7 @@
             @if (!string.IsNullOrEmpty(Model.FeatureImage))
             {
                 <a href="/@Model.UrlSegment">
-                    @await Html.RenderImage(Model.FeatureImage , enableCaption:true, attributes: new { @class = "img-responsive mb-3" })
+                    @await Html.RenderImage(Model.FeatureImage , enableCaption:true, attributes: new { @class = "img-fluid mb-3" })
                 </a>
             }
 

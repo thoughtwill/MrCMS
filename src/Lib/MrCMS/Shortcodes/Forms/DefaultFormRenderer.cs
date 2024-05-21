@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MrCMS.Entities.Documents.Web;
+using MrCMS.Services;
 using MrCMS.Settings;
 using MrCMS.Website.Filters;
-using System.Linq;
-using MrCMS.Services;
 
 namespace MrCMS.Shortcodes.Forms
 {
@@ -13,18 +13,20 @@ namespace MrCMS.Shortcodes.Forms
         private readonly IElementRendererManager _elementRendererManager;
         private readonly ILabelRenderer _labelRenderer;
         private readonly SiteSettings _siteSettings;
+        private readonly IGetCurrentPage _getCurrentPage;
         private readonly ISubmittedMessageRenderer _submittedMessageRenderer;
         private readonly IValidationMessaageRenderer _validationMessageRenderer;
 
         public DefaultFormRenderer(IElementRendererManager elementRendererManager, ILabelRenderer labelRenderer,
             IValidationMessaageRenderer validationMessageRenderer, ISubmittedMessageRenderer submittedMessageRenderer,
-            SiteSettings siteSettings)
+            SiteSettings siteSettings, IGetCurrentPage getCurrentPage)
         {
             _elementRendererManager = elementRendererManager;
             _labelRenderer = labelRenderer;
             _validationMessageRenderer = validationMessageRenderer;
             _submittedMessageRenderer = submittedMessageRenderer;
             _siteSettings = siteSettings;
+            _getCurrentPage = getCurrentPage;
         }
 
         public IHtmlContent GetDefault(IHtmlHelper helper, Form formEntity, FormSubmittedStatus submittedStatus)
@@ -34,7 +36,7 @@ namespace MrCMS.Shortcodes.Forms
                 return HtmlString.Empty;
             }
 
-            var formProperties = formEntity.FormProperties.OrderBy(x => x.DisplayOrder);
+            var formProperties = formEntity.FormProperties.OrderBy(x => x.DisplayOrder).ToList();
             if (!formProperties.Any())
             {
                 return HtmlString.Empty;
@@ -71,8 +73,10 @@ namespace MrCMS.Shortcodes.Forms
                 }
 
                 elementHtml.AppendHtml(_validationMessageRenderer.AppendRequiredMessage(property));
+
                 var elementContainer =
-                    _elementRendererManager.GetPropertyContainer(renderingType, labelRenderingType, property);
+                    _elementRendererManager.GetPropertyContainer(renderingType,
+                        renderer.SupportsFloatingLabel ? labelRenderingType : FormLabelRenderingType.Normal, property);
                 if (elementContainer != null)
                 {
                     elementContainer.InnerHtml.AppendHtml(elementHtml);
@@ -102,6 +106,8 @@ namespace MrCMS.Shortcodes.Forms
                 form.InnerHtml.AppendHtml(_siteSettings.GetHoneypot());
             }
 
+            form.InnerHtml.AppendHtml(GetReturnUrlInput());
+
             return form;
         }
 
@@ -111,15 +117,22 @@ namespace MrCMS.Shortcodes.Forms
             var sanitizedId = TagBuilder.CreateSanitizedId(FormPostingHandler.GDPRConsent, "-");
             cbLabelBuilder.Attributes["for"] = sanitizedId;
 
-            var checkboxBuilder = new TagBuilder("input");
-            checkboxBuilder.Attributes["type"] = "checkbox";
-            checkboxBuilder.Attributes["value"] = "true";
+
+            var checkboxBuilder = new TagBuilder("input")
+            {
+                Attributes =
+                {
+                    ["type"] = "checkbox",
+                    ["value"] = "true"
+                }
+            };
 
             var requiredMessage = "GDPR Consent is required";
             checkboxBuilder.Attributes["data-val"] = "true";
             checkboxBuilder.Attributes["data-val-mandatory"] = null;
             checkboxBuilder.Attributes["data-val-required"] = requiredMessage;
-
+            checkboxBuilder.Attributes["data-val-required"] = requiredMessage;
+            checkboxBuilder.Attributes["required"] = "required";
             checkboxBuilder.Attributes["name"] = FormPostingHandler.GDPRConsent;
             checkboxBuilder.Attributes["id"] = sanitizedId;
             checkboxBuilder.AddCssClass("form-check-input");
@@ -132,7 +145,7 @@ namespace MrCMS.Shortcodes.Forms
             checkboxContainer.InnerHtml.AppendHtml(checkboxBuilder);
             checkboxContainer.InnerHtml.AppendHtml(cbLabelBuilder);
             var wrapper = new TagBuilder("div");
-            wrapper.AddCssClass("form-group mb-3");
+            wrapper.AddCssClass("form-group");
             wrapper.InnerHtml.AppendHtml(checkboxContainer);
             wrapper.InnerHtml.AppendHtml(
                 ValidationMessaageRenderer.GetValidationMessage(FormPostingHandler.GDPRConsent));
@@ -141,11 +154,17 @@ namespace MrCMS.Shortcodes.Forms
 
         public TagBuilder GetSubmitButton(Form form)
         {
-            var tagBuilder = new TagBuilder("input") { TagRenderMode = TagRenderMode.SelfClosing };
-            tagBuilder.Attributes["type"] = "submit";
-            tagBuilder.Attributes["value"] = !string.IsNullOrWhiteSpace(form.SubmitButtonText)
-                ? form.SubmitButtonText
-                : "Submit";
+            var tagBuilder = new TagBuilder("input")
+            {
+                TagRenderMode = TagRenderMode.SelfClosing,
+                Attributes =
+                {
+                    ["type"] = "submit",
+                    ["value"] = !string.IsNullOrWhiteSpace(form.SubmitButtonText)
+                        ? form.SubmitButtonText
+                        : "Submit"
+                }
+            };
             tagBuilder.AddCssClass(!string.IsNullOrWhiteSpace(form.SubmitButtonCssClass)
                 ? form.SubmitButtonCssClass
                 : "btn btn-primary");
@@ -154,12 +173,30 @@ namespace MrCMS.Shortcodes.Forms
 
         public TagBuilder GetForm(Form form)
         {
-            var tagBuilder = new TagBuilder("form");
-            tagBuilder.Attributes["method"] = "POST";
-            tagBuilder.Attributes["enctype"] = "multipart/form-data";
-            tagBuilder.Attributes["action"] = $"/save-form/{form.Id}";
+            var tagBuilder = new TagBuilder("form")
+            {
+                Attributes =
+                {
+                    ["method"] = "POST",
+                    ["enctype"] = "multipart/form-data",
+                    ["action"] = $"/save-form/{form.Id}",
+                    ["novalidate"] = "true"
+                }
+            };
 
             return tagBuilder;
+        }
+
+        private TagBuilder GetReturnUrlInput()
+        {
+            var currentPage = _getCurrentPage.GetPage();
+            var returnUrlInput = new TagBuilder("input");
+            returnUrlInput.Attributes["type"] = "hidden";
+            returnUrlInput.Attributes["name"] = "returnUrl";
+            returnUrlInput.Attributes["novalidate"] = "true";
+            returnUrlInput.TagRenderMode = TagRenderMode.SelfClosing;
+            returnUrlInput.Attributes["value"] = $"/{currentPage?.UrlSegment}";
+            return returnUrlInput;
         }
     }
 }

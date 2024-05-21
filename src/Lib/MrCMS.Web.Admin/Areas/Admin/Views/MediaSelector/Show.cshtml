@@ -1,13 +1,11 @@
 ﻿@using System.Linq
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using MrCMS.Entities.Documents.Media
-@using MrCMS.Helpers
 @using MrCMS.Settings
 @using X.PagedList
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
 @model MrCMS.Web.Admin.Models.MediaSelectorSearchQuery
-@inject MediaSettings MediaSettings
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
     var categories = ViewData["categories"] as List<SelectListItem> ?? new List<SelectListItem>();
@@ -25,13 +23,15 @@
             @Html.TextBoxFor(query => query.Query, new { @class = "form-control col-4", @placeholder = await Html.PlainResource("Admin - Media Selector Search Placeholder", "Search") })
             @Html.ValidationMessageFor(query => query.Query)
         </div>
-        <input type="submit" class="btn btn-primary col-lg-12 search-btn" value="@await Html.Resource("Search", options => options.DisableInlineEditing())" />
+        <input type="submit" class="btn btn-primary col-lg-12 search-btn" value="@await Html.Resource("Search", options => options.DisableInlineEditing())"/>
     }
 
     <div id="results" class="my-1">
-        <div id="fileupload" data-message="@await Html.PlainResource("Click here or drag files to upload")" class="dropzone mt-2"><i class="fa fa-cloud-upload"></i></div>
+        <div id="fileupload" data-message="@await Html.PlainResource("Click here or drag files to upload")" class="dropzone mt-2">
+            <i class="fa fa-cloud-upload"></i>
+        </div>
 
-        <input type="hidden" value="@Url.Action("Files", "File", new {Id = Model.CategoryId})" id="action-url" />
+        <input type="hidden" value="@Url.Action("Files", "File", new { Id = Model.CategoryId })" id="action-url"/>
 
 
         <div id="progress" class="progress" style="height: 30px; display: none; margin-bottom: 5px;">
@@ -41,8 +41,8 @@
         </div>
         <div id="files" class=""></div>
 
-        <input type="hidden" id="allowedFileTypes" value="@FileTypeUploadSettings.AllowedFileTypes" />
-        <input type="hidden" id="maxFileSizeUpload" value="@MediaSettings.MaxFileSizeUpload" />
+        <input type="hidden" id="allowedFileTypes" value="@FileTypeUploadSettings.AllowedFileTypes"/>
+        <input type="hidden" id="maxFileSizeUpload" value="@(SessionHelper.MaxFileSize)"/>
 
         @if (results.Any())
         {
@@ -53,7 +53,7 @@
                     <div class="col-sm-3">
                         @for (var i = column; i < results.Count; i += coulmns)
                         {
-                            <partial name="FileResult" model="results[i]" />
+                            <partial name="FileResult" model="results[i]"/>
                         }
                     </div>
                 }
@@ -61,7 +61,7 @@
             <div class="clearfix"></div>
 
             <div class="mt-3">
-                @Html.PagedListPager(results, page => Url.Action("Show", new {page, categoryId = Model.CategoryId, query = Model.Query}), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+                @Html.PagedListPager(results, page => Url.Action("Show", new { page, categoryId = Model.CategoryId, query = Model.Query }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
             </div>
         }
         else

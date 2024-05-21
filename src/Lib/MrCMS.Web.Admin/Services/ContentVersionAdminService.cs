@@ -45,6 +45,9 @@ public class ContentVersionAdminService : IContentVersionAdminService
     public async Task<ContentVersionModel> GetEditModel(int id)
     {
         var version = await _session.GetAsync<ContentVersion>(id);
+        
+        if (version == null)
+            return null;
 
         var previewUrl = $"/{version.Webpage.UrlSegment}?version={version.Id}";
         if ((await _getHomePage.Get()).Id == version.Webpage.Id)
@@ -139,5 +142,21 @@ public class ContentVersionAdminService : IContentVersionAdminService
         await _session.TransactAsync(session => session.SaveAsync(newVersion));
 
         return newVersion;
+    }
+
+    public async Task CopyContentVersion(int sourceId, int targetId)
+    {
+        var sourceContentBlocks = await _session.Query<ContentBlock>()
+            .Where(x => x.ContentVersion.Id == sourceId)
+            .ToListAsync();
+
+        var targetContentVersion = await _session.GetAsync<ContentVersion>(targetId);
+        
+        foreach (var sourceContentBlock in sourceContentBlocks)
+        {
+            var newContentBlock = sourceContentBlock.Clone(targetContentVersion);
+            targetContentVersion.Blocks.Add(newContentBlock);
+            await _session.TransactAsync(session => session.SaveAsync(newContentBlock));
+        }
     }
 }

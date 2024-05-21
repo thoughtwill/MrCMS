@@ -16,8 +16,8 @@ import {registerUpdateArea} from "./update-area";
 import {setupAddWebpage} from "./add-webpage";
 import {setupWebpageTree} from "./pages";
 import {setupEditWebpage} from "./edit-webpage";
-import {setupMediaCategoryPage } from "./media-category";
-import {initMediaUploader, MediaUploader } from './media-uploader';
+import {setupMediaCategoryPage} from "./media-category";
+import {initMediaUploader, MediaUploader} from './media-uploader';
 import {setupLayoutTree} from "./layout";
 import {setupMenu} from "./menu";
 import {setupStickyTabs} from "./sticky-tabs";
@@ -39,8 +39,11 @@ import {setupBatchFunctions} from "./batch.js"
 import {setupResourceChooseSite} from "./choose-site";
 import {setupWebpageSelect2} from "./webpage-search";
 import {setupContentAdmin} from "./content-admin";
+import {initIFrameAutoHeight} from "./iframe-auto-height";
+
 ajaxSetup();
 $(() => {
+    initIFrameAutoHeight();
     registerPlugins();
     setupConfirmation();
     showHideLoading();

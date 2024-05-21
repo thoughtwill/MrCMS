@@ -106,7 +106,7 @@ namespace MrCMS.Web.Apps.Core.Services.Installation
                 DisplayOrder = 0
             };
 
-            var fieldEmail = new TextBox
+            var fieldEmail = new Email
             {
                 Name = "Email",
                 LabelText = "Your Email",

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
         <StaticWebAssetBasePath Condition="$(StaticWebAssetBasePath) == ''">/</StaticWebAssetBasePath>
         <Configurations>Debug;Release;Debug-Skip-JS</Configurations>
@@ -28,19 +28,6 @@
         <ProjectReference Include="..\..\Lib\MrCMS\MrCMS.csproj" />
         <ProjectReference Include="..\MrCMS.Web.Admin.Infrastructure\MrCMS.Web.Admin.Infrastructure.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Task\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Task\Execute.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\Task\Index.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Areas\Admin\Views\Task\Edit.cshtml" />
-      <UpToDateCheckInput Remove="Areas\Admin\Views\Task\Execute.cshtml" />
-      <UpToDateCheckInput Remove="Areas\Admin\Views\Task\Index.cshtml" />
-    </ItemGroup>
-    
 
     <!--
           1. Install npm packages

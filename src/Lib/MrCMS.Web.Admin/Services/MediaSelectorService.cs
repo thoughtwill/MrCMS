@@ -55,11 +55,9 @@ namespace MrCMS.Web.Admin.Services
 
         public async Task<List<SelectListItem>> GetCategories()
         {
-            var site = _siteLocator.GetCurrentSite();
             var listAsync = await _session.Query<MediaCategory>()
-                .Where(category => category.Site.Id == site.Id)
                 .Where(category => category.HideInAdminNav != true)
-                .WithOptions(options => options.SetCacheable(true))
+                .OrderBy(x => x.Name)
                 .Select(x => new { x.Id, x.Name })
                 .ToListAsync();
             return
@@ -78,7 +76,7 @@ namespace MrCMS.Web.Admin.Services
 
             return new SelectedItemInfo
             {
-                Url = await _fileService.GetFileUrl(file, value),
+                Url = await _fileService.GetFileUrl(file, value, null),
                 Alt = file.Title,
                 Description = file.Description,
             };

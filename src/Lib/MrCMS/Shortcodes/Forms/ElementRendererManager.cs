@@ -2,6 +2,7 @@
 using MrCMS.Entities.Documents.Web.FormProperties;
 using MrCMS.Settings;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace MrCMS.Shortcodes.Forms
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using MrCMS.Entities.People;
+using MrCMS.Helpers;
 using MrCMS.Services;
 
 namespace MrCMS.Web.Admin.Hubs
@@ -10,17 +10,17 @@ namespace MrCMS.Web.Admin.Hubs
     {
         public const string UsersGroup = "Users";
         public const string AdminGroup = "Admins";
-        private readonly IUserLookup _userLookup;
+        private readonly IGetCurrentClaimsPrincipal _userLookup;
 
-        public NotificationHub(IUserLookup userLookup)
+        public NotificationHub(IGetCurrentClaimsPrincipal userLookup)
         {
             _userLookup = userLookup;
         }
 
         public override async Task OnConnectedAsync()
         {
-            User user = await _userLookup.GetCurrentUser(Context.User);
-            if (user == null || !user.IsAdmin)
+            var user = await _userLookup.GetPrincipal();
+            if (user == null || !user.IsAdmin())
                 await Groups.AddToGroupAsync(Context.ConnectionId, UsersGroup);
             else
                 await Groups.AddToGroupAsync(Context.ConnectionId, AdminGroup);
@@ -28,8 +28,8 @@ namespace MrCMS.Web.Admin.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            User user = await _userLookup.GetCurrentUser(Context.User);
-            if (user == null || !user.IsAdmin)
+            var user = await _userLookup.GetPrincipal();
+            if (user == null || !user.IsAdmin())
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, UsersGroup);
             else
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, AdminGroup);

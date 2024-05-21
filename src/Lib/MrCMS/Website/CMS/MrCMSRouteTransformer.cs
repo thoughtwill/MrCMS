@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using FluentNHibernate.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
@@ -25,6 +26,12 @@ namespace MrCMS.Website.CMS
             // we only route requests that are of routable methods
             var method = httpContext.Request.Method;
             if (!serviceProvider.GetRequiredService<ICmsMethodTester>().IsRoutable(method))
+            {
+                return values;
+            }
+
+            //we don't need to lookup if the page is an admin page
+            if (httpContext.Request.Path.StartsWithSegments("/admin") || httpContext.Request.Path.StartsWithSegments("/Admin")  || httpContext.Request.Path.StartsWithSegments("/notificationsHub") || httpContext.Request.Path.StartsWithSegments("/_blazor"))
             {
                 return values;
             }

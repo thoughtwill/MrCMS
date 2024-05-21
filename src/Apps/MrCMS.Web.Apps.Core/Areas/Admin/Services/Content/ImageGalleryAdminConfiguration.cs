@@ -11,15 +11,52 @@ public class
     {
         return new UpdateImageGalleryAdminModel
         {
-            ResponsiveClasses = block.ResponsiveClasses, ImageRatio = block.ImageRatio,
-            ImageRenderSize = block.ImageRenderSize
+            ItemPerRow = GetItemPerRow(block.ResponsiveClasses),
+            ImageRatio = block.ImageRatio,
+            ImageRenderSize = block.ImageRenderSize,
+            BackgroundColour = block.BackgroundColour
         };
     }
 
     public override void UpdateBlock(ImageGallery block, UpdateImageGalleryAdminModel editModel)
     {
-        block.ResponsiveClasses = editModel.ResponsiveClasses;
+        switch (editModel.ItemPerRow)
+        {
+            case 6:
+                block.ResponsiveClasses = "col-sm-6 col-md-4 col-lg-2";
+                break;
+            case 4:
+                block.ResponsiveClasses = "col-sm-6 col-md-3";
+                break;
+            case 3:
+                block.ResponsiveClasses = "col-sm-4";
+                break;
+            case 2:
+                block.ResponsiveClasses = "col-sm-6";
+                break;
+            case 1:
+                block.ResponsiveClasses = "col-12";
+                break;
+            default:
+                block.ResponsiveClasses = "col-sm-6 col-md-3";
+                break;
+        }
+
         block.ImageRatio = editModel.ImageRatio;
-        block.ImageRenderSize = editModel.ImageRenderSize;
+        block.ImageRenderSize = (7 - editModel.ItemPerRow) * 200;
+        block.BackgroundColour = editModel.BackgroundColour;
+    }
+
+    private int GetItemPerRow(string responsiveClasses)
+    {
+        return responsiveClasses switch
+        {
+            "col-sm-6 col-md-4 col-lg-2" => 6,
+            "col-sm-6 col-md-3" => 4,
+            "col-sm-4" => 3,
+            "col-sm-6" => 2,
+            "col-12" => 1,
+            _ => 4
+        };
     }
 }

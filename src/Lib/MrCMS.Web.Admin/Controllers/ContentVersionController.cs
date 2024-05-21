@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
@@ -15,6 +16,8 @@ public class ContentVersionController : MrCMSAdminController
 {
     private readonly IContentVersionAdminService _adminService;
     private readonly IGetWebpageForPath _getWebpageForPath;
+    
+    private const string CopyContentVersionSessionKey = "CopiedContentVersion";
 
     public ContentVersionController(IContentVersionAdminService adminService,
         IGetWebpageForPath getWebpageForPath)
@@ -60,9 +63,13 @@ public class ContentVersionController : MrCMSAdminController
         }
     }
 
-    public async Task<ViewResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id)
     {
-        return View(await _adminService.GetEditModel(id));
+        var editModel = await _adminService.GetEditModel(id);
+        if (editModel == null)
+            return NotFound();
+        
+        return View(editModel);
     }
 
     public async Task<IActionResult> EditByUrl(string url)
@@ -115,9 +122,29 @@ public class ContentVersionController : MrCMSAdminController
             : RedirectToAction("Index", "Webpage");
     }
 
-    public async Task<PartialViewResult> Blocks(int id, Guid? selected)
+    public async Task<IActionResult> Blocks(int id, Guid? selected)
     {
+        var editModel = await _adminService.GetEditModel(id);
+        if (editModel == null)
+            return NotFound();
+        
         ViewData["selected"] = selected;
-        return PartialView(await _adminService.GetEditModel(id));
+        return PartialView(editModel);
+    }
+    
+    public async Task<ViewResult> Copy(int id)
+    {
+        HttpContext.Session.SetInt32(CopyContentVersionSessionKey, id);
+        return View("Edit", await _adminService.GetEditModel(id));
+    }
+
+    public async Task<ViewResult> Paste(int id)
+    {
+        var copyContentVersionId = HttpContext.Session.GetInt32(CopyContentVersionSessionKey);
+        if (copyContentVersionId.HasValue)
+        {
+            await _adminService.CopyContentVersion(copyContentVersionId.Value, id);
+        }
+        return View("Edit", await _adminService.GetEditModel(id));
     }
 }

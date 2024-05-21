@@ -36,7 +36,25 @@ namespace MrCMS.Web.Admin.Infrastructure.Breadcrumbs
 
         public virtual string Url(IUrlHelper url)
         {
-            return IsPlaceHolder ? null : url.Action(Action, Controller, new {Id, area = "Admin"});
+            if (IsPlaceHolder)
+            {
+                return null;
+            }
+
+            var routeValues = new RouteValueDictionary(new { Id, area = "Admin" });
+
+            if (ActionArguments != null)
+            {
+                foreach (var arg in ActionArguments)
+                {
+                    if (arg.Key != "id" && arg.Value is not (SystemEntity or IHaveId))
+                    {
+                        routeValues[arg.Key] = arg.Value;
+                    }
+                }
+            }
+
+            return url.Action(Action, Controller, routeValues);
         }
 
         public virtual bool OpenInNewWindow { get; }

@@ -6,15 +6,14 @@ namespace MrCMS.Web.Apps.Core.Bundles
 {
     public class CoreStyleBundle : IUIStyleBundle
     {
-        public int Priority { get; }
+        public int Priority => int.MaxValue;
         public Task<bool> ShouldShow(string theme) => Task.FromResult(string.IsNullOrWhiteSpace(theme));
 
-        public string Url => "/Apps/Core/assets/core-front-end.css";
+        public string Url => "/Apps/Core/assets/core.css";
 
         public IEnumerable<string> VendorFiles
         {
-            get
-            {
+            get { 
                 yield break;
             }
         }

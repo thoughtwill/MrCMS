@@ -1,14 +1,24 @@
-@using MrCMS.Web.Apps.Core.Entities.ContentBlocks
+@using MrCMS.Web.Apps.Core.Areas.Admin.Models
 @model MrCMS.Web.Apps.Core.Areas.Admin.Models.Content.UpdateImageGalleryAdminModel
 
+@{
+    var itemPerRowOptions = (new List<int> { 1, 2, 3, 4, 6 }).Select(f => new SelectListItem { Text = f.ToString(), Value = f.ToString() });
+    var backgroundColourOptions = EnumHelper<BackgroundColour>.GetOptions();
+}
 <div class="form-group">
-    @Html.LabelFor(x => x.ResponsiveClasses)
-    @Html.TextBoxFor(x => x.ResponsiveClasses, new { @class = "form-control" })
-    @Html.ValidationMessageFor(x => x.ResponsiveClasses)
+    @Html.LabelFor(x => x.ItemPerRow)
+    @Html.DropDownListFor(x => x.ItemPerRow, itemPerRowOptions, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.ItemPerRow)
 </div>
 
 <div class="form-group">
     @Html.LabelFor(x => x.ImageRatio)
     @Html.TextBoxFor(x => x.ImageRatio, new { @class = "form-control" })
     @Html.ValidationMessageFor(x => x.ImageRatio)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.BackgroundColour)
+    @Html.DropDownListFor(x => x.BackgroundColour, backgroundColourOptions, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.BackgroundColour)
 </div>

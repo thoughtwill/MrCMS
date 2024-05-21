@@ -19,6 +19,7 @@ using MrCMS.Website.CMS;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using MrCMS.Logging;
 using MrCMS.Services;
 using MrCMS.Settings;
@@ -144,8 +145,6 @@ namespace MrCMS.Web
                 options.Preload = true;
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(60);
-                //options.ExcludedHosts.Add("example.com");
-                //options.ExcludedHosts.Add("www.example.com");
             });
 
 
@@ -220,12 +219,33 @@ namespace MrCMS.Web
                 app.UseHttpsRedirection();
             }
 
+            app.UseForwardedHeaders();
+
+            app.UseCors("AllowAll");
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("Referrer-Policy", "origin");
+                context.Response.Headers.Add("X-Permitted-Cross-Domain-Policies", "none");
+                await next();
+            });
+
+            app.UseStatusCodePagesWithReExecute("/HandleStatusCode/{0}");
+
             app.UseSession();
 
             if (!IsInstalled())
             {
                 app.ShowInstallation();
                 return;
+            }
+            
+            if (IsMiniProfileEnabled())
+            {
+                app.UseMiniProfiler();
             }
             
             loggerFactory.AddProvider(
@@ -240,7 +260,7 @@ namespace MrCMS.Web
                     OnPrepareResponse = (context) =>
                     {
                         var headers = context.Context.Response.GetTypedHeaders();
-                        headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+                        headers.CacheControl = new CacheControlHeaderValue()
                         {
                             Public = true,
                             MaxAge = env.IsDevelopment() ? TimeSpan.FromDays(0) : TimeSpan.FromDays(30)
@@ -265,6 +285,11 @@ namespace MrCMS.Web
                             $"File is too big ({(contentLength / 1024 / 1024)}MiB). Max filesize: {(maxAllowedFileSize / 1024 / 1024)}MiB.");
                         return;
                     }
+                    
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+
+                    context.Response.Cookies.Append("RequestVerificationToken", tokens.RequestToken,
+                        new CookieOptions() { HttpOnly = true, Secure = true});
 
                     await next.Invoke();
                 });

@@ -13,6 +13,10 @@ namespace MrCMS.Web.Admin.Models.Forms
         public string FormEmailTitle { get; set; }
         [DisplayName("To")]
         public string SendFormTo { get; set; }
+        
+        [DisplayName("Reply To")]
+        public string FormReplyTo { get; set; }
+        
         [DisplayName("Message")]
         public string FormMessage { get; set; }
     }

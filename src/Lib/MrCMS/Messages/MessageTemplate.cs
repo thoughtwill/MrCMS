@@ -14,6 +14,9 @@ namespace MrCMS.Messages
 
         [Required, DisplayName("To Address")]
         public string ToAddress { get; set; }
+        
+        [Required, DisplayName("Replay To")]
+        public string ReplayTo { get; set; }
 
         [DisplayName("To Name")]
         public string ToName { get; set; }

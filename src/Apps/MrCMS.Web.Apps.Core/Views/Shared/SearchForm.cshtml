@@ -1,12 +1,13 @@
 ﻿@using MrCMS.Services
 @using MrCMS.Web.Apps.Core.Pages
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject IUniquePageService UniquePageService
 @{
     var url = await UniquePageService.GetUrl<SearchPage>();
 }
 <form role="search" method="GET" action="@url">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="term" aria-label="term" aria-describedby="button-search" name="term">
+        <input type="text" class="form-control rounded-start" placeholder="term" aria-label="term" aria-describedby="button-search" name="term">
         <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="submit" id="button-search">
                 <span class="fa fa-search"></span>

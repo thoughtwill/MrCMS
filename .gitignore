@@ -100,6 +100,8 @@ _ReSharper*/
 
 #Project files
 [Bb]uild/
+node_modules
+.parcel-cache
 
 #Subversion files
 .svn
@@ -168,8 +170,8 @@ NDependOut/*
 appsettings.Development.json
 
 
-src/MrCMS.Web/App_Data/Indexes/*
-src/MrCMS.Web/wwwroot/content/upload/*
+/src/MrCMS.Web/App_Data/Indexes/*
+/src/MrCMS.Web/wwwroot/content/upload/*
 
 
 src/MrCMS.Web/connectionstrings.json
@@ -177,3 +179,5 @@ src/MrCMS.Web/connectionstrings.json
 
 src/MrCMS.Web/wwwroot/is-cache/
 src/MrCMS.Web/wwwroot/sitemap-*
+
+src/Lib/MrCMS.Web.Admin/wwwroot/Areas/Admin/assets/

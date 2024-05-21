@@ -8,7 +8,11 @@ public class QuoteAdminConfiguration : ContentBlockAdminConfigurationBase<Quote,
 {
     public override UpdateQuoteAdminModel GetEditModel(Quote block)
     {
-        return new UpdateQuoteAdminModel { CssClasses = block.CssClasses, QuoteFooter = block.QuoteFooter, QuoteText = block.QuoteText };
+        return new UpdateQuoteAdminModel
+        {
+            CssClasses = block.CssClasses, QuoteFooter = block.QuoteFooter, QuoteText = block.QuoteText,
+            BackgroundColour = block.BackgroundColour
+        };
     }
 
     public override void UpdateBlock(Quote block, UpdateQuoteAdminModel editModel)
@@ -16,5 +20,6 @@ public class QuoteAdminConfiguration : ContentBlockAdminConfigurationBase<Quote,
         block.CssClasses = editModel.CssClasses;
         block.QuoteText = editModel.QuoteText;
         block.QuoteFooter = editModel.QuoteFooter;
+        block.BackgroundColour = editModel.BackgroundColour;
     }
 }

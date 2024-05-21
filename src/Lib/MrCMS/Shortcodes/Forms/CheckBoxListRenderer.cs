@@ -9,8 +9,6 @@ namespace MrCMS.Shortcodes.Forms
 {
     public class CheckBoxListRenderer : IFormElementRenderer<CheckboxList>
     {
-        public const string CbHiddenValue = "cb-hidden-value";
-
         public TagBuilder AppendElement(CheckboxList formProperty, string existingValue,
             FormRenderingType formRenderingType)
         {
@@ -19,20 +17,22 @@ namespace MrCMS.Shortcodes.Forms
                 : existingValue.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
                     .Select(s => s.Trim())
                     .ToList();
-            values.Remove(CbHiddenValue);
 
             var tagBuilder = new TagBuilder("div");
-            tagBuilder.AddCssClass("form-group mb-3");
+            tagBuilder.AddCssClass("mt-2");
+            
             foreach (var checkbox in formProperty.Options)
             {
-                var cbLabelBuilder = new TagBuilder("label");
-                cbLabelBuilder.Attributes["for"] =
-                    TagBuilder.CreateSanitizedId(formProperty.Name + "-" + checkbox.Value, "-");
+                var cbLabelBuilder = new TagBuilder("label")
+                {
+                    Attributes =
+                    {
+                        ["for"] = TagBuilder.CreateSanitizedId(formProperty.Name + "-" + checkbox.Value, "-")
+                    }
+                };
 
                 var checkboxBuilder = GetCheckbox(formProperty, existingValue, checkbox, values);
-                checkboxBuilder.AddCssClass("form-check-input");
-
-
+                
                 cbLabelBuilder.InnerHtml.AppendHtml(checkbox.Value);
                 var checkboxContainer = new TagBuilder("div");
                 cbLabelBuilder.AddCssClass("form-check-label");
@@ -43,21 +43,21 @@ namespace MrCMS.Shortcodes.Forms
             }
             
 
-            var cbHiddenBuilder = new TagBuilder("input");
-            cbHiddenBuilder.Attributes["type"] = "hidden";
-            cbHiddenBuilder.Attributes["name"] = formProperty.Name;
-            cbHiddenBuilder.Attributes["value"] = CbHiddenValue;
-            tagBuilder.InnerHtml.AppendHtml(cbHiddenBuilder);
-
             return tagBuilder;
         }
 
-        public static TagBuilder GetCheckbox(CheckboxList formProperty, string existingValue, FormListOption checkbox,
+        private static TagBuilder GetCheckbox(CheckboxList formProperty, string existingValue, FormListOption checkbox,
             List<string> values)
         {
-            var checkboxBuilder = new TagBuilder("input");
-            checkboxBuilder.Attributes["type"] = "checkbox";
-            checkboxBuilder.Attributes["value"] = checkbox.Value;
+            var checkboxBuilder = new TagBuilder("input")
+            {
+                Attributes =
+                {
+                    ["type"] = "checkbox",
+                    ["value"] = checkbox.Value
+                }
+            };
+            checkboxBuilder.AddCssClass("form-check-input");
             checkboxBuilder.AddCssClass(formProperty.CssClass);
 
             if (existingValue != null)
@@ -70,13 +70,12 @@ namespace MrCMS.Shortcodes.Forms
 
             if (formProperty.Required)
             {
-                var requiredMessage = string.Format("The field {0} is required",
-                    string.IsNullOrWhiteSpace(formProperty.LabelText)
-                        ? formProperty.Name
-                        : formProperty.LabelText);
+                var requiredMessage =
+                    $"The field {(string.IsNullOrWhiteSpace(formProperty.LabelText) ? formProperty.Name : formProperty.LabelText)} is required";
                 checkboxBuilder.Attributes["data-val"] = "true";
                 checkboxBuilder.Attributes["data-val-mandatory"] = requiredMessage;
                 checkboxBuilder.Attributes["data-val-required"] = requiredMessage;
+                checkboxBuilder.Attributes["required"] = "required";
             }
 
             checkboxBuilder.Attributes["name"] = formProperty.Name;

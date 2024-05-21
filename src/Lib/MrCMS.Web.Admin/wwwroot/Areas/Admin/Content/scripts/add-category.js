@@ -27,7 +27,7 @@
             if (parentUrl !== '') {
                 parentUrl += "/";
             }
-            $("#UrlSegment").val(parentUrl + $("#Name").val().trim().replace(/\W/g, '-').toLowerCase());
+            $("#Path").val(parentUrl + $("#Name").val().trim().replace(/\W/g, '-').toLowerCase());
         }
 
         $("form").validate();

@@ -45,6 +45,8 @@ namespace MrCMS.Web.Admin.Filters
 
             // next check if there are 
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            if (actionDescriptor == null)
+                return;
             var aclAttribute = actionDescriptor.MethodInfo.GetCustomAttribute<AclAttribute>() ??
                                actionDescriptor.ControllerTypeInfo.GetCustomAttribute<AclAttribute>();
 

@@ -32,11 +32,11 @@ namespace MrCMS.Web.Admin.Mapping
         {
             CreateMap<MediaCategory, UpdateMediaCategoryModel>().ReverseMap();
             CreateMap<MediaCategory, AddMediaCategoryModel>()
-                .ForMember(destinationMember => destinationMember.UrlSegment,
+                .ForMember(destinationMember => destinationMember.Path,
                     x => x.MapFrom(sourceMember => sourceMember.Path))
                 .ReverseMap()
                 .ForMember(destinationMember => destinationMember.Path,
-                    x => x.MapFrom(sourceMember => sourceMember.UrlSegment))
+                    x => x.MapFrom(sourceMember => sourceMember.Path))
                 .MapEntityLookup(x => x.ParentId, x => x.Parent)
                 ;
         }

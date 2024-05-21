@@ -35,7 +35,7 @@
             @if (!string.IsNullOrWhiteSpace(item.FeatureImage))
             {
                 <a href="@await GetLiveUrl.GetUrlSegment(item, true)">
-                    @await Html.RenderImage(item.FeatureImage, new Size { Width = 250 }, attributes: new { @class = "img-responsive mb-3" })
+                    @await Html.RenderImage(item.FeatureImage, new Size { Width = 250 }, attributes: new { @class = "img-fluid mb-3" })
                 </a>
             }
             <div>

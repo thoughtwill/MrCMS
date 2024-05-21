@@ -10,6 +10,7 @@ using MrCMS.Shortcodes.Forms;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using MrCMS.Services;
 using Xunit;
 
 namespace MrCMS.Tests.Shortcodes.Forms
@@ -18,6 +19,7 @@ namespace MrCMS.Tests.Shortcodes.Forms
     {
         private readonly DefaultFormRenderer _defaultFormRenderer;
         private readonly IElementRendererManager _elementRendererManager;
+        private readonly IGetCurrentPage _getCurrentPage;
         private readonly ILabelRenderer _labelRenderer;
         private readonly IValidationMessaageRenderer _validationMessageRenderer;
         private readonly string _existingValue = null;
@@ -33,10 +35,11 @@ namespace MrCMS.Tests.Shortcodes.Forms
             _labelRenderer = A.Fake<ILabelRenderer>();
             _validationMessageRenderer = A.Fake<IValidationMessaageRenderer>();
             _submittedMessageRenderer = A.Fake<ISubmittedMessageRenderer>();
+            _getCurrentPage = A.Fake<IGetCurrentPage>();
             _htmlHelper = A.Fake<IHtmlHelper>();
             _siteSettings = new SiteSettings();
             _defaultFormRenderer = new DefaultFormRenderer(_elementRendererManager, _labelRenderer,
-                                                           _validationMessageRenderer, _submittedMessageRenderer, _siteSettings);
+                                                           _validationMessageRenderer, _submittedMessageRenderer, _siteSettings, _getCurrentPage);
         }
 
         [Fact]

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Entities.Documents.Web.FormProperties;
+using MrCMS.Services;
 using MrCMS.Settings;
 using MrCMS.Website.Filters;
 
@@ -18,16 +19,18 @@ namespace MrCMS.Shortcodes.Forms
         private readonly IValidationMessaageRenderer _validationMessaageRenderer;
         private readonly ISubmittedMessageRenderer _submittedMessageRenderer;
         private readonly SiteSettings _siteSettings;
+        private readonly IGetCurrentPage _getCurrentPage;
 
         public CustomFormRenderer(IElementRendererManager elementRendererManager, ILabelRenderer labelRenderer,
                                   IValidationMessaageRenderer validationMessaageRenderer,
-                                  ISubmittedMessageRenderer submittedMessageRenderer, SiteSettings siteSettings)
+                                  ISubmittedMessageRenderer submittedMessageRenderer, SiteSettings siteSettings, IGetCurrentPage getCurrentPage)
         {
             _elementRendererManager = elementRendererManager;
             _labelRenderer = labelRenderer;
             _validationMessaageRenderer = validationMessaageRenderer;
             _submittedMessageRenderer = submittedMessageRenderer;
             _siteSettings = siteSettings;
+            _getCurrentPage = getCurrentPage;
         }
 
         public IHtmlContent GetForm(IHtmlHelper helper, Form form1, FormSubmittedStatus submittedStatus)
@@ -49,9 +52,12 @@ namespace MrCMS.Shortcodes.Forms
             formDesign = Regex.Replace(formDesign, "{recaptcha}", helper.RenderRecaptcha().GetString());
             formDesign = Regex.Replace(formDesign, "{gdpr}", DefaultFormRenderer.GetGDPRCheckbox(_siteSettings.FormRendererType, _siteSettings.GDPRFairProcessingText).GetString());
             form.InnerHtml.AppendHtml(formDesign);
+            form.InnerHtml.AppendHtml(GetReturnUrlInput());
 
             if (_siteSettings.HasHoneyPot)
                 form.InnerHtml.AppendHtml(_siteSettings.GetHoneypot());
+            
+            
   
             return form;
         }
@@ -68,6 +74,17 @@ namespace MrCMS.Shortcodes.Forms
                     ? string.Empty
                     : _validationMessaageRenderer.AppendRequiredMessage(formProperty).GetString();
             };
+        }
+        
+        private TagBuilder GetReturnUrlInput()
+        {
+            var currentPage = _getCurrentPage.GetPage();
+            var returnUrlInput = new TagBuilder("input");
+            returnUrlInput.Attributes["type"] = "hidden";
+            returnUrlInput.Attributes["name"] = "returnUrl";
+            returnUrlInput.TagRenderMode = TagRenderMode.SelfClosing;
+            returnUrlInput.Attributes["value"] =$"/{currentPage?.UrlSegment}";
+            return returnUrlInput;
         }
 
         private string AddSubmittedMessage(Form form, FormSubmittedStatus submittedStatus)
@@ -116,6 +133,7 @@ namespace MrCMS.Shortcodes.Forms
             var tagBuilder = new TagBuilder("form");
             tagBuilder.Attributes["method"] = "POST";
             tagBuilder.Attributes["enctype"] = "multipart/form-data";
+            tagBuilder.Attributes["novalidate"] = "true";
             tagBuilder.Attributes["action"] = $"/save-form/{form.Id}";
 
             return tagBuilder;

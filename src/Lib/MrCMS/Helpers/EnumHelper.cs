@@ -15,7 +15,7 @@ namespace MrCMS.Helpers
 
         public static T Parse(string value)
         {
-            return (T) Enum.Parse(typeof(T), value, true);
+            return (T)Enum.Parse(typeof(T), value, true);
         }
 
         public static IList<string> GetNames()

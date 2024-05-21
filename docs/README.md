@@ -1,93 +1,85 @@
 # Mr CMS
 
-**Mr CMS is an ASP.NET MVC 5 C# open source content management framework**
+**Mr CMS is an open-source content management framework built on ASP.NET Core**
 
-Mr CMS wraps up a lot of the time consuming aspects of website creation. Mr CMS is a framework for developers create bespoke website whilst at the same time giving content editors an easy to use CMS.
+Mr CMS simplifies many of the time-consuming aspects of website creation, providing both a framework for developers to create bespoke websites and an easy-to-use CMS for content editors.
 
 ## Apps
-Apps in Mr CMS contain all the functionality your website requires. For example, you might want a Blog App which contains page definitions for a list of blogs and a blog page itself. 
+Mr CMS is modular, with functionality encapsulated in "Apps". For example, a Blog App might include definitions for a blog list and individual blog posts. Mr CMS includes three basic apps:
 
-Mr CMS comes with 3 basic apps, 'Core', 'Articles' and 'Galleries'. The CoreApp contains basic concepts such as login and registration. It also has some basic page types such as 'TextPage' which can be used as a base page type for other pages.
+- **Core**: Basic functionalities such as login and registration, alongside generic page types like 'TextPage'.
+- **Articles**: Dedicated functionalities for article management.
+- **Galleries**: Features for managing image galleries.
 
-Ultimately though, you can throw these three apps out and start building your own if you want.
-
+Developers are encouraged to modify or replace these apps as needed to suit specific requirements.
 ### Creating your first Mr CMS App
-The first step in creating an app is to create a folder in the Apps folder. For example, 'Blog'. In here create a file called BlogApp.cs.
+1. **Create the App:**
+   - Create a new folder in the `Apps` directory (e.g., `Blog`).
+   - Inside this folder, create a file named `BlogApp.cs`:
 
-	public class BlogApp : MrCMSApp
+    ```csharp
+    public class BlogApp : StandardMrCMSApp
     {
-        public override string AppName
-        {
-            get { return "Blog"; }
-        }
+        public override string AppName => "Blog";
+        public override string Version => "0.1";
 
-        public override string Version
-        {
-            get { return "0.1"; }
-        }
-
-		protected override void RegisterServices(IKernel kernel)
-        {
-            
-       }
-
-        protected override void RegisterApp(MrCMSAppRegistrationContext context)
+        public override void SetupMvcOptions(MvcOptions options)
         {
         }
     }
+    ```
 
-This registers your App with Mr CMS. Note that your App definition must inherit from MrCMSApp.
+2. **Define a New Page Type:**
+   - Create a directory `Apps\BlogApp\Pages` and add a file named `Blog.cs`:
 
-Next create a folder called 'Apps\BlogApp\Pages' and create a file called Blog.cs
-
-	public class Blog : Webpage
+    ```csharp
+    public class Blog : Webpage
     {
-		[DisplayName("Featured Image")]
+        [DisplayName("Featured Image")]
         public virtual string FeatureImage { get; set; }
 
         [AllowHtml]
         [StringLength(160, ErrorMessage = "Abstract cannot be longer than 500 characters.")]
         public virtual string Abstract { get; set; }
     }
+    ```
 
-Note in this instance we are inheriting from Webpage. This tells Mr CMS that this page can be added to the CMS. Webpage has a lot of properties which are shared across all webpages, such as Page Tile and Meta Description. It also has BodyContent for the main body of text of any webpage.
+3. **Create the View:**
+   - Create a folder `Views\Pages` and add a Razor view to display the Blog:
 
-Finally create a folder called Views\Pages and within that folder add a page to display the Blog.
+    ```html
+    <article>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="margin-top-0">@Editable(Model, p => p.Name, false)</h1>
+                <a href="/@Model.Parent.UrlSegment" class="btn btn-default">Back</a>
+                @Model.CreatedOn.Day @Model.CreatedOn.ToString("MMMMM") @Model.CreatedOn.Year
+                <br />
+                @if (!String.IsNullOrEmpty(Model.FeatureImage))
+                {
+                    <a href="/@Model.LiveUrlSegment" class="margin-top-0">@RenderImage(Model.FeatureImage)</a>
+                }
+                @Editable(Model, page => page.BodyContent, true)
+            </div>
+        </div>
+    </article>
+    ```
 
-	<article>
-		<div class="row">
-			<div class="col-md-12">
-				<h1 class="margin-top-0">@Editable(Model, p => p.Name, false)</h1>
-				<a href="/@Model.Parent.UrlSegment" class="btn btn-default">Back</a>
-				@Model.CreatedOn.Day @Model.CreatedOn.ToString("MMMMM") @Model.CreatedOn.Year
-				<br />
-				@if (!String.IsNullOrEmpty(Model.FeatureImage))
-				{
-					<a href="/@Model.LiveUrlSegment" class="margin-top-0">@RenderImage(Model.FeatureImage)</a>
-				}
-				@Editable(Model, page => page.BodyContent, true)
-			</div>
-		</div>
-	</article>
+4. **Admin View for Editing:**
+   - Add a view in `Apps\BlogApp\Areas\Admin\Views\Webpage` to edit the new fields:
 
-Note here we use @Editable - this allows inline editing of content. Passing in True/False argument will enable or disable HTML editing.
+    ```html
+    <div class="form-group">
+        @Html.LabelFor(model => model.FeatureImage, "Article Image")
+        <br />
+        @Html.TextBoxFor(model => model.FeatureImage, new { data_type = "media-selector" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Abstract)
+        @Html.TextAreaFor(model => model.Abstract, new { @rows = "2", @class = "form-control" })
+    </div>
+    ```### Creating your first Mr CMS App
 
-Finally you need to add a page in Apps\BlogApp\Areas\Admin\Views\Webpage\ to add the additional editable fields we defined earlier.
-
-	<div class="form-group">
-		@Html.LabelFor(model => model.FeatureImage, "Article Image") <br />
-		@Html.TextBoxFor(model => model.FeatureImage, new { data_type = "media-selector" })
-	</div>
-	<div class="form-group">
-		@Html.LabelFor(model => model.Abstract)
-		@Html.TextAreaFor(model => model.Abstract, new { @rows = "2", @class = "form-control" })
-	</div>
-
-This is the page Mr CMS uses to edit your custom page fields.
-
-At this point you now have a new page type which can be added to Mr CMS. You can have a lot more control over your pages and how they act by using DocumentMetadataMap<> - this class allows you to specify page behaviour, for example if you have custom Controller you'd like to use rather than the standard Mr CMS one you can specify that here.
-
-The Mr CMS ECommerce App listed [on GitHub](https://github.com/MrCMS/Ecommerce) has a lot more functionality to it that just a simple page, so if you'd like to see how more complicated apps are built check this project out.
 
 ## Feature list
 

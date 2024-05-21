@@ -8,7 +8,6 @@ using MrCMS.Helpers;
 using MrCMS.Web.Admin.Models;
 using MrCMS.Web.Admin.Infrastructure.Routing;
 using MrCMS.Website;
-using MrCMS.Website.Auth;
 
 namespace MrCMS.Web.Admin.Services
 {

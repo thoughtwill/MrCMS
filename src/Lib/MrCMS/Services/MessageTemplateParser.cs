@@ -55,37 +55,40 @@ namespace MrCMS.Services
         {
             IEnumerable<ITokenProvider<T>> tokenProviders = _serviceProvider.GetServices<ITokenProvider<T>>();
 
+            tokenProviders = tokenProviders.OrderBy(provider =>
+                provider.GetType().FullName == typeof(PropertyTokenProvider<T>).FullName ? 1 : 0);
+
             foreach (var token in tokenProviders.SelectMany(tokenProvider => tokenProvider.Tokens))
             {
                 stringBuilder.Replace("{" + token.Key + "}", await token.Value(instance));
             }
         }
 
-        public List<string> GetAllTokens<T>()
+        public HashSet<string> GetAllTokens<T>()
         {
             IEnumerable<ITokenProvider<T>> tokenProviders = _serviceProvider.GetServices<ITokenProvider<T>>();
-            return tokenProviders.SelectMany(provider => provider.Tokens.Select(pair => pair.Key)).ToList();
+            return tokenProviders.SelectMany(provider => provider.Tokens.Select(pair => pair.Key)).ToHashSet();
         }
 
-        public List<string> GetAllTokens(MessageTemplate template)
+        public HashSet<string> GetAllTokens(MessageTemplate template)
         {
-            var tokens = new List<string>();
+            var tokens = new HashSet<string>();
             tokens.AddRange(GetAllTokens(template.ModelType));
             tokens.AddRange(GetAllStandardTokens());
             return tokens;
         }
 
-        private List<string> GetAllTokens(Type type)
+        private HashSet<string> GetAllTokens(Type type)
         {
             if (type == null)
-                return new List<string>();
-            return GetMessageTemplateMethod.MakeGenericMethod(type).Invoke(this, new object[] { }) as List<string>;
+                return new HashSet<string>();
+            return GetMessageTemplateMethod.MakeGenericMethod(type).Invoke(this, new object[] { }) as HashSet<string>;
         }
 
-        public List<string> GetAllStandardTokens()
+        public HashSet<string> GetAllStandardTokens()
         {
             IEnumerable<ITokenProvider> tokenProviders = _serviceProvider.GetServices<ITokenProvider>();
-            return tokenProviders.SelectMany(provider => provider.Tokens.Select(pair => pair.Key)).ToList();
+            return tokenProviders.SelectMany(provider => provider.Tokens.Select(pair => pair.Key)).ToHashSet();
         }
     }
 }

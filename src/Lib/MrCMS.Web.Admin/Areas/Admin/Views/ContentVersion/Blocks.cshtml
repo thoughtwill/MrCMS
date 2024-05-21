@@ -29,7 +29,7 @@
                     </a>
                 </div>
                 <div class="col-auto">
-                    <a role="button" data-content-admin-block-hide="@Url.Action("ToggleHidden", "ContentBlock")" data-id="@block.Id" title="@(block.IsHidden ? await Html.Resource("admin-blocks-show", "Show") : await Html.Resource("admin-blocks-hide", "Hide"))">
+                    <a role="button" data-content-admin-block-hide="@Url.Action("ToggleHidden", "ContentBlock")" data-id="@block.Id" title="@(block.IsHidden ? await Html.PlainResource("admin-blocks-show", "Show") : await Html.PlainResource("admin-blocks-hide", "Hide"))">
                         @if (block.IsHidden)
                         {
                             <i class="fa fa-eye-slash text-danger"></i>
@@ -41,12 +41,12 @@
                     </a>
                 </div>
                 <div class="col-auto sort-handle">
-                    <a class="text-dark" role="button" title="@await Html.Resource("admin-blocks-sort", "Drag to sort", options => options.DisableInlineEditing())">
+                    <a class="text-dark" role="button" title="@await Html.PlainResource("admin-blocks-sort", "Drag to sort")">
                         <i class="fa fa-sort"></i>
                     </a>
                 </div>
                 <div class="col-auto">
-                    <a class="text-danger" role="button" data-content-admin-block-remove="@Url.Action("Remove", "ContentBlock", new { block.Id })" title="@await Html.Resource("admin-blocks-remove", "Remove", options => options.DisableInlineEditing())">
+                    <a class="text-danger" role="button" data-content-admin-block-remove="@Url.Action("Remove", "ContentBlock", new { block.Id })" title="@await Html.PlainResource("admin-blocks-remove", "Remove")">
                         <i class="fa fa-times"></i>
                     </a>
                 </div>

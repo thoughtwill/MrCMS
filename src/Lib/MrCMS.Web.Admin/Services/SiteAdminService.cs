@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MrCMS.Entities.Multisite;
 using MrCMS.Helpers;
 using MrCMS.Mapping;

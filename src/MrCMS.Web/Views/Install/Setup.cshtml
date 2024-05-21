@@ -1,5 +1,4 @@
 ﻿@using Microsoft.Extensions.Options
-@using MrCMS.Helpers
 @using MrCMS.Installation.Models
 @using MrCMS.Settings
 @model InstallModel
@@ -117,7 +116,7 @@
 
                         <div id="sqlConnectionInfo">
 
-                            <div class="form-group">
+                            <div class="form-check mb-3">
                                 <label class="checkbox-inline">
                                     @Html.CheckBoxFor(x => x.SqlServerCreateDatabase)
                                     Create database if it doesn't exist

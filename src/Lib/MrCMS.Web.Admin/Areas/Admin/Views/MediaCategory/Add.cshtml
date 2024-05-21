@@ -24,16 +24,16 @@
     <div class="row">
         <div class="col-lg-12">
             <input type="hidden" asp-for="ParentId" />
-            @Html.Hidden("ParentUrl(Context)", parent?.Path)
+            @Html.Hidden("ParentUrl", parent?.Path)
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input type="text" asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UrlSegment"></label>
-                <input type="text" asp-for="UrlSegment" class="form-control" />
-                <span asp-validation-for="UrlSegment"></span>
+                <label asp-for="Path"></label>
+                <input type="text" asp-for="Path" class="form-control" />
+                <span asp-validation-for="Path"></span>
             </div>
         </div>
     </div>

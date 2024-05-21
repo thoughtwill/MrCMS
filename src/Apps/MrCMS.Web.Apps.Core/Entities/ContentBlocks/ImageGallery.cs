@@ -1,7 +1,7 @@
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Web.Apps.Core.Entities.BlockItems;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using MrCMS.Web.Apps.Core.Areas.Admin.Models;
 
 namespace MrCMS.Web.Apps.Core.Entities.ContentBlocks;
 
@@ -11,9 +11,10 @@ public class ImageGallery : IContentBlockWithChildCollection
     public IReadOnlyList<BlockItem> Items => Images;
     public List<ImageGalleryItem> Images { get; set; } = new();
 
-    public string ResponsiveClasses { get; set; } = "col-sm-6 col-md-4 col-lg-3 col-xl-2";
-    public string ImageRatio { get; set; } = "7x9";
+    public string ResponsiveClasses { get; set; } = "col-sm-6 col-md-4 col-lg-3";
+    public string ImageRatio { get; set; } = "16x9";
     public int ImageRenderSize { get; set; } = 250;
+    public BackgroundColour BackgroundColour { get; set; } = BackgroundColour.White;
 
     public BlockItem AddChild()
     {

@@ -60,7 +60,7 @@
                                     var mediaSelector = new window.MediaSelector({
                                         onSelected: function (info) {
                                             e.data.button.getDialog().setValueOf('info', 'txtUrl', info.url);
-                                            e.data.button.getDialog().setValueOf('advanced', 'txtGenClass', "img-responsive");
+                                            e.data.button.getDialog().setValueOf('advanced', 'txtGenClass', "img-fluid");
                                             $.get('/Admin/Image/GetImageData', { url: info.url, v: new Date().getTime() }, function (response) {
                                                 e.data.button.getDialog().setValueOf('info', 'txtAlt', response.alt);
                                                 e.data.button.getDialog().setValueOf('advanced', 'txtGenTitle', response.title);

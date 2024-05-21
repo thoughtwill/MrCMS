@@ -1,9 +1,6 @@
 using System;
 using Hangfire;
-using Hangfire.Dashboard;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using MrCMS.Services;
 using MrCMS.Services.Sitemaps;
 using MrCMS.Tasks;
 using MrCMS.TextSearch.Services;

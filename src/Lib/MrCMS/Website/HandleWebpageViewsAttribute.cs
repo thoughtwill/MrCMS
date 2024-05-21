@@ -37,10 +37,9 @@ namespace MrCMS.Website
 
                 var result = filterContext.Result as ViewResult;
                 if (result == null) return;
-                var webpage = result.Model as Webpage;
-                if (webpage == null) return;
+
                 await filterContext.HttpContext.RequestServices.GetRequiredService<IProcessWebpageViews>()
-                    .Process(result, webpage);
+                    .Process(result, result.Model);
             }
         }
     }

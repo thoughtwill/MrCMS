@@ -6,5 +6,5 @@
     var widget = await WidgetUIService.GetWidgetAsync<LinkedImage>(Model.Id);
 }
 <a href="@widget.Link">
-    @await Html.RenderImage(widget.Image, attributes: new {@class = "img-responsive"})
+    @await Html.RenderImage(widget.Image, attributes: new {@class = "img-fluid"})
 </a>

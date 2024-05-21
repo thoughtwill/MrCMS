@@ -23,10 +23,19 @@ namespace MrCMS.Website
             _getWidgetDisplayInfo = getWidgetDisplayInfo;
         }
 
-        public async Task Process(ViewResult result, Webpage webpage)
+        public async Task Process(ViewResult result, object model)
         {
             using (MiniProfiler.Current.Step("ProcessWebpageViews.Process"))
             {
+                var webpage = result.Model as Webpage;
+                //if webpage is null, its not a Mr CMS page, but we can use the default layout
+                if (webpage == null)
+                {
+                    var layout = _getCurrentLayout.GetSiteDefault();
+                    await SetLayoutViewData(result.ViewData, layout);
+                    return;
+                }
+
                 if (string.IsNullOrWhiteSpace(result.ViewName))
                 {
                     if (webpage.PageTemplate != null && !string.IsNullOrWhiteSpace(webpage.PageTemplate.PageTemplateName))

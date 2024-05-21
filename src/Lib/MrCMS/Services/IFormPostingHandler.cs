@@ -9,6 +9,5 @@ namespace MrCMS.Services
     {
         Form GetForm(int id);
         Task<List<string>> SaveFormData(Form form, HttpRequest request);
-        string GetRefererUrl();
     }
 }

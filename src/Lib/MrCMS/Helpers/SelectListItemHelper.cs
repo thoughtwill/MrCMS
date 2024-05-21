@@ -29,7 +29,6 @@ namespace MrCMS.Helpers
             
             if (emptyItem != null)
             {
-                emptyItem.Disabled = true;
                 emptyItem.Selected = !selectListItems.Any(f => f.Selected);
             }
 
@@ -71,7 +70,6 @@ namespace MrCMS.Helpers
             
             if (emptyItem != null)
             {
-                emptyItem.Disabled = true;
                 emptyItem.Selected = !selectListItems.Any(f => f.Selected);
             }
 
@@ -82,7 +80,7 @@ namespace MrCMS.Helpers
 
         public static SelectListItem EmptyItem(string text = null, string value = "")
         {
-            return new() {Text = text ?? "Please select...", Value = value, Disabled = true, Selected = true};
+            return new() {Text = text ?? "Please select...", Value = value, Selected = true};
         }
     }
 }

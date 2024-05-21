@@ -5,10 +5,8 @@ using MrCMS.Entities.Documents.Web;
 using MrCMS.Entities.People;
 using MrCMS.Events;
 using MrCMS.Helpers;
-using MrCMS.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NHibernate;
 
 namespace MrCMS.DbConfiguration.Configuration
 {

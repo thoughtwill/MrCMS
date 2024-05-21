@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Mapping;
@@ -10,10 +9,7 @@ namespace MrCMS.Web.Admin.Models.WebpageEdit
 {
     public class PropertiesTab : AdminTab<Webpage>
     {
-        public override int Order
-        {
-            get { return 0; }
-        }
+        public override int Order => 0;
 
         public override Task<string> Name(IServiceProvider serviceProvider, Webpage entity)
         {
@@ -25,17 +21,11 @@ namespace MrCMS.Web.Admin.Models.WebpageEdit
             return Task.FromResult(true);
         }
 
-        public override Type ParentType
-        {
-            get { return null; }
-        }
+        public override Type ParentType => null;
 
         public override Type ModelType => typeof(WebpagePropertiesTabViewModel);
 
-        public override string TabHtmlId
-        {
-            get { return "edit-content"; }
-        }
+        public override string TabHtmlId => "edit-content";
 
         public override Task RenderTabPane(IHtmlHelper html, ISessionAwareMapper mapper, Webpage webpage)
         {

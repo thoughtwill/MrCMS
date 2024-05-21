@@ -37,16 +37,28 @@
 </div>
 
 <h4>@await Html.Resource("Admin Webpage Form Email Settings", "Email Settings")</h4>
-<div class="form-group">
-    <label asp-for="FormEmailTitle"></label>
-    <input asp-for="FormEmailTitle" type="text" class="form-control"/>
-    <span asp-validation-for="FormEmailTitle"></span>
-</div>
-
-<div class="form-group">
-    <label asp-for="SendFormTo"></label>
-    <input asp-for="SendFormTo" type="text" class="form-control"/>
-    <span asp-validation-for="SendFormTo"></span>
+<div class="row">
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="form-group">
+            <label asp-for="FormEmailTitle"></label>
+            <input asp-for="FormEmailTitle" type="text" class="form-control"/>
+            <span asp-validation-for="FormEmailTitle"></span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="form-group">
+            <label asp-for="SendFormTo"></label>
+            <input asp-for="SendFormTo" type="text" class="form-control"/>
+            <span asp-validation-for="SendFormTo"></span>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="form-group">
+            <label asp-for="FormReplyTo"></label>
+            <input asp-for="FormReplyTo" type="text" class="form-control"/>
+            <span asp-validation-for="FormReplyTo"></span>
+        </div>
+    </div>
 </div>
 
 <div class="form-group">
@@ -54,4 +66,4 @@
     <textarea asp-for="FormMessage" class="ckedit-enabled"></textarea>
 </div>
 
-@Html.InfoBlock(await Html.PlainResource("Heads up") + "!", await Html.PlainResource("Admin Webpage Form Email Embed Notification", "Use [form id={formId}] in the message body to embed the form result in the email.", configureOptions => configureOptions.AddReplacement("formId", Model.Id.ToString())))
+@Html.InfoBlock(await Html.PlainResource("Heads up") + "!", string.Format(await Html.PlainResource("Admin Webpage Form Email Embed Tokens Notification", "Use [form] in the message body to embed the form result in the email.<br/>use [page-url] in the message body to embed the submitted page Url in the email.<br/> use [field name] in the message body to embed the submitted field value in the email. for example: [Name]"), Model.Id))

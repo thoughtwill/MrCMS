@@ -13,7 +13,7 @@ namespace MrCMS.Web.Admin.Services
             _messageTemplateParser = messageTemplateParser;
         }
 
-        public List<string> GetTokens(MessageTemplate messageTemplate)
+        public HashSet<string> GetTokens(MessageTemplate messageTemplate)
         {
             return _messageTemplateParser.GetAllTokens(messageTemplate);
         }

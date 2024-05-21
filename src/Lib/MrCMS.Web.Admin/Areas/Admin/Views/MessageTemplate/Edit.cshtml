@@ -8,52 +8,67 @@
 
     <admin-header>
         <row>
-            <admin-header-title title="@await Html.PlainResource("admin-edit", "Edit<>") @Model.GetType().Name.BreakUpString() (@(Model.SiteId.HasValue ? "Site Override" : "System default"))" />
+            <admin-header-title title="@await Html.PlainResource("admin-edit", "Edit<>") @Model.GetType().Name.BreakUpString() (@(Model.SiteId.HasValue ? "Site Override" : "System default"))"/>
 
             <admin-header-actions>
                 <span class="btn-group">
                     @Html.ActionLink(await Html.PlainResource("Back"), "Index", "MessageTemplate", null, new { @class = "btn btn-secondary" })
-                    <input class="btn btn-primary" type="submit" value="@await Html.Resource("Save", configureOptions=> configureOptions.DisableInlineEditing())" />
+                    <input class="btn btn-primary" type="submit" value="@await Html.PlainResource("Save")"/>
                 </span>
             </admin-header-actions>
         </row>
     </admin-header>
 
-    <input type="hidden" asp-for="SiteId" />
+    <input type="hidden" asp-for="SiteId"/>
 
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="form-group">
                 <label asp-for="FromAddress"></label>
-                <input asp-for="FromAddress" type="text" class="form-control" />
+                <input asp-for="FromAddress" type="text" class="form-control"/>
                 <span asp-validation-for="FromAddress"></span>
             </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="form-group">
+                <label asp-for="ToAddress"></label>
+                <input asp-for="ToAddress" type="text" class="form-control"/>
+                <span asp-validation-for="ToAddress"></span>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="form-group">
                 <label asp-for="FromName"></label>
-                <input asp-for="FromName" type="text" class="form-control" />
+                <input asp-for="FromName" type="text" class="form-control"/>
                 <span asp-validation-for="FromName"></span>
             </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="form-group">
+                <label asp-for="ToName"></label>
+                <input asp-for="ToName" type="text" class="form-control"/>
+                <span asp-validation-for="ToName"></span>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="form-group">
                 <label asp-for="Cc"></label>
-                <input asp-for="Cc" type="text" class="form-control" />
+                <input asp-for="Cc" type="text" class="form-control"/>
                 <span asp-validation-for="Cc"></span>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label asp-for="ToAddress"></label>
-                <input asp-for="ToAddress" type="text" class="form-control" />
-                <span asp-validation-for="ToAddress"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ToName"></label>
-                <input asp-for="ToName" type="text" class="form-control" />
-                <span asp-validation-for="ToName"></span>
-            </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="form-group">
                 <label asp-for="Bcc"></label>
-                <input asp-for="Bcc" type="text" class="form-control" />
+                <input asp-for="Bcc" type="text" class="form-control"/>
                 <span asp-validation-for="Bcc"></span>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="form-group">
+                <label asp-for="ReplayTo"></label>
+                <input asp-for="ReplayTo" type="text" class="form-control"/>
+                <span asp-validation-for="ReplayTo"></span>
             </div>
         </div>
     </div>
@@ -66,7 +81,7 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label asp-for="Subject"></label>
-                <input asp-for="Subject" type="text" class="form-control" />
+                <input asp-for="Subject" type="text" class="form-control"/>
                 <span asp-validation-for="Subject"></span>
             </div>
         </div>
@@ -84,11 +99,11 @@
 
     <div class="form-group">
         <div class="form-check">
-            <input asp-for="IsHtml" type="checkbox" class="form-check-input" />
+            <input asp-for="IsHtml" type="checkbox" class="form-check-input"/>
             <label asp-for="IsHtml" class="form-check-label"></label>
         </div>
     </div>
-    
+
     <div class="form-group">
         <div class="form-check">
             <input asp-for="IsDisabled" type="checkbox" class="form-check-input"/>
@@ -96,6 +111,6 @@
         </div>
     </div>
 
-    <partial name="Tokens" model="Model" />
+    <partial name="Tokens" model="Model"/>
 
 </form>

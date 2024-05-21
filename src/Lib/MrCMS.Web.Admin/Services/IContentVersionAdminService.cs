@@ -13,4 +13,5 @@ public interface IContentVersionAdminService
     Task<ContentVersionActionResult> Publish(int id);
     Task<ContentVersionActionResult> Delete(int id);
     Task<ContentVersion> AddDraftBasedOnVersion(ContentVersion liveVersion);
+    Task CopyContentVersion(int sourceId, int targetId);
 }

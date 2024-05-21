@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model MrCMS.Web.Apps.Core.Models.Widgets.SlideViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
+}
+<form asp-action="Edit" asp-controller="SliderWidget" asp-route-widgetId="@ViewData["widgetId"]" asp-route-slideIndex="@ViewData["slideIndex"]" method="post" id="edit-widget-url">
+    <div class="form-group">
+        @Html.LabelFor(x => x.Image)
+        @Html.TextBoxFor(x => x.Image, new { @class = "form-control", data_type = "media-selector" })
+        @Html.ValidationMessageFor(x => x.Image)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.SmallImage)
+        @Html.TextBoxFor(x => x.SmallImage, new { @class = "form-control", data_type = "media-selector" })
+        @Html.ValidationMessageFor(x => x.SmallImage)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Caption)
+        @Html.TextBoxFor(x => x.Caption, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Caption)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Link)
+        @Html.TextBoxFor(x => x.Link, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Link)
+    </div>
+    <button type="submit" class="btn btn-primary">
+        Save
+    </button>
+</form>
