@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Helpers;
 using MrCMS.Website;
@@ -22,6 +23,7 @@ namespace MrCMS.Tasks
             _cacheManager = cacheManager;
         }
 
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         public async Task Execute()
         {
             var now = _getDateTimeNow.LocalNow;

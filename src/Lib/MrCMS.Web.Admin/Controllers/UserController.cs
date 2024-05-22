@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MrCMS.ACL.Rules;
@@ -136,14 +137,15 @@ namespace MrCMS.Web.Admin.Controllers
             return Json("Email already registered.");
         }
 
-        public async Task<IActionResult> Impersonate(int id)
+        public async Task<IActionResult> Impersonate(int id, CancellationToken cancellationToken = default)
         {
             var user = await _userAdminService.GetUser(id);
-            var result = await _userImpersonationService.Impersonate(User, user);
+            var result = await _userImpersonationService.Impersonate(User, user, cancellationToken);
+
             if (result.Success)
             {
                 // refresh the user to get the new claims
-                await _signInManager.RefreshSignInAsync(result.UnderlyingUser);
+               await _signInManager.RefreshSignInAsync(result.UnderlyingUser);
                 return Redirect("~/");
             }
 

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using MrCMS.Entities.Multisite;
 using MrCMS.Helpers;
 using MrCMS.Logging;
@@ -24,6 +25,7 @@ namespace MrCMS.Tasks
             _getDateTimeNow = getDateTimeNow;
         }
 
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         public async Task Execute()
         {
             foreach (var site in await _statelessSession.Query<Site>().ToListAsync())

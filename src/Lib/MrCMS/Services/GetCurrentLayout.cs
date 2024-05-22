@@ -55,8 +55,7 @@ namespace MrCMS.Services
 
         private static Layout GetPageTemplateLayout(Webpage webpage)
         {
-            if (webpage.PageTemplate != null && webpage.PageTemplate.Layout != null) return webpage.PageTemplate.Layout;
-            return null;
+            return webpage.PageTemplate is { Layout: not null } ? webpage.PageTemplate.Layout : null;
         }
 
         public Layout GetSiteDefault()

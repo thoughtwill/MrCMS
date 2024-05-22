@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 using MrCMS.Entities;
 using MrCMS.Helpers;
@@ -32,6 +33,7 @@ namespace MrCMS.TextSearch.Services
             _updater = updater;
         }
 
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         public async Task Refresh()
         {
             var converterTypes = TextSearchConverterMap.Types.Values.Distinct().ToList();

@@ -76,7 +76,7 @@ namespace MrCMS.Web.Admin.Services
 
             return new SelectedItemInfo
             {
-                Url = await _fileService.GetFileUrl(file, value, null),
+                Url = await _fileService.GetFileUrl(file, value),
                 Alt = file.Title,
                 Description = file.Description,
             };

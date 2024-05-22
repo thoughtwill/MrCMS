@@ -73,7 +73,7 @@ namespace MrCMS.Services
 
             // check if they are still allowed to impersonate
             var roles = user.Roles.Select(x => x.Id).ToHashSet();
-            var canImpersonate = await _performAclCheck.CanAccessLogic(roles, typeof(UserACL), UserACL.Impersonate);
+            var canImpersonate = user.IsAdmin || await _performAclCheck.CanAccessLogic(roles, typeof(UserACL), UserACL.Impersonate);
 
             // if that's still ok, return the claims
             if (canImpersonate) return claims;

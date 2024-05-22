@@ -5,7 +5,7 @@ using MrCMS.Services.Sitemaps;
 using MrCMS.Tasks;
 using MrCMS.TextSearch.Services;
 
-namespace MrCMS.Web
+namespace MrCMS.Web.Hangfire
 {
     public static class HangfireJobs
     {

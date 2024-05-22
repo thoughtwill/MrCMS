@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Hangfire;
 using MrCMS.DbConfiguration;
 using MrCMS.Entities.Messaging;
 using MrCMS.Helpers;
@@ -20,6 +21,7 @@ namespace MrCMS.Tasks
             _emailSender = emailSender;
         }
 
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         public async Task Execute()
         {
             using (new SiteFilterDisabler(_session))

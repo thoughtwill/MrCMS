@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -31,7 +32,7 @@ public class UserImpersonationService : IUserImpersonationService, IOnLoggedOut
         _userStore = userStore;
     }
 
-    public async Task<UserImpersonationResult> Impersonate(ClaimsPrincipal currentPrincipal, User userToImpersonate)
+    public async Task<UserImpersonationResult> Impersonate(ClaimsPrincipal currentPrincipal, User userToImpersonate, CancellationToken cancellationToken = default)
     {
         if (userToImpersonate == null)
             return UserImpersonationResult.ErrorResult("User not found");
@@ -50,7 +51,7 @@ public class UserImpersonationService : IUserImpersonationService, IOnLoggedOut
             return UserImpersonationResult.ErrorResult("Only admins can impersonate another user");
         }
 
-        var currentUser = await _userStore.FindByIdAsync(currentUserId.ToString(), default);
+        var currentUser = await _userStore.FindByIdAsync(currentUserId.ToString(), cancellationToken);
         if (currentUser == null)
             return UserImpersonationResult.ErrorResult("Can only impersonate when logged in");
 
@@ -63,8 +64,8 @@ public class UserImpersonationService : IUserImpersonationService, IOnLoggedOut
         var idClaim = new Claim(UserImpersonationId, userToImpersonate.Id.ToString());
         var nameClaim = new Claim(UserImpersonationName, userToImpersonate.Email);
 
-        // add to db
-        await _userClaimManager.AddClaimsAsync(currentUser, new List<Claim> {idClaim, nameClaim});
+        // Add claims to the current user.
+        await _userClaimManager.AddClaimsAsync(currentUser, new List<Claim> { idClaim, nameClaim });
 
         return UserImpersonationResult.SuccessResult(currentUser);
     }
@@ -103,7 +104,7 @@ public class UserImpersonationService : IUserImpersonationService, IOnLoggedOut
             return null;
 
         var (id, name) = GetImpersonationClaims(principal);
-        var currentUser = await _userStore.FindByIdAsync(principal.GetUserId()?.ToString(), default);
+        var currentUser = await _userStore.FindByIdAsync(principal.GetUserId()?.ToString() ?? string.Empty, default);
         if (currentUser == null)
             return null;
 

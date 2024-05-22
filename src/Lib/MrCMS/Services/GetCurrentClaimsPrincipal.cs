@@ -29,13 +29,11 @@ public class GetCurrentClaimsPrincipal : IGetCurrentClaimsPrincipal
     }
 
     [ItemCanBeNull]
-    public async Task<ClaimsPrincipal> GetLoggedInClaimsPrincipal()
+    public Task<ClaimsPrincipal> GetLoggedInClaimsPrincipal()
     {
         // we only want to return the user if they are logged in
         var user = _contextAccessor.HttpContext?.User;
-        if (user?.Identity?.IsAuthenticated == true)
-            return user;
-        return null;
+        return user?.Identity?.IsAuthenticated == true ? Task.FromResult(user) : Task.FromResult((ClaimsPrincipal) null);
     }
 
     [ItemCanBeNull]

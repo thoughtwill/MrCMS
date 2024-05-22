@@ -1,7 +1,7 @@
 using Hangfire.Dashboard;
 using MrCMS.Entities.People;
 
-namespace MrCMS.Web;
+namespace MrCMS.Web.Hangfire;
 
 public class HangfireDashboardAuthFilter : IDashboardAuthorizationFilter
 {

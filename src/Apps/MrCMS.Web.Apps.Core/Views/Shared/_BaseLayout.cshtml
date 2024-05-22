@@ -4,11 +4,17 @@
 @using MrCMS.Settings
 @using MrCMS.ACL.Rules
 @using MrCMS.Entities.Documents.Web
+@using MrCMS.Services
 @model dynamic
 @inject SEOSettings SeoSettings
 @inject SiteSettings SiteSettings
 @inject GoogleRecaptchaSettings GoogleRecaptchaSettings
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@inject IGetCurrentClaimsPrincipal GetClaimsPrincipal
+
+@{
+    var user = await GetClaimsPrincipal.GetPrincipal();
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,7 +101,7 @@
     <script src="https://www.google.com/recaptcha/enterprise.js?onload=recaptchaOnLoad&render=@(GoogleRecaptchaSettings.IsCheckboxType ? "explicit" : GoogleRecaptchaSettings.SiteKey)" async defer></script>
 }
 
-@if (await Html.CanAccess<AdminBarACL>(User, "Show") && SiteSettings.EnableInlineEditing)
+@if (await Html.CanAccess<AdminBarACL>(user, "Show") && SiteSettings.EnableInlineEditing)
 {
     <div class="d-print-none">
         <partial name="~/Areas/Admin/Views/Shared/InPageEditor.cshtml" model="Model"/>
@@ -113,7 +119,7 @@
 @await Html.RenderUIScripts()
 @if (SessionHelper.IsMiniProfileEnabled)
 {
-    <mini-profiler />
+    <mini-profiler/>
 }
 </body>
 </html>

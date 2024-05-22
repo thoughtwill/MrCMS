@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Helpers;
 using NHibernate;
@@ -17,7 +18,7 @@ namespace MrCMS.Tasks
             _session = session;
         }
         
-
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         public async Task Execute()
         {
             var formsToCheck = _session.Query<Form>().Where(x => x.DeleteEntriesAfter != null).ToList();

@@ -24,6 +24,7 @@ using MrCMS.Logging;
 using MrCMS.Services;
 using MrCMS.Settings;
 using MrCMS.Web.Apps.Articles;
+using MrCMS.Web.Hangfire;
 using NHibernate;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 
