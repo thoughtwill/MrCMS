@@ -90,19 +90,17 @@ namespace MrCMS.Web.Areas.Identity
                     .AddDefaultTokenProviders();
 
                 services.AddScoped<IPasswordHasher<User>, MrCMSPasswordHasher>();
-                // services.AddScoped<IEmailSender, MrCMSEmailSender>();
-                
-                services.Configure<SecurityStampValidatorOptions>(o =>
-                {
-                    o.ValidationInterval = TimeSpan.FromSeconds(60);
-                });
-                
+
                 services.Configure<DataProtectionTokenProviderOptions>(o =>
                 {
                     o.TokenLifespan = TimeSpan.FromHours(3);
                 });
-                
-                services.AddScoped<ISecurityStampValidator, MrCMSSecurityStampValidator>();
+
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(45);
+                });
             });
         }
     }
