@@ -84,6 +84,12 @@ namespace MrCMS.Web
                     options.User.RequireUniqueEmail = true;
                     options.ClaimsIdentity.UserNameClaimType = nameof(User.Email);
                     options.ClaimsIdentity.SecurityStampClaimType = nameof(User.SecurityStamp);
+
+                    // Custom password policy if required
+                    // options.Password.RequireDigit = true;
+                    // options.Password.RequireLowercase = true;
+                    // options.Password.RequireUppercase = true;
+                    // etc.
                 })
                 .AddRoles<UserRole>()
                 .AddUserStore<UserStore>()
@@ -93,7 +99,13 @@ namespace MrCMS.Web
                 .AddDefaultTokenProviders()
                 .Services
                 .AddScoped<IPasswordHasher<User>, MrCMSPasswordHasher>()
-                .AddScoped<IClaimsTransformation, ImpersonationClaimsTransformation>();
+                .AddScoped<IClaimsTransformation, ImpersonationClaimsTransformation>()
+                .ConfigureApplicationCookie(options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                });
+
 
             services.AddRequiredServices();
             services.Configure<SystemConfig>(Configuration.GetSection(SystemConfig.SectionName));
