@@ -1,6 +1,7 @@
 using System;
 using Hangfire;
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -18,10 +19,12 @@ using MrCMS.Website;
 using MrCMS.Website.CMS;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using MrCMS.Logging;
 using MrCMS.Services;
+using MrCMS.Services.Auth;
 using MrCMS.Settings;
 using MrCMS.Web.Apps.Articles;
 using MrCMS.Web.Hangfire;
@@ -76,6 +79,22 @@ namespace MrCMS.Web
                 services.AddHangfireServer(options => options.WorkerCount = 10);
             }
 
+            services.AddDefaultIdentity<User>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.ClaimsIdentity.UserNameClaimType = nameof(User.Email);
+                    options.ClaimsIdentity.SecurityStampClaimType = nameof(User.SecurityStamp);
+                })
+                .AddRoles<UserRole>()
+                .AddUserStore<UserStore>()
+                .AddRoleStore<RoleStore>()
+                .AddUserManager<UserManager>()
+                .AddSignInManager<SignInManager>()
+                .AddDefaultTokenProviders()
+                .Services
+                .AddScoped<IPasswordHasher<User>, MrCMSPasswordHasher>()
+                .AddScoped<IClaimsTransformation, ImpersonationClaimsTransformation>();
+
             services.AddRequiredServices();
             services.Configure<SystemConfig>(Configuration.GetSection(SystemConfig.SectionName));
             services.AddCultureInfo(Configuration);
@@ -115,10 +134,7 @@ namespace MrCMS.Web
             services.AddSingleton<IWebpageMetadataService, WebpageMetadataService>();
 
             services.AddMvcForMrCMS(appContext);
-            services.Configure<FormOptions>(x =>
-            {
-                x.MultipartBodyLengthLimit = SessionHelper.MaxFileSize;
-            });
+            services.Configure<FormOptions>(x => { x.MultipartBodyLengthLimit = SessionHelper.MaxFileSize; });
             services.AddSingleton<ICmsMethodTester, CmsMethodTester>();
             services.AddSingleton<IGetMrCMSParts, GetMrCMSParts>();
             services.AddSingleton<IAssignPageDataToRouteValues, AssignPageDataToRouteValues>();
@@ -190,7 +206,7 @@ namespace MrCMS.Web
                 });
             }
         }
-        
+
         private bool IsMiniProfileEnabled()
         {
             var enableMiniProfiler = Configuration.GetValue<bool>("EnableMiniProfiler");
@@ -243,12 +259,12 @@ namespace MrCMS.Web
                 app.ShowInstallation();
                 return;
             }
-            
+
             if (IsMiniProfileEnabled())
             {
                 app.UseMiniProfiler();
             }
-            
+
             loggerFactory.AddProvider(
                 new MrCMSDatabaseLoggerProvider(serviceProvider.GetRequiredService<ISessionFactory>(),
                     httpContextAccessor));
@@ -286,11 +302,11 @@ namespace MrCMS.Web
                             $"File is too big ({(contentLength / 1024 / 1024)}MiB). Max filesize: {(maxAllowedFileSize / 1024 / 1024)}MiB.");
                         return;
                     }
-                    
+
                     var tokens = antiforgery.GetAndStoreTokens(context);
 
                     context.Response.Cookies.Append("RequestVerificationToken", tokens.RequestToken,
-                        new CookieOptions() { HttpOnly = true, Secure = true});
+                        new CookieOptions() { HttpOnly = true, Secure = true });
 
                     await next.Invoke();
                 });
