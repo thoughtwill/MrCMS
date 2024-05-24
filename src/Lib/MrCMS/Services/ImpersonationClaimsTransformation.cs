@@ -11,14 +11,14 @@ public class ImpersonationClaimsTransformation : IClaimsTransformation
 {
     private readonly IUserClaimManager _userClaimStore;
     private readonly IUserLookup _userLookup;
-    private readonly IPerformACLCheck _performAclCheck;
+    private readonly IAccessChecker _accessChecker;
 
     public ImpersonationClaimsTransformation(IUserClaimManager userClaimStore, IUserLookup userLookup,
-        IPerformACLCheck performAclCheck)
+        IAccessChecker accessChecker)
     {
         _userClaimStore = userClaimStore;
         _userLookup = userLookup;
-        _performAclCheck = performAclCheck;
+        _accessChecker = accessChecker;
     }
 
     public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
@@ -34,8 +34,7 @@ public class ImpersonationClaimsTransformation : IClaimsTransformation
         var newIdentity = (claimsPrincipal.Identity as ClaimsIdentity)!;
 
         // remove any existing impersonation claims
-        var canImpersonate = await _performAclCheck.CanAccessLogic(user.Roles.Select(x => x.Id).ToHashSet(),
-            typeof(UserACL), UserACL.Impersonate);
+        var canImpersonate = await _accessChecker.CanAccess<UserACL>(UserACL.Impersonate, principal);
         var existingClaims = newIdentity.FindAll(x => UserImpersonationService.ImpersonationKeys.Contains(x.Type))
             .ToList();
 

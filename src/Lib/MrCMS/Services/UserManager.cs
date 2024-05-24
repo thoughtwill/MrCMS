@@ -16,17 +16,17 @@ namespace MrCMS.Services
         IUserRoleManager, IUserEmailManager, IUserPhoneNumberManager, IUserLockoutManager,
         IUser2FAManager, IUserTokenManager, IGetUserFromClaims //, IUserLookup //IUserManager
     {
-        private readonly IPerformACLCheck _performAclCheck;
+        private readonly IAccessChecker _accessChecker;
 
         public UserManager(IUserStore<User> store, IOptions<IdentityOptions> optionsAccessor,
             IPasswordHasher<User> passwordHasher, IEnumerable<IUserValidator<User>> userValidators,
             IEnumerable<IPasswordValidator<User>> passwordValidators, ILookupNormalizer keyNormalizer,
             IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager> logger,
-            IPerformACLCheck performAclCheck) : base(store,
+            IAccessChecker accessChecker) : base(store,
             optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services,
             logger)
         {
-            _performAclCheck = performAclCheck;
+            _accessChecker = accessChecker;
         }
 
         public async Task<IdentityResult> AssignRoles(User user, IList<string> roles)
@@ -72,8 +72,7 @@ namespace MrCMS.Services
                 return claims;
 
             // check if they are still allowed to impersonate
-            var roles = user.Roles.Select(x => x.Id).ToHashSet();
-            var canImpersonate = user.IsAdmin || await _performAclCheck.CanAccessLogic(roles, typeof(UserACL), UserACL.Impersonate);
+            var canImpersonate = await _accessChecker.CanAccess<UserACL>(UserACL.Impersonate, new ClaimsPrincipal(new ClaimsIdentity(claims)));
 
             // if that's still ok, return the claims
             if (canImpersonate) return claims;
