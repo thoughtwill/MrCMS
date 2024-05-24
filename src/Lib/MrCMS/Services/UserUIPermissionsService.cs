@@ -22,7 +22,7 @@ namespace MrCMS.Services
             var user = await _getCurrentClaimsPrincipal.GetPrincipal();
             if (user != null && user.IsAdmin()) return PageAccessPermission.Allowed;
 
-            var webpageFrontEndAllowedRoles = webpage.FrontEndAllowedRoles.Select(x => x.Name).ToList();
+            var webpageFrontEndAllowedRoles = webpage.FrontEndAllowedRoles.Select(x => x.Id).ToList();
             if (!webpageFrontEndAllowedRoles.Any()) return PageAccessPermission.Allowed;
             if (webpageFrontEndAllowedRoles.Any() && user == null) return PageAccessPermission.Unauthorized;
 

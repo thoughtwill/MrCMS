@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -90,6 +91,7 @@ namespace MrCMS.Web.Areas.Identity
                     .AddDefaultTokenProviders();
 
                 services.AddScoped<IPasswordHasher<User>, MrCMSPasswordHasher>();
+                services.AddScoped<IClaimsTransformation, ImpersonationClaimsTransformation>();
 
                 services.Configure<DataProtectionTokenProviderOptions>(o =>
                 {

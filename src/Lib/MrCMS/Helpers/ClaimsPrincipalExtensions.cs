@@ -24,86 +24,84 @@ public static class ClaimsPrincipalExtensions
         return int.TryParse(value, out var id) ? id : null;
     }
 
-    public static IEnumerable<string> GetRoles(this ClaimsPrincipal principal)
-    {
-        return principal?.FindAll(ClaimTypes.Role).Select(x => x.Value) ?? Array.Empty<string>();
-    }
 
     public static IEnumerable<int> GetRoleIds(this ClaimsPrincipal principal)
     {
-        return principal?.FindAll(UserStore.RoleIdClaimType).Select(x => int.TryParse(x.Value, out var id) ? id : 0)
-            .Where(x => x > 0).ToArray() ?? Array.Empty<int>();
+        return principal?.FindAll(MrCMSKnownClaimTypes.RoleId).Select(x => int.TryParse(x.Value, out var id) ? id : 0)
+            .Where(x => x > 0).ToArray() ?? [];
     }
 
     public static string GetEmail(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(ClaimTypes.Email);
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.Email);
     }
 
     public static string GetFirstName(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(ClaimTypes.GivenName);
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.FirstName);
     }
 
     public static string GetLastName(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(ClaimTypes.Surname);
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.LastName);
     }
 
     public static string GetFullName(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(ClaimTypes.Name);
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.Name);
     }
 
-    public static bool IsInRole(this ClaimsPrincipal principal, string role)
+    public static bool IsInRole(this ClaimsPrincipal principal, int id)
     {
-        return principal?.IsInRole(role) ?? false;
+        var roles = GetRoleIds(principal);
+        return roles.Contains(id);
     }
 
-    public static bool IsInAnyRole(this ClaimsPrincipal principal, params string[] roles)
-    {
-        return roles.Any(principal.IsInRole);
-    }
-    
-    public static bool IsInAnyRole(this ClaimsPrincipal principal, IEnumerable<string> roles)
+
+    public static bool IsInAnyRole(this ClaimsPrincipal principal, params int[] roles)
     {
         return roles.Any(principal.IsInRole);
     }
 
-    public static bool IsInAllRoles(this ClaimsPrincipal principal, params string[] roles)
+    public static bool IsInAnyRole(this ClaimsPrincipal principal, IEnumerable<int> roles)
+    {
+        return roles.Any(principal.IsInRole);
+    }
+
+    public static bool IsInAllRoles(this ClaimsPrincipal principal, params int[] roles)
     {
         return roles.All(principal.IsInRole);
     }
-    
-    public static bool IsInAllRoles(this ClaimsPrincipal principal, IEnumerable<string> roles)
+
+    public static bool IsInAllRoles(this ClaimsPrincipal principal, IEnumerable<int> roles)
     {
         return roles.All(principal.IsInRole);
     }
 
     public static bool IsAdmin(this ClaimsPrincipal principal)
     {
-        return principal?.IsInRole(UserRole.Administrator) ?? false;
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.IsAdmin) == "true";
     }
 
     public static bool DisableNotifications(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(UserStore.DisableNotificationsClaimType) == "true";
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.DisableNotifications) == "true";
     }
-    
+
     public static string GetAvatarUrl(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(UserStore.AvatarClaimType);
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.Avatar);
     }
-    
+
     public static Guid? GetUserGuid(this ClaimsPrincipal principal)
     {
-        var value = principal?.FindFirstValue(UserStore.UserGuidClaimType);
+        var value = principal?.FindFirstValue(MrCMSKnownClaimTypes.UserGuid);
 
         return Guid.TryParse(value, out var guid) ? guid : null;
     }
-    
+
     public static string GetUserCulture(this ClaimsPrincipal principal)
     {
-        return principal?.FindFirstValue(UserStore.UserCultureClaimType);
+        return principal?.FindFirstValue(MrCMSKnownClaimTypes.UserCulture);
     }
 }
