@@ -1,0 +1,24 @@
+@model MrCMS.Web.Admin.Models.RecurringJobs.SetupRecurringJobModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
+}
+
+@using (Html.BeginForm("Remove", "RecurringJob", new { Model.Id }, FormMethod.Post))
+{
+    <fieldset>
+        <legend>
+            @await Html.Resource("Admin Remove Recurring Job", "Remove Recurring Job") - @Model.Id
+            <span class="btn-group pull-right">
+                <input type="submit" class="btn-danger btn" value="@await Html.Resource("Remove", configureOptions => configureOptions.DisableInlineEditing())"/>
+            </span>
+        </legend>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-warning">
+                    @await Html.Resource("Admin Remove Recurring Job Warning", "Click 'Remove' to remove this recurring job.")
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}

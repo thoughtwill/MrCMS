@@ -1,0 +1,78 @@
+@model IReadOnlyList<MrCMS.Web.Admin.Models.RecurringJobs.RecurringJobInfo>
+@{
+    ViewBag.Title = "Recurring Jobs";
+}
+<admin-header>
+    <row>
+        <admin-header-title title="@await Html.Resource("admin-recurring-jobs", "Recurring Jobs", option => option.DisableInlineEditing())"/>
+
+        <admin-header-actions>
+            <button class="btn btn-primary">
+                @await Html.Resource("admin-save", "Save")
+            </button>
+        </admin-header-actions>
+    </row>
+</admin-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>@await Html.Resource("admin-recurring-job-job", "Job")</th>
+                    <th>@await Html.Resource("admin-recurring-job-active", "Active?")</th>
+                    <th>@await Html.Resource("admin-recurring-job-last-execution", "Last Execution")</th>
+                    <th>@await Html.Resource("admin-recurring-job-next-execution", "Next Execution")</th>
+                    <th>@await Html.Resource("admin-recurring-job-cron", "Cron")</th>
+                    <th>@await Html.Resource("admin-recurring-job-actions", "Actions")</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var job in Model)
+                {
+                    <tr >
+                        <td class="align-middle">@job.Id</td>
+                        <td class="align-middle">
+                            @if (job.IsActive)
+                            {
+                                <span class="badge badge-success">@await Html.Resource("admin-recurring-job-active-yes", "Yes")</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">@await Html.Resource("admin-recurring-job-active-no", "No")</span>
+                            }
+                        </td>
+                        <td class="align-middle">@(job.LastExecution?.ToString("G"))</td>
+                        <td class="align-middle">
+                            @(job.NextExecution?.ToString("G"))
+                        </td>
+                        <td class="align-middle">
+                            @job.Cron
+                        </td>
+                        <td class="align-middle">
+                            @if (job.IsManaged)
+                            {
+                                <div class="btn-group">
+                                    <a asp-controller="RecurringJob" asp-action="Setup" asp-route-id="@job.Id" class="btn btn-sm btn-primary" data-toggle="fb-modal">
+                                        @await Html.Resource("admin-recurring-job-setup", "Setup")
+                                    </a>
+                                    @if (job.IsActive)
+                                    {
+                                        <a asp-controller="RecurringJob" asp-action="Trigger" asp-route-id="@job.Id" class="btn btn-sm btn-secondary" data-toggle="fb-modal">
+                                            @await Html.Resource("admin-recurring-job-trigger", "Trigger")
+                                        </a>
+                                        <a asp-controller="RecurringJob" asp-action="Remove" asp-route-id="@job.Id" class="btn btn-sm btn-danger" data-toggle="fb-modal">
+                                            @await Html.Resource("admin-recurring-job-remove", "Remove")
+                                        </a>
+                                    }
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

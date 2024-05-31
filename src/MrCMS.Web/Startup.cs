@@ -74,8 +74,8 @@ namespace MrCMS.Web
                 services.AddHangfire(configuration => configuration
                     .UseSimpleAssemblyNameTypeSerializer()
                     .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(Configuration.GetConnectionString("mrcms")));
-
+                    .UseSqlServerStorage(Configuration.GetConnectionString("mrcms"))
+                );
                 services.AddHangfireServer(options => options.WorkerCount = 10);
             }
 

@@ -1,0 +1,27 @@
+@model MrCMS.Web.Admin.Models.RecurringJobs.SetupRecurringJobModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml"; 
+    
+}
+
+@using (Html.BeginForm("Setup", "RecurringJob", new { Model.Id }, FormMethod.Post))
+{
+    <fieldset>
+        <legend>
+            @await Html.Resource("Admin Setup Recurring Job", "Setup Recurring Job") - @Model.Id
+            <span class="btn-group pull-right">
+                <input type="submit" class="btn-primary btn" value="@await Html.Resource("Setup", configureOptions => configureOptions.DisableInlineEditing())"/>
+            </span>
+        </legend>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label asp-for="Cron">Cron</label>
+                    <input asp-for="Cron" type="text" class="form-control"/>
+                    <span asp-validation-for="Cron"></span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
