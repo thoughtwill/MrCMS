@@ -7,9 +7,6 @@
         <admin-header-title title="@await Html.Resource("admin-recurring-jobs", "Recurring Jobs", option => option.DisableInlineEditing())"/>
 
         <admin-header-actions>
-            <button class="btn btn-primary">
-                @await Html.Resource("admin-save", "Save")
-            </button>
         </admin-header-actions>
     </row>
 </admin-header>
@@ -32,7 +29,7 @@
                 @foreach (var job in Model)
                 {
                     <tr >
-                        <td class="align-middle">@job.Id</td>
+                        <td class="align-middle">@job.DisplayName</td>
                         <td class="align-middle">
                             @if (job.IsActive)
                             {

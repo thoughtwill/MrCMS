@@ -31,7 +31,6 @@ public class RecurringJobAdminService : IRecurringJobAdminService
         // start by getting all recurring jobs active in hangfire
         using var connection = JobStorage.Current.GetConnection();
         var jobs = connection.GetRecurringJobs();
-        // todo - possibly retrieve historical data for LastExecution and NextExecution from Hangfire sets
         var setValues = connection.GetAllItemsFromSet(RecurringJobLastExecutionsKey);
         var lastExecutions = setValues.Select(x =>
         {
@@ -53,6 +52,7 @@ public class RecurringJobAdminService : IRecurringJobAdminService
             result.Add(new RecurringJobInfo
             {
                 Id = jobDto.Id,
+                DisplayName = matchingJob?.DisplayName,
                 IsActive = true,
                 Cron = jobDto.Cron,
                 LastExecution = ToDateTimeOffset(jobDto.LastExecution) ??
@@ -70,6 +70,7 @@ public class RecurringJobAdminService : IRecurringJobAdminService
                 result.Add(new RecurringJobInfo
                 {
                     Id = job.Id,
+                    DisplayName = job.DisplayName,
                     IsActive = false,
                     Cron = null,
                     IsManaged = true,

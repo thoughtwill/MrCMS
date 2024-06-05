@@ -1,8 +1,11 @@
+using MrCMS.Helpers;
+
 namespace MrCMS.Tasks;
 
 public abstract class MrCMSRecurringJob
 {
-    public abstract string Id { get; }
+    public virtual string Id => GetType().Name;
+    public virtual string DisplayName => Id.BreakUpString();
     public abstract void OnAddOrUpdate(string cron);
 }
 

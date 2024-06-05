@@ -5,7 +5,6 @@ namespace MrCMS.Web.Hangfire;
 
 public class ClearFormEntriesJob : MrCMSRecurringJob
 {
-    public override string Id => "Clear Form Entries";
 
     public override void OnAddOrUpdate(string cron)
     {
