@@ -5,10 +5,10 @@ using CsvHelper;
 using Hangfire;
 using Hangfire.Storage;
 using MrCMS.Helpers;
-using MrCMS.Tasks;
-using MrCMS.Web.Admin.Models.RecurringJobs;
+using MrCMS.Jobs;
+using MrCMS.Web.Admin.Models.Jobs;
 
-namespace MrCMS.Web.Admin.Services.RecurringJobs;
+namespace MrCMS.Web.Admin.Services.Jobs;
 
 public class RecurringJobAdminService : IRecurringJobAdminService
 {
@@ -94,6 +94,7 @@ public class RecurringJobAdminService : IRecurringJobAdminService
         return new SetupRecurringJobModel
         {
             Id = id,
+            DisplayName = MrCMSRecurringJobTypes.GetValueOrDefault(id)?.DisplayName,
             Cron = jobs.FirstOrDefault(x => x.Id == id)?.Cron,
         };
     }
@@ -136,7 +137,7 @@ public class RecurringJobAdminService : IRecurringJobAdminService
     }
 
 
-    private DateTimeOffset? ToDateTimeOffset(DateTime? utcDateTime)
+    public static DateTimeOffset? ToDateTimeOffset(DateTime? utcDateTime)
     {
         if (utcDateTime == null)
             return null;

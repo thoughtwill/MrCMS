@@ -7,7 +7,7 @@ using MrCMS.Entities.Documents.Web;
 using MrCMS.Helpers;
 using NHibernate;
 
-namespace MrCMS.Tasks
+namespace MrCMS.Jobs
 {
     public class ClearFormEntries : IClearFormEntries
     {

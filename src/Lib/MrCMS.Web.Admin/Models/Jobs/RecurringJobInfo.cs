@@ -1,7 +1,7 @@
 using System;
 using JetBrains.Annotations;
 
-namespace MrCMS.Web.Admin.Models.RecurringJobs;
+namespace MrCMS.Web.Admin.Models.Jobs;
 
 public class RecurringJobInfo
 {

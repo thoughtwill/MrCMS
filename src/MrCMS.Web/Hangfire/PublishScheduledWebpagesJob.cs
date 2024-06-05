@@ -1,5 +1,5 @@
 using Hangfire;
-using MrCMS.Tasks;
+using MrCMS.Jobs;
 
 namespace MrCMS.Web.Hangfire;
 

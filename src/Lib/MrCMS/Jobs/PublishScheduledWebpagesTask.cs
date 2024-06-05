@@ -7,7 +7,7 @@ using MrCMS.Website;
 using MrCMS.Website.Caching;
 using NHibernate;
 
-namespace MrCMS.Tasks
+namespace MrCMS.Jobs
 {
     public class PublishScheduledWebpagesTask : IPublishScheduledWebpagesTask
     {

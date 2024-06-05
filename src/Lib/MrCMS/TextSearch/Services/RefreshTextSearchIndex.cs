@@ -6,7 +6,6 @@ using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 using MrCMS.Entities;
 using MrCMS.Helpers;
-using MrCMS.Tasks;
 using MrCMS.TextSearch.Entities;
 using MrCMS.TextSearch.EntityConverters;
 using NHibernate;

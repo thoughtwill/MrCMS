@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
-using MrCMS.Web.Admin.Models.RecurringJobs;
-using MrCMS.Web.Admin.Services.RecurringJobs;
+using MrCMS.Web.Admin.Models.Jobs;
+using MrCMS.Web.Admin.Services.Jobs;
 
 namespace MrCMS.Web.Admin.Controllers;
 

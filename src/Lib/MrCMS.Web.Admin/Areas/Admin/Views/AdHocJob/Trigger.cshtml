@@ -1,14 +1,14 @@
-@model MrCMS.Web.Admin.Models.Jobs.SetupRecurringJobModel
+@model MrCMS.Web.Admin.Models.Jobs.AdHocJobInfo
 
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
 }
 
-@using (Html.BeginForm("Trigger", "RecurringJob", new { Model.Id }, FormMethod.Post))
+@using (Html.BeginForm("Trigger", "AdHocJob", new { Model.Id }, FormMethod.Post))
 {
     <fieldset>
         <legend>
-            @await Html.Resource("Admin Trigger Recurring Job", "Trigger Recurring Job") - @Model.DisplayName
+            @await Html.Resource("Admin Trigger Ad-Hoc Job", "Trigger Ad-Hoc Job") - @Model.DisplayName
             <span class="btn-group pull-right">
                 <input type="submit" class="btn-primary btn" value="@await Html.Resource("Trigger", configureOptions => configureOptions.DisableInlineEditing())"/>
             </span>
@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-info">
-                    @await Html.Resource("Admin Trigger Task Message", "Click 'Trigger' to trigger this recurring job now.")
+                    @await Html.Resource("Admin Trigger Ad Hoc Job Message", "Click 'Trigger' to trigger this ad-hoc job now.")
                 </div>
             </div>
         </div>

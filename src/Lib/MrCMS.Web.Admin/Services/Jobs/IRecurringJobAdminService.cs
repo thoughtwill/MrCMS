@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using MrCMS.Web.Admin.Models.RecurringJobs;
+using MrCMS.Web.Admin.Models.Jobs;
 
-namespace MrCMS.Web.Admin.Services.RecurringJobs;
+namespace MrCMS.Web.Admin.Services.Jobs;
 
 public interface IRecurringJobAdminService
 {

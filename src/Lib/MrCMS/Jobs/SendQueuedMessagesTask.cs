@@ -7,7 +7,7 @@ using MrCMS.Helpers;
 using MrCMS.Services;
 using NHibernate;
 
-namespace MrCMS.Tasks
+namespace MrCMS.Jobs
 {
     public class SendQueuedMessagesTask : ISendQueuedMessagesTask
     {

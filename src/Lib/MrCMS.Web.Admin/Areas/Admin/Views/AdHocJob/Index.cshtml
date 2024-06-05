@@ -1,0 +1,44 @@
+@model IReadOnlyList<MrCMS.Web.Admin.Models.Jobs.AdHocJobInfo>
+@{
+    ViewBag.Title = "Ad-Hoc Jobs";
+}
+<admin-header>
+    <row>
+        <admin-header-title title="@await Html.Resource("admin-adhoc-jobs", "Ad-Hoc Jobs", option => option.DisableInlineEditing())"/>
+
+        <admin-header-actions>
+        </admin-header-actions>
+    </row>
+</admin-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>@await Html.Resource("admin-adhoc-job-job", "Job")</th>
+                    <th>@await Html.Resource("admin-adhoc-job-last-executed", "Last Executed")</th>
+                    <th>@await Html.Resource("admin-adhoc-job-actions", "Actions")</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var job in Model)
+                {
+                    <tr >
+                        <td class="align-middle">@job.DisplayName</td>
+                        <td class="align-middle">@(job.LastExecution?.ToString("G"))</td>
+                        <td class="align-middle">
+                            <div class="btn-group">
+                                <a asp-controller="AdHocJob" asp-action="Trigger" asp-route-id="@job.Id" class="btn btn-sm btn-secondary" data-toggle="fb-modal">
+                                    @await Html.Resource("admin-adhoc-job-trigger", "Trigger")
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -9,7 +9,7 @@ using MrCMS.Website;
 using NHibernate;
 using NHibernate.Linq;
 
-namespace MrCMS.Tasks
+namespace MrCMS.Jobs
 {
     public class DeleteExpiredLogsTask : IDeleteExpiredLogsTask
     {

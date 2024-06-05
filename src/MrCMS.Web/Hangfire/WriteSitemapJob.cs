@@ -1,6 +1,6 @@
 using Hangfire;
+using MrCMS.Jobs;
 using MrCMS.Services.Sitemaps;
-using MrCMS.Tasks;
 
 namespace MrCMS.Web.Hangfire;
 
