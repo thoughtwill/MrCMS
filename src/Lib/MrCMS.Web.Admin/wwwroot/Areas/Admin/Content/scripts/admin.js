@@ -40,6 +40,7 @@ import {setupResourceChooseSite} from "./choose-site";
 import {setupWebpageSelect2} from "./webpage-search";
 import {setupContentAdmin} from "./content-admin";
 import {initIFrameAutoHeight} from "./iframe-auto-height";
+import { SetupCronParser } from './cron-parser.js';
 
 ajaxSetup();
 $(() => {
@@ -83,6 +84,7 @@ $(() => {
     setupBatchFunctions();
     setupResourceChooseSite();
     setupWebpageSelect2();
+    SetupCronParser();
 
     let mediaUploader = new MediaUploader($(document), {
 

@@ -2,7 +2,6 @@
 
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml"; 
-    
 }
 
 @using (Html.BeginForm("Setup", "RecurringJob", new { Model.Id }, FormMethod.Post))
@@ -18,8 +17,17 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <label asp-for="Cron">Cron</label>
-                    <input asp-for="Cron" type="text" class="form-control"/>
+                    <input asp-for="Cron" type="text" class="form-control" data-cron-expression placeholder="Enter cron expression like 0 * * * *"/>
                     <span asp-validation-for="Cron"></span>
+                    <p data-cron-description></p>
+                    <div class="cron-examples">
+                        <strong>Examples:</strong>
+                        <ul>
+                            <li>Every 5 minutes: <code>*/5 * * * *</code></li>
+                            <li>Every 2 hours: <code>0 */2 * * *</code></li>
+                            <li>Once a day at 11pm: <code>0 23 * * *</code></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

@@ -31,5 +31,9 @@
     "@parcel/transformer-sass": "^2.6.0",
     "concurrently": "^7.1.0",
     "parcel": "^2.6.0"
+  },
+  "dependencies": {
+    "cron-parser": "^4.9.0",
+    "cronstrue": "^2.50.0"
   }
 }
