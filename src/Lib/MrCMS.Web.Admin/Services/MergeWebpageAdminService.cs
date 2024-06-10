@@ -64,7 +64,7 @@ namespace MrCMS.Web.Admin.Services
                 validParentTypes.Select(documentMetadata => documentMetadata.Type.FullName).ToList();
             IList<Webpage> potentialParents =
                 await _webpageRepository.Query()
-                    .Where(page => validParentTypeNames.Contains(page.WebpageType))
+                    .Where(page => validParentTypeNames.Contains(page.WebpageTypeName))
                     .ToListAsync();
 
             var webpages = potentialParents.Distinct()

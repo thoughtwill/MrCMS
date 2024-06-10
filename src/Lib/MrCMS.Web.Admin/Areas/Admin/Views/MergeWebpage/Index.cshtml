@@ -21,7 +21,7 @@
     @Html.HiddenFor(x => x.Id)
     <div class="form-group">
         @Html.LabelFor(x => x.MergeIntoId, "Page")
-        @Html.DropDownListFor(x => x.MergeIntoId, ViewData["valid-parents"] as IEnumerable<SelectListItem>, new {data_parent_chooser = "", @class = "select2", @style = "width:100%;"})
+        @Html.DropDownListFor(x => x.MergeIntoId, ViewData["valid-parents"] as IEnumerable<SelectListItem>, new {data_parent_chooser = "", @class = "select2 form-control", style = "width:100%;"})
     </div>
 
     <div class="form-check mb-3">
