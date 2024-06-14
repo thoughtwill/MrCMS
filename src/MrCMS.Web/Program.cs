@@ -23,11 +23,6 @@ namespace MrCMS.Web
                 })
                 .UseStaticWebAssets()
                 .ConfigureKestrel(options => { options.ConfigureEndpointDefaults(x => x.UseConnectionLogging()); })
-                .UseStartup<Startup>()
-                .UseKestrel(options =>
-                {
-                    options.Limits.MaxRequestBodySize = long.MaxValue;
-                    options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(100);
-                });
+                .UseStartup<Startup>();
     }
 }

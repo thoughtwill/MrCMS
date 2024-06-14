@@ -15,7 +15,13 @@ namespace MrCMS.Helpers
     {
         public static T GetVersion<T>(this T doc, int id) where T : Webpage
         {
-            var documentVersion = doc.Versions.FirstOrDefault(version => version.Id == id).Unproxy();
+            var documentVersion = doc.Versions.FirstOrDefault(version => version.Id == id);
+            if (documentVersion == null)
+            {
+                return null;
+            }
+
+            documentVersion = documentVersion.Unproxy();
 
             return documentVersion != null ? DeserializeVersion(documentVersion, doc) : null;
         }
@@ -64,9 +70,14 @@ namespace MrCMS.Helpers
         public static List<VersionChange> GetComparisonToCurrent(this WebpageVersion currentVersion)
         {
             var webpage = currentVersion.Webpage.Unproxy();
-            var previousVersion = DeserializeVersion(currentVersion, webpage);
+            WebpageVersion nextVersion = currentVersion.Webpage.Versions
+                .Where(version => version.Id > currentVersion.Id).MinBy(version => version.Id);
 
-            return GetVersionChanges(webpage, previousVersion);
+            Webpage previousVersion = nextVersion != null
+                ? DeserializeVersion(nextVersion, webpage)
+                : webpage;
+
+            return GetVersionChanges(previousVersion, DeserializeVersion(currentVersion, webpage));
         }
 
         public static List<PropertyInfo> GetVersionProperties(this Type type)

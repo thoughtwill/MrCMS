@@ -43,5 +43,17 @@ namespace MrCMS.Services.Auth
             await base.SignOutAsync();
             await _context.Publish<IOnLoggedOut, LoggedOutEventArgs>(new LoggedOutEventArgs(currentUser));
         }
+        
+        public override async Task<User> ValidateSecurityStampAsync(ClaimsPrincipal principal)
+        {
+            if (principal == null)
+                return default;
+            var loggedInUserId = principal.GetUserId();
+            var user = await this.UserManager.FindByIdAsync(loggedInUserId.ToString());
+            if (await ValidateSecurityStampAsync(user,
+                    principal.FindFirstValue(this.Options.ClaimsIdentity.SecurityStampClaimType)))
+                return user;
+            return default;
+        }
     }
 }

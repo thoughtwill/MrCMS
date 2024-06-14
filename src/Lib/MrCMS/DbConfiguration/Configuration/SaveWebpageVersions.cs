@@ -15,7 +15,7 @@ namespace MrCMS.DbConfiguration.Configuration
         public async Task Execute(OnUpdatedArgs<Webpage> args)
         {
             var webpage = args.Item;
-            if (webpage is {IsDeleted: false} && args.Original != null)
+            if (webpage is { IsDeleted: false } && args.Original != null)
             {
                 var propertyInfos = webpage.GetType().GetVersionProperties();
 
@@ -33,9 +33,8 @@ namespace MrCMS.DbConfiguration.Configuration
                                        : null);
                     var newValue = propertyInfo.GetValue(args.Item);
 
-                    if (oldValue != null)
-                        if (!oldValue.Equals(newValue))
-                            anyChanges = true;
+                    if (oldValue != null && !oldValue.Equals(newValue))
+                        anyChanges = true;
 
                     if (oldValue == null && newValue != null)
                         anyChanges = true;
@@ -46,7 +45,6 @@ namespace MrCMS.DbConfiguration.Configuration
                 if (anyChanges)
                 {
                     var s = args.Session;
-                    // var user = await GetUser(s);
                     var documentVersion = new WebpageVersion
                     {
                         Webpage = webpage,
@@ -55,6 +53,7 @@ namespace MrCMS.DbConfiguration.Configuration
                         Site = webpage.Site
                     };
                     webpage.Versions.Add(documentVersion);
+
                     await s.TransactAsync((session, token) => session.SaveAsync(documentVersion, token));
                 }
             }

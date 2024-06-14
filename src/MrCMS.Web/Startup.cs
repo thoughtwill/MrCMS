@@ -162,6 +162,11 @@ namespace MrCMS.Web
                 var factory = x.GetRequiredService<IUrlHelperFactory>();
                 return factory.GetUrlHelper(actionContext);
             });
+            
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromMinutes(5);
+            });
 
             services.AddAuthorization(options =>
             {
@@ -315,10 +320,10 @@ namespace MrCMS.Web
                         return;
                     }
 
-                    var tokens = antiforgery.GetAndStoreTokens(context);
-
-                    context.Response.Cookies.Append("RequestVerificationToken", tokens.RequestToken,
-                        new CookieOptions() { HttpOnly = true, Secure = true });
+                    // var tokens = antiforgery.GetAndStoreTokens(context);
+                    //
+                    // context.Response.Cookies.Append("RequestVerificationToken", tokens.RequestToken,
+                    //     new CookieOptions() { HttpOnly = true, Secure = true });
 
                     await next.Invoke();
                 });

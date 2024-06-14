@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using MrCMS.Jobs;
 using MrCMS.TextSearch.Services;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Infrastructure.Helpers;
@@ -27,7 +28,7 @@ namespace MrCMS.Web.Admin.Controllers
         public IActionResult Refresh()
         {
             //add hangfire job to refresh index
-            BackgroundJob.Enqueue<IRefreshTextSearchIndex>(x => x.Refresh());
+            BackgroundJob.Enqueue<IRefreshTextSearchIndexTask>(x => x.Refresh());
 
             TempData.AddSuccessMessage("Index refresh started");
 
