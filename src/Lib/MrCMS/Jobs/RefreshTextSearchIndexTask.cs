@@ -8,26 +8,24 @@ using MrCMS.Entities;
 using MrCMS.Helpers;
 using MrCMS.TextSearch.Entities;
 using MrCMS.TextSearch.EntityConverters;
+using MrCMS.TextSearch.Services;
 using NHibernate;
 using NHibernate.Linq;
 
-namespace MrCMS.TextSearch.Services
+namespace MrCMS.Jobs
 {
-    public class RefreshTextSearchIndex : IRefreshTextSearchIndex
+    public class RefreshTextSearchIndexTask : IRefreshTextSearchIndexTask
     {
         private readonly IStatelessSession _statelessSession;
-        private readonly ISession _session;
         private readonly IServiceProvider _serviceProvider;
         private readonly ITextSearchItemUpdater _updater;
 
-        public RefreshTextSearchIndex(
+        public RefreshTextSearchIndexTask(
             IStatelessSession statelessSession,
-            ISession session,
             IServiceProvider serviceProvider,
             ITextSearchItemUpdater updater)
         {
             _statelessSession = statelessSession;
-            _session = session;
             _serviceProvider = serviceProvider;
             _updater = updater;
         }
@@ -82,7 +80,7 @@ namespace MrCMS.TextSearch.Services
         }
     }
 
-    public interface IRefreshTextSearchIndex
+    public interface IRefreshTextSearchIndexTask
     {
         Task Refresh();
     }
