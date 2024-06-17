@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MrCMS.ContentTemplates.ContentTemplateTokenProviders.Base;
 using MrCMS.ContentTemplates.Models;
+using MrCMS.Helpers;
 
 namespace MrCMS.ContentTemplates.ContentTemplateTokenProviders;
 
@@ -11,6 +12,7 @@ public class TextBoxTemplateTokenProvider : ContentTemplateTokenProvider
 {
     public override string Icon => "fa fa-file-text";
     public override string DisplayName => "Text";
+    public override string Name => DisplayName.RemoveInvalidUrlCharacters();
     public override string HtmlPattern => $"[{Name} name=\"{Name}1\" default=\"\"]";
     
     public override async Task<IHtmlContent> ViewRenderAsync(IHtmlHelper helper, ViewRenderElementProperty property)
