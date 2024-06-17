@@ -1,10 +1,18 @@
 @using MrCMS.Web.Admin.Models.Content
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MrCMS.Web.Admin.Services
 @model MrCMS.Web.Admin.Models.Content.AddContentBlockModel
+@inject GetContentTemplateOptions GetContentTemplateOptions
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
     var blockOptions = ViewData["block-options"] as List<ContentBlockOption>;
-    var selectListItems = blockOptions.BuildSelectItemList(x => x.Name, x => x.TypeName, emptyItem: null);
+    var selectListItems = blockOptions.BuildSelectItemList(x => x.Name, x => x.TypeName, emptyItem: null, group: new SelectListGroup { Name = "System Blocks" });
+
+    var contentTemplateOptions = await GetContentTemplateOptions.GetOptions(group: "Content Templates");
+    if (contentTemplateOptions?.Any() ?? false)
+    {
+        selectListItems.AddRange(contentTemplateOptions);
+    }
 }
 
 <form method="post" asp-controller="ContentBlock" asp-action="Add" asp-route-contentversionid="@Model.ContentVersionId">

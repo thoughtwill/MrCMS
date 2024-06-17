@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MrCMS.Services
 @model MrCMS.Web.Admin.Models.AddWidgetModel
+@inject WidgetDataProviderService WidgetDataProviderService
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -16,7 +18,7 @@
         @Html.ReturnToReferrer()
         <div class="form-group">
             @Html.LabelFor(x => x.WidgetType)
-            @Html.DropDownListFor(x => x.WidgetType, WidgetHelper.WidgetTypeDropdownItems, new {@class = "form-control"})
+            @Html.DropDownListFor(x => x.WidgetType, await WidgetDataProviderService.WidgetTypeDropdownItems(), new {@class = "form-control"})
             @Html.ValidationMessageFor(x => x.WidgetType)
         </div>
         <div class="form-group">

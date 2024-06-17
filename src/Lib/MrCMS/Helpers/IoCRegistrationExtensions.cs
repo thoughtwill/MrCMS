@@ -7,6 +7,7 @@ using MrCMS.Shortcodes.Forms;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Routing;
+using MrCMS.ContentTemplates.ContentTemplateTokenProviders.Base;
 using MrCMS.Entities.Documents.Metadata;
 using MrCMS.Entities.Documents.Web;
 using MrCMS.Shortcodes;
@@ -79,6 +80,12 @@ namespace MrCMS.Helpers
                         return methodInfo.MakeGenericMethod(type).Invoke(configurationProvider, Array.Empty<object>());
                     });
             }
+        }
+
+        public static void RegisterContentTemplateTokenProvider(this IServiceCollection container)
+        {
+            foreach (var type in TypeHelper.GetAllConcreteTypesAssignableFrom<ContentTemplateTokenProvider>())
+                container.AddScoped(typeof(ContentTemplateTokenProvider), type);
         }
 
         public static void RegisterFormRenderers(this IServiceCollection container)

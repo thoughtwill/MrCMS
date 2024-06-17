@@ -142,6 +142,7 @@ namespace MrCMS.Web
             services.RegisterFormRenderers();
             services.RegisterTokenProviders();
             services.RegisterWebpageMetadata();
+            services.RegisterContentTemplateTokenProvider();
             services.RegisterRouteTransformers();
             services.AddSingleton<IWebpageMetadataService, WebpageMetadataService>();
 

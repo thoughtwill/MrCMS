@@ -1,0 +1,13 @@
+﻿@using MrCMS.ContentTemplates.Helper
+@using MrCMS.Web.Admin.Services
+@inject IContentTemplateAdminService ContentTemplateAdminService
+@model MrCMS.ContentTemplates.Entities.ContentBlocks.ContentTemplateBlock
+
+@if (Model.ContentTemplateId.HasValue)
+{
+    var contentTemplate = await ContentTemplateAdminService.GetAsync(Model.ContentTemplateId.Value);
+    if (contentTemplate != null)
+    {
+        @await Html.RenderContentTemplate(x => contentTemplate.Text, x => Model.Properties)
+    }
+}

@@ -1,0 +1,68 @@
+﻿@using MrCMS.ContentTemplates.Entities
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model MrCMS.Web.Admin.Models.ContentTemplateSearchModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var results = ViewData["items"] as IPagedList<ContentTemplate> ?? PagingHelper.EmptyList<ContentTemplate>();
+}
+
+<admin-header>
+    <row>
+        <admin-header-title title="Content Template"/>
+        <admin-header-actions>
+            <a asp-action="Add" asp-controller="ContentTemplate" class="btn btn-primary" data-toggle="fb-modal">Add</a>
+        </admin-header-actions>
+    </row>
+</admin-header>
+
+<card>
+    <card-body>
+        <form method="get" asp-action="Index" asp-controller="ContentTemplate" class="mb-3">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input asp-for="Name" type="text" class="form-control" placeholder="Name"/>
+                        <span asp-validation-for="Name"></span>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @if (results.Any())
+        {
+            <table class="table table-condensed table-striped mb-3">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th width="25">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var contentTemplate in results)
+                {
+                    <tr>
+                        <td>
+                            @contentTemplate.Name
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                @Html.ActionLink("Edit", "Edit", "ContentTemplate", new { id = contentTemplate.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                @Html.ActionLink("Delete", "Delete", "ContentTemplate", new { id = contentTemplate.Id }, new { @class = "btn btn-sm btn-danger", data_toggle = "fb-modal" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @Html.PagedListPager(results, page => Url.Action("Index", new { page, Model.Name }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+        }
+        else
+        {
+            @:No Content Templates
+        }
+    </card-body>
+</card>

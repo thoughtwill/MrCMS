@@ -1,0 +1,25 @@
+﻿@using MrCMS.ContentTemplates.ContentTemplateTokenProviders.Base
+@inject IServiceProvider ServiceProvider
+@{
+    var tokenProviderTypes = TypeHelper.GetAllConcreteTypesAssignableFrom<ContentTemplateTokenProvider>();
+    var tokenProviders = new List<ContentTemplateTokenProvider>();
+
+    foreach (var type in tokenProviderTypes)
+    {
+        if (ServiceProvider.GetService(type) is ContentTemplateTokenProvider provider)
+        {
+            tokenProviders.Add(provider);
+        }
+    }
+}
+<div class="alert alert-info mt-3" role="alert">
+    <strong>(@await Html.Resource("Heads up"))</strong> @await Html.Resource("You can drag and drop the tags below into the editor.")
+</div>
+<ul class="mb-0 list-unstyled" content-template-drag>
+    @foreach (var tokenProvider in tokenProviders)
+    {
+        <li class="btn btn-default btn-sm mr-2 mb-2" draggable="true" data-text='@tokenProvider.HtmlPattern'>
+            <i class="@tokenProvider.Icon"></i> @tokenProvider.DisplayName
+        </li>
+    }
+</ul>

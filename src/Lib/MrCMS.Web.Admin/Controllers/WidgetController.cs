@@ -3,8 +3,10 @@ using MrCMS.Helpers;
 using MrCMS.Services;
 using System;
 using System.Threading.Tasks;
+using MrCMS.ContentTemplates.Widgets;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Models;
+using MrCMS.Web.Admin.Models.Widgets;
 using MrCMS.Web.Admin.Services;
 
 namespace MrCMS.Web.Admin.Controllers
@@ -38,16 +40,28 @@ namespace MrCMS.Web.Admin.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Add_POST(AddWidgetModel model, string returnUrl = null)
         {
+            if (int.TryParse(model.WidgetType, out var contentTemplateId))
+            {
+                // If parsing is successful, this mean it is content template (We should later use radio button for this)
+                model.WidgetType = typeof(ContentTemplateWidget).FullName;
+            }
+
             var additionalPropertyModel = _widgetService.GetAdditionalPropertyModel(model.WidgetType);
-            if (additionalPropertyModel != null)
+            if (additionalPropertyModel != null && contentTemplateId == 0)
             {
                 await _modelBindingHelperAdapter.TryUpdateModelAsync(this, additionalPropertyModel,
                     additionalPropertyModel.GetType(), string.Empty);
             }
+            else if (contentTemplateId > 0)
+            {
+                additionalPropertyModel = new ContentTemplateWidgetAddModel()
+                {
+                    ContentTemplateId = contentTemplateId
+                };
+            }
 
             var widget = await _widgetService.AddWidget(model, additionalPropertyModel);
 
-            int webpageId = 0;
             int layoutAreaId = 0;
 
             if (widget.LayoutArea != null)
@@ -57,10 +71,8 @@ namespace MrCMS.Web.Admin.Controllers
 
             return !string.IsNullOrWhiteSpace(returnUrl) &&
                    !returnUrl.Contains("widget/edit/", StringComparison.OrdinalIgnoreCase)
-                ? (ActionResult) Redirect(returnUrl)
-                : webpageId > 0
-                    ? RedirectToAction("Edit", "Webpage", new {id = webpageId, layoutAreaId})
-                    : RedirectToAction("Edit", "LayoutArea", new {id = layoutAreaId});
+                ? Redirect(returnUrl)
+                : RedirectToAction("Edit", "LayoutArea", new { id = layoutAreaId });
         }
 
         [HttpGet]
@@ -90,7 +102,7 @@ namespace MrCMS.Web.Admin.Controllers
             var widget = await _widgetService.UpdateWidget(model, additionalPropertyModel);
 
             return string.IsNullOrWhiteSpace(returnUrl)
-                ? (ActionResult) RedirectToAction("Edit", "LayoutArea", new {id = widget.LayoutArea.Id})
+                ? (ActionResult)RedirectToAction("Edit", "LayoutArea", new { id = widget.LayoutArea.Id })
                 : Redirect(returnUrl);
         }
 
@@ -106,6 +118,7 @@ namespace MrCMS.Web.Admin.Controllers
             {
                 ViewData["return-url"] = returnUrl;
             }
+
             return PartialView(await _widgetService.GetEditModel(id));
         }
 
@@ -123,8 +136,8 @@ namespace MrCMS.Web.Admin.Controllers
 
             return !string.IsNullOrWhiteSpace(returnUrl) &&
                    !returnUrl.Contains("widget/edit/", StringComparison.OrdinalIgnoreCase)
-                ? (ActionResult) Redirect(returnUrl)
-                : RedirectToAction("Edit", "LayoutArea", new {id = layoutAreaId});
+                ? (ActionResult)Redirect(returnUrl)
+                : RedirectToAction("Edit", "LayoutArea", new { id = layoutAreaId });
         }
 
         [HttpGet]

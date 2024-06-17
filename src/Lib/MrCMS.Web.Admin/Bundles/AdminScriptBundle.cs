@@ -49,6 +49,8 @@ namespace MrCMS.Web.Admin.Bundles
                 yield return "/Areas/Admin/Content/lib/cropper/cropper.js";
                 yield return "/Areas/Admin/Content/lib/cropper/jquery-cropper.js";
                 yield return "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js";
+                yield return "/Areas/Admin/Content/lib/aceeditor/js/ace.js";
+                yield return "/Areas/Admin/Content/lib/jquery.serializejson.js";
             }
         }
     }

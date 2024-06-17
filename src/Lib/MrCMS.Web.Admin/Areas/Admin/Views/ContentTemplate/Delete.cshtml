@@ -1,0 +1,17 @@
+﻿@model MrCMS.ContentTemplates.Entities.ContentTemplate
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
+}
+
+@using (Html.BeginForm("Delete", "ContentTemplate", new {Model.Id}, FormMethod.Post))
+{
+    <fieldset>
+        <legend>
+            @await Html.Resource("Admin Content Template Delete", "Delete Content Template")
+            <span class="btn-group d-inline pull-right">
+                <button type="submit" class="btn-danger btn">@await Html.Resource("Delete")</button>
+            </span>
+        </legend>
+        @Html.InfoBlock(await Html.PlainResource("Heads up") + "!", await Html.PlainResource("Admin Delete Info Warning", "Deleting this cannot be undone."), AlertType.danger)
+    </fieldset>
+}

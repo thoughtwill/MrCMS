@@ -40,7 +40,13 @@ import {setupResourceChooseSite} from "./choose-site";
 import {setupWebpageSelect2} from "./webpage-search";
 import {setupContentAdmin} from "./content-admin";
 import {initIFrameAutoHeight} from "./iframe-auto-height";
-import { SetupCronParser } from './cron-parser.js';
+import {SetupCronParser} from './cron-parser.js';
+import {initiateContentTemplate} from "./content-template";
+import {initializeHtmlEditor} from "./html-editor";
+import {initializeCssEditor} from "./css-editor";
+import {initializeJavaScriptEditor} from "./js-editor";
+import {setupWebpageUrlSelector} from "./webpage-url-selector";
+import {initializeTextEditor} from "./text-editor";
 
 ajaxSetup();
 $(() => {
@@ -85,10 +91,19 @@ $(() => {
     setupResourceChooseSite();
     setupWebpageSelect2();
     SetupCronParser();
+    initiateContentTemplate();
+    initializeHtmlEditor();
+    initializeCssEditor();
+    initializeJavaScriptEditor();
+    setupWebpageUrlSelector();
+    $(document).on("initialize-plugins", initiateContentTemplate);
+    $(document).on("initialize-plugins", initializeHtmlEditor);
+    $(document).on("initialize-plugins", initializeCssEditor);
+    $(document).on("initialize-plugins", initializeJavaScriptEditor);
+    $(document).on("initialize-plugins", setupWebpageUrlSelector);
+    $(document).on("initialize-plugins", () => initializeTextEditor());
 
-    let mediaUploader = new MediaUploader($(document), {
-
-    });
+    let mediaUploader = new MediaUploader($(document), {});
     mediaUploader.init();
 
     //Default theme for select2 (Bootstrap 4)
@@ -110,6 +125,6 @@ $(() => {
     initializePlugins();
 
     setupSimpleFiles();
-    
+
     setupContentAdmin();
 })

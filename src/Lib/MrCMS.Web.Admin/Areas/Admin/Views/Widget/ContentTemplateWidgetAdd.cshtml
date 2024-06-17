@@ -1,0 +1,8 @@
+﻿@using MrCMS.Web.Admin.Services
+@model MrCMS.Web.Admin.Models.Widgets.ContentTemplateWidgetAddModel
+@inject IGetContentTemplateOptions GetContentTemplateOptions
+
+<div class="form-group">
+    @Html.LabelFor(m => m.ContentTemplateId)
+    @Html.DropDownListFor(m => m.ContentTemplateId, await GetContentTemplateOptions.GetOptions(emptyItemText: await Html.PlainResource("Select a content template...")), new { @class = "form-control" })
+</div>

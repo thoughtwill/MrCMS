@@ -36,6 +36,14 @@
       <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Trigger.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\ContentTemplates\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Areas\Admin\Views\ContentBlock\Editors\ContentTemplateBlock.cshtml" />
+    </ItemGroup>
+
     <!--
           1. Install npm packages
           "Inputs" and "Outputs" are used for incremental builds. If all output items are up-to-date, MSBuild skips the target.

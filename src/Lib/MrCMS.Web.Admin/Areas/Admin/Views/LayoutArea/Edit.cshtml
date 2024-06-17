@@ -15,12 +15,12 @@
 
     <admin-header>
         <row>
-            <admin-header-title title="@Model.AreaName " />
+            <admin-header-title title="@Model.AreaName "/>
 
             <admin-header-actions>
                 <span class="btn-group">
                     @Html.ActionLink(await Html.PlainResource("admin-back", "Back"), "Edit", "Layout", new { id = layout.Id }, new { @class = "btn btn-secondary" })
-                    <a href="@Url.Action("Delete", "LayoutArea", new {id = Model.Id})" class="btn btn-danger" data-toggle="fb-modal">@await Html.Resource("admin-delete", "Delete")</a>
+                    <a href="@Url.Action("Delete", "LayoutArea", new { id = Model.Id })" class="btn btn-danger" data-toggle="fb-modal">@await Html.Resource("admin-delete", "Delete")</a>
                     <button class="btn btn-primary">@await Html.Resource("admin-save", "Save")</button>
                 </span>
             </admin-header-actions>
@@ -29,7 +29,7 @@
 
     <div class="form-group">
         <label asp-for="AreaName"></label>
-        <input type="text" asp-for="AreaName" class="form-control" />
+        <input type="text" asp-for="AreaName" class="form-control"/>
         <span asp-validation-for="AreaName"></span>
     </div>
 
@@ -38,7 +38,7 @@
 
 <admin-header>
     <row>
-        <admin-header-title title="@await Html.Resource("admin-widgets", "Widgets", option=> option.DisableInlineEditing())" />
+        <admin-header-title title="@await Html.Resource("admin-widgets", "Widgets", option => option.DisableInlineEditing())"/>
 
         <admin-header-actions>
 
@@ -49,7 +49,7 @@
                         @Html.ActionLink(await Html.PlainResource("Sort"), "SortWidgets", "LayoutArea", new { id = Model.Id, returnUrl = Context.Request.GetEncodedUrl() }, new { @class = "btn btn-sm btn-secondary", @data_toggle = "fb-modal" })
                     }
                 }
-                <a href="@Url.Action(await Html.PlainResource("admin-add", "Add"), "Widget", new {id = Model.Id, returnUrl = Context.Request.GetEncodedUrl()})" class="btn btn-sm btn-primary" data-toggle="fb-modal">@await Html.Resource("Admin Layout Area Add Widget", "Add widget")</a>
+                <a href="@Url.Action(await Html.PlainResource("admin-add", "Add"), "Widget", new { id = Model.Id })" class="btn btn-sm btn-primary" data-toggle="fb-modal">@await Html.Resource("Admin Layout Area Add Widget", "Add widget")</a>
             </div>
         </admin-header-actions>
     </row>
@@ -61,34 +61,34 @@
     {
         <table class="table table-condensed table-striped">
             <thead>
-                <tr>
-                    <th>
-                        @await Html.Resource("Name")
-                    </th>
-                    <th>
-                        @await Html.Resource("Type")
-                    </th>
-                    <th>
-                        @await Html.Resource("Actions")
-                    </th>
-                </tr>
+            <tr>
+                <th>
+                    @await Html.Resource("Name")
+                </th>
+                <th>
+                    @await Html.Resource("Type")
+                </th>
+                <th>
+                    @await Html.Resource("Actions")
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var widget in widgets)
-                {
-                    <tr>
-                        <td>@widget.Name</td>
-                        <td>
-                            @widget.WidgetTypeFormatted
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                @Html.ActionLink(await Html.PlainResource("Edit"), "Edit", "Widget", new { id = widget.Id }, new { @class = "btn btn-secondary btn-sm"})
-                                <a href="@Url.Action(await Html.PlainResource("Delete"), "Widget", new {id = widget.Id})" class="btn btn-sm btn-danger" data-toggle="fb-modal">@await Html.Resource("Delete")</a>
-                            </div>
-                        </td>
-                    </tr>
-                }
+            @foreach (var widget in widgets)
+            {
+                <tr>
+                    <td>@widget.Name</td>
+                    <td>
+                        @widget.WidgetTypeFormatted
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            @Html.ActionLink(await Html.PlainResource("Edit"), "Edit", "Widget", new { id = widget.Id }, new { @class = "btn btn-secondary btn-sm" })
+                            <a href="@Url.Action(await Html.PlainResource("Delete"), "Widget", new { id = widget.Id })" class="btn btn-sm btn-danger" data-toggle="fb-modal">@await Html.Resource("Delete")</a>
+                        </div>
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     }

@@ -1,0 +1,4 @@
+﻿@using MrCMS.ContentTemplates.Helper
+@model MrCMS.Web.Admin.Models.Widgets.ContentTemplateWidgetUpdateModel
+
+@await Html.RenderAdminProperties(x => x.ContentTemplate.Text, x => x.Properties)

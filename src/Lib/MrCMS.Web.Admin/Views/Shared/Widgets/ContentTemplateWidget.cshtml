@@ -1,0 +1,13 @@
+﻿@using MrCMS.ContentTemplates.Helper
+@using MrCMS.ContentTemplates.Widgets
+@using MrCMS.Services
+@inject IWidgetUIService WidgetUIService
+@model MrCMS.Website.WidgetData
+@{
+    var widget = await WidgetUIService.GetWidgetAsync<ContentTemplateWidget>(Model.Id);
+}
+
+@if (widget.ContentTemplate != null)
+{
+    @await Html.RenderContentTemplate(x => widget.ContentTemplate.Text, x => widget.Properties)
+}

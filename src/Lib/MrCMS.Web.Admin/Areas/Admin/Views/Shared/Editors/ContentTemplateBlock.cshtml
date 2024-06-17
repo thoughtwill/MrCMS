@@ -1,0 +1,25 @@
+﻿@using MrCMS.ContentTemplates.Helper
+@using MrCMS.Web.Admin.Services
+@model MrCMS.Web.Admin.Models.Content.UpdateContentTemplateBlockModel
+@inject IContentTemplateAdminService ContentTemplateAdminService
+@inject IGetContentTemplateOptions GetContentTemplateOptions
+
+<div class="form-group mt-3">
+    <label asp-for="Name"></label>
+    <input asp-for="Name" class="form-control"/>
+    <span asp-validation-for="Name"></span>
+</div>
+
+@if (Model.ContentTemplateId.HasValue && (await ContentTemplateAdminService.GetAsync(Model.ContentTemplateId.Value)) is { } contentTemplate)
+{
+    @Html.HiddenFor(f => f.ContentTemplateId)
+    @await Html.RenderAdminProperties(x => contentTemplate.Text, x => x.Properties)
+}
+else
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.ContentTemplateId)
+        @Html.DropDownListFor(m => m.ContentTemplateId, await GetContentTemplateOptions.GetOptions(emptyItemText: await Html.PlainResource("Select a content template...")), new { @class = "form-control" })
+    </div>
+    @Html.HiddenFor(f => f.Properties)
+}
