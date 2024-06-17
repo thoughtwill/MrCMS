@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using MrCMS.Web.Admin.Services
 @model MrCMS.Web.Admin.Models.Content.AddContentBlockModel
-@inject GetContentTemplateOptions GetContentTemplateOptions
+@inject IGetContentTemplateOptions GetContentTemplateOptions
 @{
     Layout = "~/Areas/Admin/Views/Shared/_LayoutPopup.cshtml";
     var blockOptions = ViewData["block-options"] as List<ContentBlockOption>;

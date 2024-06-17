@@ -11,7 +11,7 @@ using NHibernate.Linq;
 
 namespace MrCMS.Services;
 
-public class WidgetDataProviderService
+public class WidgetDataProviderService : IWidgetDataProviderService
 {
     private readonly ISession _session;
 
