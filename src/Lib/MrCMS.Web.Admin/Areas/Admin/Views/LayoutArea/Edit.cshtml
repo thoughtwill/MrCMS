@@ -32,7 +32,6 @@
         <input type="text" asp-for="AreaName" class="form-control"/>
         <span asp-validation-for="AreaName"></span>
     </div>
-
 </form>
 
 
@@ -49,7 +48,7 @@
                         @Html.ActionLink(await Html.PlainResource("Sort"), "SortWidgets", "LayoutArea", new { id = Model.Id, returnUrl = Context.Request.GetEncodedUrl() }, new { @class = "btn btn-sm btn-secondary", @data_toggle = "fb-modal" })
                     }
                 }
-                <a href="@Url.Action(await Html.PlainResource("admin-add", "Add"), "Widget", new { id = Model.Id })" class="btn btn-sm btn-primary" data-toggle="fb-modal">@await Html.Resource("Admin Layout Area Add Widget", "Add widget")</a>
+                <a href="@Url.Action(await Html.PlainResource("admin-add", "Add"), "Widget", new { id = Model.Id , returnUrl = Context.Request.GetEncodedUrl()})" class="btn btn-sm btn-primary" data-toggle="fb-modal">@await Html.Resource("Admin Layout Area Add Widget", "Add widget")</a>
             </div>
         </admin-header-actions>
     </row>
@@ -84,7 +83,7 @@
                     <td>
                         <div class="btn-group">
                             @Html.ActionLink(await Html.PlainResource("Edit"), "Edit", "Widget", new { id = widget.Id }, new { @class = "btn btn-secondary btn-sm" })
-                            <a href="@Url.Action(await Html.PlainResource("Delete"), "Widget", new { id = widget.Id })" class="btn btn-sm btn-danger" data-toggle="fb-modal">@await Html.Resource("Delete")</a>
+                            <a href="@Url.Action(await Html.PlainResource("Delete"), "Widget", new { id = widget.Id, returnUrl = Context.Request.GetEncodedUrl() })" class="btn btn-sm btn-danger" data-toggle="fb-modal">@await Html.Resource("Delete")</a>
                         </div>
                     </td>
                 </tr>
