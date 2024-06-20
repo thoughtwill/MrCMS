@@ -20,7 +20,7 @@
             <admin-header-actions>
                 <span class="btn-group">
                     @Html.ActionLink(await Html.PlainResource("admin-back", "Back"), "Edit", "Layout", new { id = layout.Id }, new { @class = "btn btn-secondary" })
-                    <a href="@Url.Action("Delete", "LayoutArea", new { id = Model.Id })" class="btn btn-danger" data-toggle="fb-modal">@await Html.Resource("admin-delete", "Delete")</a>
+                    <a href="@Url.Action("Delete", "LayoutArea", new { id = Model.Id, returnUrl = Context.Request.GetEncodedUrl() })" class="btn btn-danger" data-toggle="fb-modal">@await Html.Resource("admin-delete", "Delete")</a>
                     <button class="btn btn-primary">@await Html.Resource("admin-save", "Save")</button>
                 </span>
             </admin-header-actions>

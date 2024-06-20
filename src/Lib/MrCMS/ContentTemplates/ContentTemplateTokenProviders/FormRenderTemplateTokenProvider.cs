@@ -21,6 +21,7 @@ public class FormRenderTemplateTokenProvider : ContentTemplateTokenProvider
     }
     
     public override string Icon => "fa fa-wpforms";
+    public override string DisplayName => "Form";
 
     public override async Task<IHtmlContent> ViewRenderAsync(IHtmlHelper helper, ViewRenderElementProperty property)
     {
