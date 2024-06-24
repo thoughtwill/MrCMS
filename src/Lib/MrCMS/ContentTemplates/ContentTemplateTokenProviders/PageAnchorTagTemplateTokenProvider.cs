@@ -74,7 +74,7 @@ public class PageAnchorTagTemplateTokenProvider : ContentTemplateTokenProvider
         if (string.IsNullOrEmpty(property.Value))
         {
             page = await _session.Query<Webpage>()
-                .FirstOrDefaultAsync(x => x.WebpageType.EndsWith(property.Name));
+                .FirstOrDefaultAsync(x => x.WebpageTypeName.EndsWith(property.Name));
         }
         else if (int.TryParse(property.Value, out var pageId))
         {
