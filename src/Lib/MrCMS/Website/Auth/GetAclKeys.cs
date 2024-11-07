@@ -17,7 +17,7 @@ namespace MrCMS.Website.Auth
 
         private string GetKey(Type type, string operation)
         {
-            return _aclKeyGenerator.GetKey(type.FullName, operation);
+            return _aclKeyGenerator.GetKey(type.Name, operation);
         }
 
         public IReadOnlyList<string> GetKeys(Type type, string operation)
