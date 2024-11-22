@@ -19,6 +19,9 @@ namespace MrCMS.Settings
         [DisplayName("Tracking Scripts (top of body)")]
         [TextArea]
         public string TrackingScriptsBody { get; set; }
+        
+        [DisplayName("Enable Rich Snippets (JSON-LD)")]
+        public bool EnableRichSnippets { get; set; } = true;
 
         public override bool RenderInSettings => true;
     }

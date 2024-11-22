@@ -5,12 +5,14 @@
 @using MrCMS.ACL.Rules
 @using MrCMS.Entities.Documents.Web
 @using MrCMS.Services
+@using MrCMS.Website.RichSnippet
 @model dynamic
 @inject SEOSettings SeoSettings
 @inject SiteSettings SiteSettings
 @inject GoogleRecaptchaSettings GoogleRecaptchaSettings
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @inject IGetCurrentClaimsPrincipal GetClaimsPrincipal
+@inject IGenerateRichSnippetService GenerateRichSnippetService
 
 @{
     var user = await GetClaimsPrincipal.GetPrincipal();
@@ -29,6 +31,9 @@
     {
         @Html.Raw(Model.CustomHeaderScripts)
         @ViewData.LinkTags().Render()
+
+        // Add JSON-LD
+        @await GenerateRichSnippetService.Generate(Model, Context.RequestAborted)
     }
 
     @if (GoogleRecaptchaSettings.Enabled)
