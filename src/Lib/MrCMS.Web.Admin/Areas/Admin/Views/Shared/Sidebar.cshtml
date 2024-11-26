@@ -7,7 +7,7 @@
 @inject ICurrentSiteLocator CurrentSiteLocator
 @{
     var img = User.GetAvatarUrl();
-    var avatarImg = !string.IsNullOrEmpty(img) ? img : "https://via.placeholder.com/160";
+    var avatarImg = !string.IsNullOrEmpty(img) ? img : "/Areas/Admin/Content/img/awaiting-avatar.svg";
     var site = CurrentSiteLocator.GetCurrentSite();
 }
 <a href="@Url.Action("Index", "Home", new {area = "Admin"})" tabindex="1" class="brand-link">
@@ -20,7 +20,7 @@
     }
     else
     {
-        <img src="/Areas/Admin/Content/img/logo.png" class="brand-image elevation-1 img-circle" alt="dashboard logo"/>
+        <img src="/Areas/Admin/Content/img/logo.svg" class="brand-image elevation-1 img-circle" alt="dashboard logo"/>
     }
     <span class="brand-text fw-light">@site.Name</span>
 </a>
