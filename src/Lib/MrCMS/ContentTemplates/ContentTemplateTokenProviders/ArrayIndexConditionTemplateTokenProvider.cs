@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MrCMS.ContentTemplates.ContentTemplateTokenProviders.Base;
 using MrCMS.ContentTemplates.Models;
-using org.mariuszgromada.math.mxparser;
+using NCalc;
 
 namespace MrCMS.ContentTemplates.ContentTemplateTokenProviders;
 
@@ -15,7 +16,7 @@ public class ArrayIndexConditionTemplateTokenProvider : ContentTemplateTokenProv
     public override async Task<IHtmlContent> ViewRenderAsync(IHtmlHelper helper, ViewRenderElementProperty property)
     {
         var value = "";
-        var result = false;
+        var condition = string.Empty;
         if (property.Attributes != null)
         {
             foreach (var attr in property.Attributes)
@@ -23,13 +24,7 @@ public class ArrayIndexConditionTemplateTokenProvider : ContentTemplateTokenProv
                 switch (attr.Key)
                 {
                     case "if":
-                        string condition = attr.Value;
-                        Expression expression = new Expression(condition);
-                        
-                        Argument index = new Argument($"index = {property.Index ?? 0}");
-                        expression.addArguments(index);
-                        
-                        result = expression.calculate() != 0;
+                        condition = attr.Value;
                         break;
                     case "then":
                         value = attr.Value;
@@ -38,7 +33,7 @@ public class ArrayIndexConditionTemplateTokenProvider : ContentTemplateTokenProv
             }
         }
 
-        if (result)
+        if (EvaluateCondition(condition, property.Index ?? 0))
         {
             return await Task.FromResult(new HtmlString(value));
         }
@@ -51,5 +46,17 @@ public class ArrayIndexConditionTemplateTokenProvider : ContentTemplateTokenProv
     public override async Task<IHtmlContent> AdminRenderAsync(IHtmlHelper helper, AdminRenderElementProperty property)
     {
         return await Task.FromResult(HtmlString.Empty);
+    }
+    
+    private bool EvaluateCondition(string condition, int index)
+    {
+        var expression = new Expression(condition)
+        {
+            Parameters =
+            {
+                ["index"] = index
+            }
+        };
+        return Convert.ToBoolean(expression.Evaluate());
     }
 }
