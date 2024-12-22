@@ -3,7 +3,7 @@
 @inject IWidgetUIService WidgetUIService
 @model WidgetData
 @{
-    var widget = await WidgetUIService.GetWidgetAsync<PlainTextWidget>(Model.Id);
+    var widget = await WidgetUIService.GetWidgetAsync<CodeWidget>(Model.Id);
 }
 
 @await Html.Editable(widget, x => x.Text)

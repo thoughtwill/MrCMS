@@ -1,0 +1,5 @@
+﻿@model MrCMS.Web.Apps.Core.Areas.Admin.Models.Widgets.CodeWidgetModel
+<div class="form-group">
+    @Html.LabelFor(widget => widget.Text)
+    @Html.TextAreaFor(widget => widget.Text, new { @class = "code-enabled" })
+</div>
