@@ -7,6 +7,7 @@ using MrCMS.Shortcodes.Forms;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Routing;
+using MrCMS.AI.Settings;
 using MrCMS.ContentTemplates.ContentTemplateTokenProviders.Base;
 using MrCMS.Entities.Documents.Metadata;
 using MrCMS.Entities.Documents.Web;
@@ -80,6 +81,19 @@ namespace MrCMS.Helpers
                         return methodInfo.MakeGenericMethod(type).Invoke(configurationProvider, Array.Empty<object>());
                     });
             }
+            
+            foreach (var type in TypeHelper.GetAllConcreteTypesAssignableFrom<AiSettingsBase>())
+            {
+                container.AddScoped(type,
+                    provider =>
+                    {
+                        var configurationProvider = provider.GetRequiredService<IAiConfigurationProvider>();
+                        var methodInfo = configurationProvider.GetType()
+                            .GetMethodExt(nameof(IAiConfigurationProvider.GetSettings));
+                        return methodInfo.MakeGenericMethod(type).Invoke(configurationProvider, Array.Empty<object>());
+                    });
+            }
+
         }
 
         public static void RegisterContentTemplateTokenProvider(this IServiceCollection container)
