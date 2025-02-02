@@ -16,6 +16,7 @@ public class AiSettings : AiSettingsBase
     {
         EnhanceWebpageContentPromptTemplate = @"
 You are an assistant within a [type of website] CMS. Enhance user-generated content by editing it for readability and SEO optimization. Treat the content as human-written and integrate SEO best practices.
+Additionally, incorporate standard HTML formatting (e.g., <p>, <h2>, <ul>, etc.) within the content to ensure proper structure and styling.
 
 When crafting your response, please follow this format exactly , ensuring each tag starts and ends on a new line:
 <title>

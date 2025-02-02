@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using MrCMS.AI.Models;
-using MrCMS.AI.Services.Core;
-
-namespace MrCMS.AI.Services.Providers;
-
-public class DeepSeekAiProvider : IAiProvider
-{
-    public IAsyncEnumerable<AiRawResponse> StreamResponseAsync(string prompt)
-    {
-        throw new System.NotImplementedException();
-    }
-}
+// using System.Collections.Generic;
+// using MrCMS.AI.Models;
+// using MrCMS.AI.Services.Core;
+//
+// namespace MrCMS.AI.Services.Providers;
+//
+// public class DeepSeekAiProvider : IAiProvider
+// {
+//     public IAsyncEnumerable<AiRawResponse> StreamResponseAsync(string prompt)
+//     {
+//         throw new System.NotImplementedException();
+//     }
+// }
