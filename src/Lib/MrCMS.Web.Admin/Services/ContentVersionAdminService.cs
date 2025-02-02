@@ -21,6 +21,11 @@ public class ContentVersionAdminService : IContentVersionAdminService
         _getHomePage = getHomePage;
     }
 
+    public async Task<ContentVersion> GetVersion(int id)
+    {
+        return await _session.GetAsync<ContentVersion>(id);
+    }
+    
     public async Task<IReadOnlyList<ContentVersion>> GetVersions(int webpageId)
     {
         return await _session.Query<ContentVersion>()
@@ -44,7 +49,7 @@ public class ContentVersionAdminService : IContentVersionAdminService
 
     public async Task<ContentVersionModel> GetEditModel(int id)
     {
-        var version = await _session.GetAsync<ContentVersion>(id);
+        var version = await GetVersion(id);
         
         if (version == null)
             return null;
@@ -88,7 +93,7 @@ public class ContentVersionAdminService : IContentVersionAdminService
 
     public async Task<ContentVersionActionResult> Publish(int id)
     {
-        var version = await _session.GetAsync<ContentVersion>(id);
+        var version = await GetVersion(id);
         if (version == null)
             return new ContentVersionActionResult { Success = false, Message = "Could not find draft" };
         if (!version.IsDraft)
@@ -119,7 +124,7 @@ public class ContentVersionAdminService : IContentVersionAdminService
 
     public async Task<ContentVersionActionResult> Delete(int id)
     {
-        var version = await _session.GetAsync<ContentVersion>(id);
+        var version = await GetVersion(id);
         if (version == null)
             return new ContentVersionActionResult { Success = false, Message = "Could not find draft" };
         if (!version.IsDraft)

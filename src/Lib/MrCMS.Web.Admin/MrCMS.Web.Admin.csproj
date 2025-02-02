@@ -34,6 +34,9 @@
       <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Remove.cshtml" />
       <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Setup.cshtml" />
       <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Trigger.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\AiSettings\FileMigration.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\AiSettings\FileSystem.cshtml" />
+      <AdditionalFiles Include="Areas\Admin\Views\AiSettings\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

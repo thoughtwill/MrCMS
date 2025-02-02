@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MrCMS.Web.Admin.Infrastructure.TagHelpers
+@model System.Collections.Generic.List<MrCMS.AI.Settings.AiSettingsBase>
+@{
+    ViewBag.Title = "Edit Settings";
+}
+@if (TempData["settings-saved"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        @await Html.Resource("Admin Settings Saved", "Settings saved")
+    </div>
+}
+<form asp-controller="AiSettings" asp-action="Index" method="post">
+
+    <admin-header>
+        <row>
+            <admin-header-title title="@await Html.Resource("admin-ai-settings", "AI Settings", option=> option.DisableInlineEditing())"/>
+
+            <admin-header-actions>
+                <button class="btn btn-primary">
+                    @await Html.Resource("admin-save", "Save")
+                </button>
+            </admin-header-actions>
+        </row>
+    </admin-header>
+
+
+    <div id="tabs">
+        <ul class="nav nav-tabs mb-2" data-stickytabs="ai-settings">
+            @foreach (var settingType in Model.OrderBy(x => x.TypeName))
+            {
+                <li class="nav-item">
+                    <a href="#@settingType.DivId" data-toggle="tab" class="nav-link">@settingType.TypeName</a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content">
+            @foreach (var settingType in Model)
+            {
+                <partial name="AiSettings" model="settingType"/>
+                //Html.RenderPartial("Settings", settingType);
+            }
+        </div>
+    </div>
+
+
+</form>

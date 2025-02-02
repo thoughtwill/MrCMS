@@ -5,7 +5,6 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model MrCMS.Web.Admin.Models.WebpageEdit.WebpagePropertiesTabViewModel
 @inject IWebpageMetadataService _webpageMetadataService
-@inject IGetCurrentUser GetCurrentUser
 @{
     var webpage = ViewData["webpage"] as Webpage;
 }
@@ -15,7 +14,7 @@
         Edit Page
     </a>
 }
-<hr />
+<hr/>
 <input type="hidden" asp-for="WebpageType"/>
 <input type="hidden" asp-for="Id"/>
 
@@ -27,9 +26,12 @@
 
 @if (_webpageMetadataService.GetWebpageMetadata(Html, Model.Id).HasBodyContent)
 {
+    <button type="button" class="btn btn-ai mb-2" data-ai-enhance-content="@Model.Id" data-title="[name='Name']" data-content="[name='BodyContent']">
+        <i class="fa fa-magic"></i> Enhance Content
+    </button>
     <div class="body-content mb-3" data-body-content>
         <!-- leave this class here for fixing the bar to top only for body content -->
         <textarea asp-for="BodyContent" class="ckedit-enabled"></textarea>
     </div>
 }
-@await Html.RenderUpdateCustomAdminProperties(webpage) 
+@(await Html.RenderUpdateCustomAdminProperties(webpage))

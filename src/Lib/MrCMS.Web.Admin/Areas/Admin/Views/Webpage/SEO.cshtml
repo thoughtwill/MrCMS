@@ -57,6 +57,9 @@
     </div>
 
     <hr />
+    <button type="button" class="btn btn-ai mb-2" data-ai-seo-content="@Model.Id" data-title="[name='MetaTitle']" data-description="[name='MetaDescription']" data-keywords="[name='MetaKeywords']">
+        <i class="fa fa-magic"></i> Generate SEO
+    </button>
     <div class="form-group">
         <label asp-for="MetaTitle"></label>
         <input type="text" asp-for="MetaTitle" class="form-control" />

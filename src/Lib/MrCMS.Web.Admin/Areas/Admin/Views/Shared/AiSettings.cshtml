@@ -1,0 +1,61 @@
+﻿@using System.ComponentModel
+@using MrCMS.Settings
+@model MrCMS.AI.Settings.AiSettingsBase
+<div id="@Model.DivId" class="tab-pane">
+    @{
+        var type = Model.GetType();
+    }
+    @foreach (var property in type.GetProperties().Where(info => info.CanWrite && info.Name != "Site"))
+    {
+        var name = (type.FullName + "." + property.Name).ToLower();
+        var displayNameAttribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), true).OfType<DisplayNameAttribute>().FirstOrDefault();
+        var dropDownSelectionAttribute = property.GetCustomAttributes(typeof(DropDownSelectionAttribute), true).OfType<DropDownSelectionAttribute>().FirstOrDefault();
+        var textAreaAttribute = property.GetCustomAttributes(typeof(TextAreaAttribute), true).OfType<TextAreaAttribute>().FirstOrDefault();
+        var mediaSelectorAttribute = property.GetCustomAttributes(typeof(MediaSelectorAttribute), true).OfType<MediaSelectorAttribute>().FirstOrDefault();
+        var readonlyAttribute = property.GetCustomAttributes(typeof(ReadOnlyAttribute), true).OfType<ReadOnlyAttribute>().FirstOrDefault(attribute => attribute.IsReadOnly);
+
+        if (readonlyAttribute != null)
+        {
+            continue;
+        }
+
+
+        if (textAreaAttribute != null)
+        {
+            @Html.Label(name, displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name.BreakUpString())
+            var cssClass = textAreaAttribute.CKEnabled ? "ckedit-enabled settings-textarea" : "settings-textarea";
+            @Html.TextArea(name, Convert.ToString(property.GetValue(Model, null)), new {@class = cssClass})
+        }
+        else if (dropDownSelectionAttribute != null)
+        {
+            <div class="form-group">
+                @Html.Label(name, displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name.BreakUpString())
+                @Html.DropDownList(name, ViewData[dropDownSelectionAttribute.ViewDataName] as IEnumerable<SelectListItem>, new {@class = "form-control"})
+            </div>
+        }
+        else if (property.PropertyType == typeof(bool))
+        {
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBox(name, (bool) property.GetValue(Model, null))
+                    @(displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name.BreakUpString())
+                </label>
+            </div>
+        }
+        else if (mediaSelectorAttribute != null)
+        {
+            <div class="form-group">
+                @Html.Label(name, displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name.BreakUpString())
+                <br/>
+                @Html.TextBox(name, Convert.ToString(property.GetValue(Model, null)), new {@class = "media-selector"})
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.Label(name, displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name.BreakUpString())
+                @Html.TextBox(name, property.GetValue(Model, null), new {@class = "form-control"})
+            </div>
+        }
+    }
+</div>
