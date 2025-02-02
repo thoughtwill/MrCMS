@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using MrCMS.AI.Settings;
 using MrCMS.Helpers;
-using MrCMS.Settings;
 
 namespace MrCMS.Web.Admin.ModelBinders
 {
@@ -24,7 +23,7 @@ namespace MrCMS.Web.Admin.ModelBinders
 
         protected virtual MethodInfo GetGetSettingsMethod()
         {
-            return typeof(SqlConfigurationProvider).GetMethodExt("GetSettings");
+            return typeof(SqlAiConfigurationProvider).GetMethodExt("GetSettings");
         }
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
