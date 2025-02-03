@@ -1,26 +1,22 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
+using System.Threading;
 using MrCMS.AI.Models;
 using MrCMS.AI.Services.Core;
 using MrCMS.AI.Settings;
 using OpenAI.Chat;
 
-namespace MrCMS.AI.Services.Providers;
+namespace MrCMS.AI.Services.Providers.Text;
 
-public class OpenAiProviderService : IAiProvider
+public class OpenAiTextProvider : IAiTextProvider
 {
     private readonly OpenAiSettings _settings;
 
-    public OpenAiProviderService(OpenAiSettings settings)
+    public OpenAiTextProvider(OpenAiSettings settings)
     {
         _settings = settings;
     }
 
-    public async IAsyncEnumerable<AiRawResponse> StreamResponseAsync(string prompt)
+    public async IAsyncEnumerable<AiTextRawResponse> StreamResponseAsync(string prompt, CancellationToken cancellationToken = default)
     {
         var messages = new List<ChatMessage>
         {
@@ -29,8 +25,8 @@ public class OpenAiProviderService : IAiProvider
             ChatMessage.CreateUserMessage(prompt)
         };
 
-        ChatClient client = new(model: _settings.Model, apiKey: _settings.ApiKey);
-        var completionUpdates = client.CompleteChatStreamingAsync(messages);
+        ChatClient client = new(model: _settings.TextModel, apiKey: _settings.ApiKey);
+        var completionUpdates = client.CompleteChatStreamingAsync(messages, cancellationToken: cancellationToken);
 
         await foreach (StreamingChatCompletionUpdate completionUpdate in completionUpdates)
         {
@@ -38,7 +34,7 @@ public class OpenAiProviderService : IAiProvider
             {
                 if (!string.IsNullOrWhiteSpace(completionUpdate.ContentUpdate[0].Text))
                 {
-                    yield return new AiRawResponse { Chunk = completionUpdate.ContentUpdate[0].Text };
+                    yield return new AiTextRawResponse { Chunk = completionUpdate.ContentUpdate[0].Text };
                 }
             }
         }

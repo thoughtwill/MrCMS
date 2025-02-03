@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using MrCMS.AI.Models;
 using MrCMS.AI.Settings;
@@ -19,16 +20,16 @@ namespace MrCMS.AI.Services.Core;
 /// 
 /// HTML tags that do not match one of the expected token markers are preserved in the token content.
 /// </summary>
-public abstract class BaseAiService
+public abstract class BaseAiTextService
 {
     protected readonly AiSettings Settings;
-    protected readonly IAiProvider Provider;
+    protected readonly IAiTextProvider TextProvider;
 
-    protected BaseAiService(IServiceProvider serviceProvider)
+    protected BaseAiTextService(IServiceProvider serviceProvider)
     {
         Settings = serviceProvider.GetRequiredService<AiSettings>();
-        var aiProviderFactory = serviceProvider.GetRequiredService<AiProviderFactory>();
-        Provider = aiProviderFactory.GetProvider();
+        var aiProviderFactory = serviceProvider.GetRequiredService<AiTextProviderFactory>();
+        TextProvider = aiProviderFactory.GetProvider();
     }
     
     /// <summary>
@@ -67,7 +68,7 @@ public abstract class BaseAiService
     /// chunk is done we yield the partial content.
     /// </summary>
     /// <returns>An asynchronous stream of <see cref="TokenResponse"/>.</returns>
-    protected async IAsyncEnumerable<TokenResponse> ProcessStreamAsync()
+    protected async IAsyncEnumerable<TokenResponse> ProcessStreamAsync(CancellationToken cancellationToken = default)
     {
         // This state will be maintained across chunks.
         var state = ProcessingState.Outside;
@@ -85,7 +86,7 @@ public abstract class BaseAiService
         string currentToken = null;
 
         // Loop over each chunk from the provider.
-        await foreach (var rawResponse in Provider.StreamResponseAsync(Prompt))
+        await foreach (var rawResponse in TextProvider.StreamResponseAsync(Prompt, cancellationToken))
         {
             // Prepend any leftover from previous chunk.
             var input = leftover + rawResponse.Chunk;

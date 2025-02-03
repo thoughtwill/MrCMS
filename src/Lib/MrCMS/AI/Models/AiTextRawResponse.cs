@@ -1,6 +1,6 @@
 namespace MrCMS.AI.Models;
 
-public class AiRawResponse
+public class AiTextRawResponse
 {
     public string Chunk { get; set; }
 }

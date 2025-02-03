@@ -3,24 +3,25 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using MrCMS.AI.Models;
 using MrCMS.AI.Services.Core;
 using MrCMS.AI.Settings;
 
-namespace MrCMS.AI.Services.Providers;
+namespace MrCMS.AI.Services.Providers.Text;
 
-public class OllamaAiProvider : IAiProvider
+public class OllamaAiTextProvider : IAiTextProvider
 {
     private readonly OllamaAiSettings _settings;
     private readonly HttpClient _httpClient;
 
-    public OllamaAiProvider(OllamaAiSettings settings, HttpClient httpClient)
+    public OllamaAiTextProvider(OllamaAiSettings settings, HttpClient httpClient)
     {
         _settings = settings;
         _httpClient = httpClient;
     }
 
-    public async IAsyncEnumerable<AiRawResponse> StreamResponseAsync(string prompt)
+    public async IAsyncEnumerable<AiTextRawResponse> StreamResponseAsync(string prompt, CancellationToken cancellationToken = default)
     {
         // Prepare the request body as a JSON object
         var requestBody = new
@@ -44,7 +45,7 @@ public class OllamaAiProvider : IAiProvider
         };
 
         // Send the request and stream the response
-        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         // Read the response stream line by line
@@ -67,7 +68,7 @@ public class OllamaAiProvider : IAiProvider
             if (root.TryGetProperty("response", out var responseElement))
             {
                 var chunk = responseElement.GetString() ?? string.Empty;
-                yield return new AiRawResponse { Chunk = chunk };
+                yield return new AiTextRawResponse { Chunk = chunk };
             }
         }
     }

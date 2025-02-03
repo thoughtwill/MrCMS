@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MrCMS.AI.Services.Core;
-using MrCMS.AI.Services.Providers;
+using MrCMS.AI.Services.Providers.Image;
+using MrCMS.AI.Services.Providers.Text;
 using MrCMS.Helpers;
 using MrCMS.Settings;
 
@@ -66,12 +67,16 @@ Inputs to guide your creation:
             ";
 
         
-        AiProvider = typeof(OllamaAiProvider).FullName;
+        AiTextProvider = typeof(OllamaAiTextProvider).FullName;
+        AiImageProvider = typeof(OpenAiImageProvider).FullName;
 
     }
     
-    [DropDownSelection("AiProviderOptions")]
-    public string AiProvider { get; set; }
+    [DropDownSelection("AiTextProviderOptions")]
+    public string AiTextProvider { get; set; }
+    
+    [DropDownSelection("AiImageProviderOptions")]
+    public string AiImageProvider { get; set; }
 
     [TextArea]
     public string EnhanceWebpageContentPromptTemplate { get; set; }
@@ -84,17 +89,30 @@ Inputs to guide your creation:
 
     public override void SetViewData(IServiceProvider serviceProvider, ViewDataDictionary viewDataDictionary)
     {
-        viewDataDictionary["AiProviderOptions"] = AiProviderOptions;
+        viewDataDictionary["AiTextProviderOptions"] = AiTextProviderOptions;
+        viewDataDictionary["AiImageProviderOptions"] = AiImageProviderOptions;
     }
 
-    private List<SelectListItem> AiProviderOptions
+    private List<SelectListItem> AiTextProviderOptions
     {
         get
         {
-            var types = TypeHelper.GetAllConcreteTypesAssignableFrom<IAiProvider>();
+            var types = TypeHelper.GetAllConcreteTypesAssignableFrom<IAiTextProvider>();
 
-            return types.BuildSelectItemList(type => type.Name.Replace("Provider", "").BreakUpString(),
-                type => type.FullName, type => type.FullName == AiProvider,
+            return types.BuildSelectItemList(type => type.Name.Replace("TextProvider", "").Replace("Provider", "").BreakUpString(),
+                type => type.FullName, type => type.FullName == AiTextProvider,
+                emptyItem: null);
+        }
+    }
+
+    private List<SelectListItem> AiImageProviderOptions
+    {
+        get
+        {
+            var types = TypeHelper.GetAllConcreteTypesAssignableFrom<IAiImageProvider>();
+
+            return types.BuildSelectItemList(type => type.Name.Replace("ImageProvider", "").Replace("Provider", "").BreakUpString(),
+                type => type.FullName, type => type.FullName == AiTextProvider,
                 emptyItem: null);
         }
     }
