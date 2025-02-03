@@ -14,12 +14,10 @@ namespace MrCMS.AI.Services.Providers;
 public class OpenAiProviderService : IAiProvider
 {
     private readonly OpenAiSettings _settings;
-    private readonly HttpClient _httpClient;
 
-    public OpenAiProviderService(OpenAiSettings settings, HttpClient httpClient)
+    public OpenAiProviderService(OpenAiSettings settings)
     {
         _settings = settings;
-        _httpClient = httpClient;
     }
 
     public async IAsyncEnumerable<AiRawResponse> StreamResponseAsync(string prompt)
