@@ -13,17 +13,17 @@
 }
 <h1>@await Html.Resource("Admin Media Selector Media Selector Title", "Media Selector")</h1>
 <div data-type="media-selector-popup" style="min-height: 450px;">
-    @using (Html.BeginForm("CKEditor", "MediaSelector", FormMethod.Get, new {id = "search-form", @class = "form-inline mb-2"}))
+    @using (Html.BeginForm("CKEditor", "MediaSelector", FormMethod.Get, new { id = "search-form", @class = "form-inline mb-2" }))
     {
         @Html.HiddenFor(x => x.CKEditor)
         @Html.HiddenFor(x => x.CKEditorFuncNum)
 
         <div class="form-group folder-dropdown">
-            @Html.DropDownListFor(query => query.CategoryId, categories, new {@class = "form-control"})
+            @Html.DropDownListFor(query => query.CategoryId, categories, new { @class = "form-control" })
             @Html.ValidationMessageFor(query => query.CategoryId)
         </div>
         <div class="form-group search-text">
-            @Html.TextBoxFor(query => query.Query, new {@class = "form-control ", placeholder = await Html.PlainResource("Admin - Media Selector Search Placeholder", "Search")})
+            @Html.TextBoxFor(query => query.Query, new { @class = "form-control ", placeholder = await Html.PlainResource("Admin - Media Selector Search Placeholder", "Search") })
             @Html.ValidationMessageFor(query => query.Query)
         </div>
         <input type="submit" class="btn btn-primary  search-btn" value="@await Html.Resource("Search", options => options.DisableInlineEditing())"/>
@@ -31,9 +31,11 @@
 
     <div id="results">
         <div id="fileupload" data-message="@await Html.PlainResource("Click here or drag files to upload")" class="dropzone mb-3 pt-3"></div>
-
-        <input type="hidden" value="@Url.Action("Files", "File", new {Id = Model.CategoryId})" id="action-url"/>
-
+        <div class="my-3">
+            <button type="button" class="btn btn-ai"><i class="fa fa-magic" aria-hidden="true"></i> Generate Image</button>
+        </div>
+        
+        <input type="hidden" value="@Url.Action("Files", "File", new { Id = Model.CategoryId })" id="action-url"/>
 
         <div id="progress" class="progress" style="height: 30px; display: none; margin-bottom: 5px;">
             <div class="bar">
@@ -43,8 +45,8 @@
         <div id="files" class=""></div>
 
 
-        <input type="hidden" id="allowedFileTypes" value="@FileTypeUploadSettings.AllowedFileTypes" />
-                <input type="hidden" id="maxFileSizeUpload" value="@(SessionHelper.MaxFileSize)"/>
+        <input type="hidden" id="allowedFileTypes" value="@FileTypeUploadSettings.AllowedFileTypes"/>
+        <input type="hidden" id="maxFileSizeUpload" value="@(SessionHelper.MaxFileSize)"/>
 
         @if (results.Any())
         {
@@ -52,9 +54,10 @@
             {
                 <partial name="FileResult" model="file"/>
             }
+
             <div class="clearfix  mb-2"></div>
 
-            @Html.PagedListPager(results, page => Url.Action("CKEditor", new {page, Model.CategoryId, Model.CKEditor, Model.CKEditorFuncNum}), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+            @Html.PagedListPager(results, page => Url.Action("CKEditor", new { page, Model.CategoryId, Model.CKEditor, Model.CKEditorFuncNum }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
         }
         else
         {

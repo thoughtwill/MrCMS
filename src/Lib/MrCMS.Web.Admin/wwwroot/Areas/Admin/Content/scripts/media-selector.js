@@ -157,6 +157,7 @@ function MediaSelectorWrapper(el, options) {
         preview,
         removeButton,
         selectButton,
+        generateButton,
         buttonHolder,
         eventsRegistered = false;
 
@@ -285,6 +286,8 @@ function MediaSelectorWrapper(el, options) {
                     .appendTo(buttonHolder);
                 removeButton = $('<button>').addClass(settings.removeClasses).html(settings.removeMessage).attr('data-media', 'remove')
                     .appendTo(buttonHolder);
+                generateButton = $('<button>').addClass(settings.generateClasses).html(settings.generateMessage).attr('data-toggle', 'modal').attr('data-target', '#aiImageGenerateModal')
+                    .appendTo(buttonHolder);
                 element.hide().after(para);
                 self.update();
                 self.registerEvents();
@@ -349,6 +352,8 @@ MediaSelectorWrapper.defaults =
     selectMessage: 'Select media...',
     removeClasses: 'btn btn-sm btn-danger ',
     removeMessage: 'Remove media...',
+    generateClasses: 'btn btn-sm btn-ai ml-2 mt-1',
+    generateMessage: '<i class="fa fa-magic" aria-hidden="true"></i>',
     altUrl: '/admin/mediaselector/alt',
     updateAltUrl: '/admin/mediaselector/updatealt',
     descriptionUrl: '/admin/mediaselector/description',

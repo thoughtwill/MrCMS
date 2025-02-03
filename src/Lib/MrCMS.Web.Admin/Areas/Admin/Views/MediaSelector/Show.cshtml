@@ -30,7 +30,10 @@
         <div id="fileupload" data-message="@await Html.PlainResource("Click here or drag files to upload")" class="dropzone mt-2">
             <i class="fa fa-cloud-upload"></i>
         </div>
-
+        <div class="my-3">
+            <button type="button" class="btn btn-ai"><i class="fa fa-magic" aria-hidden="true"></i> Generate Image</button>
+        </div>
+        
         <input type="hidden" value="@Url.Action("Files", "File", new { Id = Model.CategoryId })" id="action-url"/>
 
 
