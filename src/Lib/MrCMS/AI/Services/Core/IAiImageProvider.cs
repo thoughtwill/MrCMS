@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MrCMS.AI.Models;
 
@@ -11,5 +12,5 @@ public interface IAiImageProvider
     /// </summary>
     /// <param name="prompt">The text prompt for the image.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains an ImageResponse.</returns>
-    Task<AiImageResponse> GenerateImageAsync(string prompt, CancellationToken cancellationToken = default);
+    Task<IList<AiImageResponse>> GenerateImageAsync(string prompt, CancellationToken cancellationToken = default);
 }

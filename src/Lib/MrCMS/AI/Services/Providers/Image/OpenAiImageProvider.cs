@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MrCMS.AI.Models;
@@ -17,19 +19,19 @@ public class OpenAiImageProvider : IAiImageProvider
         _settings = settings;
     }
 
-    public async Task<AiImageResponse> GenerateImageAsync(string prompt, CancellationToken cancellationToken = default)
+    public async Task<IList<AiImageResponse>> GenerateImageAsync(string prompt, CancellationToken cancellationToken = default)
     {
         // Initialize the OpenAI API client using the API key from your settings.
         var client = new ImageClient(_settings.ImageModel, _settings.ApiKey);
         
 
         // Call the API using the client's image generation method.
-        var result = await client.GenerateImagesAsync(prompt, 1, new()
+        var result = await client.GenerateImagesAsync(prompt, _settings.ImageGenerationCount, new()
         {
             Quality = _settings.ImageQuality,
             Size = _settings.ImageSize,
             Style = GeneratedImageStyle.Natural,
-            ResponseFormat = GeneratedImageFormat.Uri,
+            ResponseFormat = GeneratedImageFormat.Uri
         }, cancellationToken);
         
         // Extract the URL from the result.
@@ -38,9 +40,9 @@ public class OpenAiImageProvider : IAiImageProvider
             throw new Exception("No image URL returned by the API.");
         }
 
-        return new AiImageResponse
+        return result.Value.Select(f => new AiImageResponse
         {
-            Url = result.Value[0].ImageUri
-        };
+            Url = f.ImageUri
+        }).ToList();
     }
 }

@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using MrCMS.Jobs;
-using MrCMS.TextSearch.Services;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Infrastructure.Helpers;
 using MrCMS.Web.Admin.Models;

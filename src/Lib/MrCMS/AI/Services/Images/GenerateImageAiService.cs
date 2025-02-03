@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MrCMS.AI.Models;
 using MrCMS.AI.Services.Core;
 
 namespace MrCMS.AI.Services.Images;
@@ -14,9 +16,9 @@ public class GenerateImageAiService
         _provider = aiImageProviderFactory.GetProvider();
     }
     
-    public async Task<Uri> GenerateImageAsync(string prompt, CancellationToken cancellationToken = default)
+    public async Task<IList<AiImageResponse>> GenerateImageAsync(string prompt, CancellationToken cancellationToken = default)
     {
         var response = await _provider.GenerateImageAsync(prompt, cancellationToken);
-        return response.Url;
+        return response;
     }
 }

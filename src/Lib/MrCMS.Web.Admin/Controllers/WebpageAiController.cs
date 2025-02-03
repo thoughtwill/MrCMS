@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using MrCMS.AI.Models;
-using MrCMS.AI.Services;
 using MrCMS.AI.Services.Texts;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
 using MrCMS.Web.Admin.Services;
-using MrCMS.Web.Admin.Services.Content;
 
 namespace MrCMS.Web.Admin.Controllers;
 
