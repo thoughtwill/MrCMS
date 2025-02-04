@@ -7,5 +7,5 @@ namespace MrCMS.AI.Services.Texts;
 
 public interface IGenerateWebpageSeoAiTextService
 {
-    IAsyncEnumerable<TokenResponse> GenerateSeo(Webpage webpage, CancellationToken cancellationToken = default);
+    IAsyncEnumerable<TokenResponse> GenerateSeo(GenerateSeoInput input, CancellationToken cancellationToken = default);
 }

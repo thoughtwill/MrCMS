@@ -6,5 +6,5 @@ namespace MrCMS.AI.Services.Texts;
 
 public interface IGenerateWebpageBlocksAiTextService
 {
-    IAsyncEnumerable<TokenResponse> GenerateBlocks(string userPrompt, CancellationToken cancellationToken = default);
+    IAsyncEnumerable<TokenResponse> GenerateBlocks(GenerateBlocksInput input, CancellationToken cancellationToken = default);
 }

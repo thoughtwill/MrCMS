@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -21,7 +22,7 @@ public class OllamaAiTextProvider : IAiTextProvider
         _httpClient = httpClient;
     }
 
-    public async IAsyncEnumerable<AiTextRawResponse> StreamResponseAsync(string prompt, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<AiTextRawResponse> StreamResponseAsync(string prompt, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         // Prepare the request body as a JSON object
         var requestBody = new

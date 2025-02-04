@@ -9,3 +9,4 @@ public class AddContentTemplateModel
     
     public string Text { get; set; }
 }
+

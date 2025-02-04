@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using MrCMS.AI.Models;
 using MrCMS.AI.Services.Texts;
@@ -12,57 +13,34 @@ public class WebpageAiController : MrCMSAdminController
     private readonly IEnhanceWebpageContentAiTextService _enhanceContentAiTextService;
     private readonly IGenerateWebpageSeoAiTextService _seoContentAiTextService;
     private readonly IGenerateWebpageBlocksAiTextService _generateBlocksAiTextService;
-    private readonly IWebpageAdminService _webpageAdminService;
-    private readonly IContentVersionAdminService _contentVersionAdminService;
 
     public WebpageAiController(IEnhanceWebpageContentAiTextService enhanceContentAiTextService, IGenerateWebpageSeoAiTextService seoContentAiTextService,
-        IGenerateWebpageBlocksAiTextService generateBlocksAiTextService, IWebpageAdminService webpageAdminService,
-        IContentVersionAdminService contentVersionAdminService)
+        IGenerateWebpageBlocksAiTextService generateBlocksAiTextService)
     {
         _enhanceContentAiTextService = enhanceContentAiTextService;
         _seoContentAiTextService = seoContentAiTextService;
         _generateBlocksAiTextService = generateBlocksAiTextService;
-        _webpageAdminService = webpageAdminService;
-        _contentVersionAdminService = contentVersionAdminService;
     }
 
-    public async IAsyncEnumerable<TokenResponse> EnhanceContent(int webpageId, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<TokenResponse> EnhanceContent(EnhanceContentInput input, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var webpage = await _webpageAdminService.GetWebpage(webpageId);
-        if (webpage == null)
-        {
-            yield break;
-        }
-
-        await foreach (var rawResponse in _enhanceContentAiTextService.EnhanceContent(webpage, cancellationToken))
+        await foreach (var rawResponse in _enhanceContentAiTextService.EnhanceContent(input, cancellationToken))
         {
             yield return rawResponse;
         }
     }
 
-    public async IAsyncEnumerable<TokenResponse> GenerateSeo(int webpageId, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<TokenResponse> GenerateSeo(GenerateSeoInput input, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var webpage = await _webpageAdminService.GetWebpage(webpageId);
-        if (webpage == null)
-        {
-            yield break;
-        }
-
-        await foreach (var rawResponse in _seoContentAiTextService.GenerateSeo(webpage, cancellationToken))
+        await foreach (var rawResponse in _seoContentAiTextService.GenerateSeo(input, cancellationToken))
         {
             yield return rawResponse;
         }
     }
 
-    public async IAsyncEnumerable<TokenResponse> GenerateContent(int contentVersionId, string userPrompt, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<TokenResponse> GenerateContent(GenerateBlocksInput input, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var contentVersion = await _contentVersionAdminService.GetVersions(contentVersionId);
-        if (contentVersion == null)
-        {
-            yield break;
-        }
-
-        await foreach (var rawResponse in _generateBlocksAiTextService.GenerateBlocks(userPrompt, cancellationToken))
+        await foreach (var rawResponse in _generateBlocksAiTextService.GenerateBlocks(input, cancellationToken))
         {
             yield return rawResponse;
             //TODO: Save the generated content to the content block

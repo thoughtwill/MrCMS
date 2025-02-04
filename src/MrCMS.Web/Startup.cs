@@ -260,11 +260,11 @@ namespace MrCMS.Web
 
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
-                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("Referrer-Policy", "origin");
-                context.Response.Headers.Add("X-Permitted-Cross-Domain-Policies", "none");
+                context.Response.Headers.Append("X-Frame-Options", "SAMEORIGIN");
+                context.Response.Headers.Append("X-Xss-Protection", "1; mode=block");
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("Referrer-Policy", "origin");
+                context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", "none");
                 await next();
             });
 

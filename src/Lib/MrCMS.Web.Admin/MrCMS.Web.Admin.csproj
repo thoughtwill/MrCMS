@@ -28,17 +28,7 @@
         <ProjectReference Include="..\..\Lib\MrCMS\MrCMS.csproj" />
         <ProjectReference Include="..\MrCMS.Web.Admin.Infrastructure\MrCMS.Web.Admin.Infrastructure.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Index.cshtml" />
-      <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Remove.cshtml" />
-      <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Setup.cshtml" />
-      <AdditionalFiles Include="Areas\Admin\Views\AdHocJob\Trigger.cshtml" />
-      <AdditionalFiles Include="Areas\Admin\Views\AiSettings\FileMigration.cshtml" />
-      <AdditionalFiles Include="Areas\Admin\Views\AiSettings\FileSystem.cshtml" />
-      <AdditionalFiles Include="Areas\Admin\Views\AiSettings\Index.cshtml" />
-    </ItemGroup>
-
+    
     <ItemGroup>
       <Folder Include="Services\ContentTemplates\" />
     </ItemGroup>
@@ -46,7 +36,7 @@
     <ItemGroup>
       <UpToDateCheckInput Remove="Areas\Admin\Views\ContentBlock\Editors\ContentTemplateBlock.cshtml" />
     </ItemGroup>
-
+    
     <!--
           1. Install npm packages
           "Inputs" and "Outputs" are used for incremental builds. If all output items are up-to-date, MSBuild skips the target.

@@ -353,7 +353,7 @@ MediaSelectorWrapper.defaults =
     removeClasses: 'btn btn-sm btn-danger ',
     removeMessage: 'Remove media...',
     generateClasses: 'btn btn-sm btn-ai ml-2 mt-1',
-    generateMessage: '<i class="fa fa-magic" aria-hidden="true"></i>',
+    generateMessage: '<i class="fa fa-magic" aria-hidden="true"></i> Generate Image',
     altUrl: '/admin/mediaselector/alt',
     updateAltUrl: '/admin/mediaselector/updatealt',
     descriptionUrl: '/admin/mediaselector/description',

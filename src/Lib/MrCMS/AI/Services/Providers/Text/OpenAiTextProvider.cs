@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using MrCMS.AI.Models;
 using MrCMS.AI.Services.Core;
@@ -16,7 +17,7 @@ public class OpenAiTextProvider : IAiTextProvider
         _settings = settings;
     }
 
-    public async IAsyncEnumerable<AiTextRawResponse> StreamResponseAsync(string prompt, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<AiTextRawResponse> StreamResponseAsync(string prompt, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var messages = new List<ChatMessage>
         {

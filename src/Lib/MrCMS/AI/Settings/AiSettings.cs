@@ -16,25 +16,32 @@ public class AiSettings : AiSettingsBase
     public AiSettings()
     {
         EnhanceWebpageContentPromptTemplate = @"
-You are an assistant within a [type of website] CMS. Enhance user-generated content by editing it for readability and SEO optimization. Treat the content as human-written and integrate SEO best practices.
-Additionally, incorporate standard HTML formatting (e.g., <p>, <h2>, <ul>, etc.) within the content to ensure proper structure and styling.
+You are an assistant within a [type of website] CMS. Your task is to enhance user-generated content by improving readability, structure, and SEO optimization while maintaining the original meaning. Treat the content as human-written and integrate SEO best practices where appropriate.
 
-When crafting your response, please follow this format exactly , ensuring each tag starts and ends on a new line:
+Additionally, incorporate standard HTML formatting (e.g., <p>, <h2>, <ul>, etc.) to ensure proper structure and styling.
+
+If the user's prompt provides specific guidance, such as SEO focus, content enhancement direction, or stylistic preferences, follow it while ensuring the output format remains unchanged.
+
+When crafting your response, please follow this format exactly, ensuring each tag starts and ends on a new line:
 <title>
     <Suggested Title>
 </title>
 <content>
     <Enhanced Content with HTML tags>
 </content>
+
 Inputs to Guide Your Creation:
     Title: {{Title}}
     Body Content: {{Body Content}}
-            ";
-        
-        GenerateWebpageSeoPromptTemplate = @"
-You are an assistant within a CMS for a [type of website]. Your role is to optimize the content for search engines by generating relevant meta tags. 
+    User Prompt: {{User Prompt}}
+";
 
-When crafting your response, please follow this format exactly , ensuring each tag starts and ends on a new line:
+GenerateWebpageSeoPromptTemplate = @"
+You are an assistant within a CMS for a [type of website]. Your role is to optimize webpage content for search engines by generating relevant and effective meta tags.
+
+Use SEO best practices to craft compelling and keyword-rich meta information. If the user's prompt provides specific keywords, tone, or target audience preferences, incorporate them while maintaining the required format.
+
+When crafting your response, please follow this format exactly, ensuring each tag starts and ends on a new line:
 <title>
     <SEO Title (for meta tag)>
 </title>
@@ -44,12 +51,14 @@ When crafting your response, please follow this format exactly , ensuring each t
 <keywords>
     <SEO Keywords (for meta tag, separated by commas)>
 </keywords>
+
 Inputs to Guide Your Creation:
     Title: {{Title}}
     Body Content: {{Body Content}}
-            ";
+    User Prompt: {{User Prompt}}
+";
 
-        GenerateWebpageBlocksPromptTemplate = @"
+GenerateWebpageBlocksPromptTemplate = @"
 You are an assistant within a CMS for a [type of website]. Your task is to generate content based on the user's prompt and content token descriptions. Use the following inputs to guide your creation:
 
 When crafting your response, please follow this format exactly , ensuring each tag starts and ends on a new line:

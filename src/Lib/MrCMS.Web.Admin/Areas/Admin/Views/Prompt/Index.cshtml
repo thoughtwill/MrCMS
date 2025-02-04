@@ -1,0 +1,79 @@
+﻿@using MrCMS.AI
+@using MrCMS.AI.Entities
+@using MrCMS.AI.Models
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model MrCMS.Web.Admin.Models.Prompts.PromptSearchModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var results = ViewData["items"] as IPagedList<Prompt> ?? PagingHelper.EmptyList<Prompt>();
+    var typeOptions = EnumHelper<PromptType>.GetOptions();
+}
+
+<admin-header>
+    <row>
+        <admin-header-title title="Prompt Templates"/>
+        <admin-header-actions>
+            <a asp-action="Add" asp-controller="Prompt" asp-route-type="@Model.Type" class="btn btn-primary" data-toggle="fb-modal">Add</a>
+        </admin-header-actions>
+    </row>
+</admin-header>
+
+<card>
+    <card-body>
+        <form method="get" asp-action="Index" asp-controller="Prompt" class="mb-3">
+            <div class="row">
+                <div class="col-sm col-lg-auto">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Name)
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Name)
+                    </div>
+                </div>
+                <div class="col-sm col-lg-auto">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Type)
+                        @Html.DropDownListFor(x => x.Type, typeOptions, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Type)
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+        @if (results.Any())
+        {
+            <table class="table table-condensed table-striped mb-3">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th width="25">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var prompt in results)
+                {
+                    <tr>
+                        <td>
+                            @prompt.Name
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                @Html.ActionLink("Edit", "Edit", "Prompt", new { id = prompt.Id }, new { @class = "btn btn-sm btn-secondary" })
+                                @Html.ActionLink("Delete", "Delete", "Prompt", new { id = prompt.Id }, new { @class = "btn btn-sm btn-danger", data_toggle = "fb-modal" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            @Html.PagedListPager(results, page => Url.Action("Index", new { page, Model.Name, Model.Type }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+        }
+        else
+        {
+            @:No Prompt Templates
+        }
+    </card-body>
+</card>

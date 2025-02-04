@@ -48,6 +48,7 @@ import {initializeJavaScriptEditor} from "./js-editor";
 import {setupWebpageUrlSelector} from "./webpage-url-selector";
 import {initializeTextEditor} from "./text-editor";
 import { setupWebpageAiFunctions } from "./webpage-ai";
+import { initPromptEditor } from "./prompt-editor";
 
 ajaxSetup();
 $(() => {
@@ -99,6 +100,7 @@ $(() => {
     initializeJavaScriptEditor();
     setupWebpageUrlSelector();
     setupWebpageAiFunctions();
+    initPromptEditor();
     $(document).on("initialize-plugins", initiateContentTemplate);
     $(document).on("initialize-plugins", initializeHtmlEditor);
     $(document).on("initialize-plugins", initializeCssEditor);
