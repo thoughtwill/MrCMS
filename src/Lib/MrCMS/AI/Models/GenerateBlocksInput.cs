@@ -1,11 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using JetBrains.Annotations;
 
 namespace MrCMS.AI.Models;
 
-public class GenerateBlocksInput
+public class GenerateBlocksInput : BaseAiInput
 {
     [Required] public int ContentVersionId { get; set; }
-
-    [CanBeNull] public string Prompt { get; set; }
 }

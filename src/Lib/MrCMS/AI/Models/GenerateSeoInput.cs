@@ -1,11 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using JetBrains.Annotations;
 
 namespace MrCMS.AI.Models;
 
-public class GenerateSeoInput
+public class GenerateSeoInput : BaseAiInput
 {
     [Required] public int WebpageId { get; set; }
-
-    [CanBeNull] public string Prompt { get; set; }
 }

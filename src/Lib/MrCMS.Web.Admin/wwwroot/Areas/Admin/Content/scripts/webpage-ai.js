@@ -61,20 +61,28 @@ export function setupWebpageAiFunctions() {
  * for each complete JSON object received.
  *
  * @param {string} url - The URL to fetch.
+ * @param {object} data
  * @param {(tokenObj: any) => void} tokenProcessor - Function to process each token object.
  */
-async function processStream(url, tokenProcessor) {
-    const response = await fetch(url);
+async function processStream(url, data, tokenProcessor) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
     let strippedLeadingBracket = false;
 
     while (true) {
-        const { done, value } = await reader.read();
+        const {done, value} = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value, {stream: true});
         buffer += chunk;
 
         if (!strippedLeadingBracket) {
@@ -122,7 +130,7 @@ async function fetchEnhanceContent(webpageId, titleElement, contentElement) {
         content: ''
     };
 
-    await processStream(url, (tokenObj) => {
+    await processStream(url, {webpageId: webpageId}, (tokenObj) => {
         if (tokenObj.token === 'title') {
             parsedData.title += tokenObj.content;
             titleElement.value = parsedData.title;
@@ -143,7 +151,7 @@ async function fetchSeoContent(webpageId, titleElement, descriptionElement, keyw
         keywords: ''
     };
 
-    await processStream(url, (tokenObj) => {
+    await processStream(url, {webpageId: webpageId}, (tokenObj) => {
         if (tokenObj.token === 'title') {
             parsedData.title += tokenObj.content;
             titleElement.value = parsedData.title;
@@ -197,5 +205,5 @@ function extractJsonObjects(buffer) {
             }
         }
     }
-    return { objects, buffer: buffer.slice(lastProcessedIndex) };
+    return {objects, buffer: buffer.slice(lastProcessedIndex)};
 }

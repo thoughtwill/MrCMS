@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using Microsoft.AspNetCore.Mvc;
 using MrCMS.AI.Models;
 using MrCMS.AI.Services.Texts;
 using MrCMS.Web.Admin.Infrastructure.BaseControllers;
@@ -14,7 +15,8 @@ public class WebpageAiController : MrCMSAdminController
     private readonly IGenerateWebpageSeoAiTextService _seoContentAiTextService;
     private readonly IGenerateWebpageBlocksAiTextService _generateBlocksAiTextService;
 
-    public WebpageAiController(IEnhanceWebpageContentAiTextService enhanceContentAiTextService, IGenerateWebpageSeoAiTextService seoContentAiTextService,
+    public WebpageAiController(IEnhanceWebpageContentAiTextService enhanceContentAiTextService,
+        IGenerateWebpageSeoAiTextService seoContentAiTextService,
         IGenerateWebpageBlocksAiTextService generateBlocksAiTextService)
     {
         _enhanceContentAiTextService = enhanceContentAiTextService;
@@ -22,23 +24,48 @@ public class WebpageAiController : MrCMSAdminController
         _generateBlocksAiTextService = generateBlocksAiTextService;
     }
 
-    public async IAsyncEnumerable<TokenResponse> EnhanceContent(EnhanceContentInput input, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    [HttpGet]
+    public IActionResult EnhanceContent(int webpageId)
+    {
+        return View(new EnhanceContentInput { WebpageId = webpageId });
+    }
+
+
+    [HttpPost]
+    public async IAsyncEnumerable<TokenResponse> EnhanceContent([FromBody] EnhanceContentInput input,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await foreach (var rawResponse in _enhanceContentAiTextService.EnhanceContent(input, cancellationToken))
         {
             yield return rawResponse;
         }
     }
+    
+    [HttpGet]
+    public IActionResult GenerateSeo(int webpageId)
+    {
+        return View(new GenerateSeoInput { WebpageId = webpageId });
+    }
 
-    public async IAsyncEnumerable<TokenResponse> GenerateSeo(GenerateSeoInput input, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    [HttpPost]
+    public async IAsyncEnumerable<TokenResponse> GenerateSeo([FromBody] GenerateSeoInput input,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await foreach (var rawResponse in _seoContentAiTextService.GenerateSeo(input, cancellationToken))
         {
             yield return rawResponse;
         }
     }
+    
+    [HttpGet]
+    public IActionResult GenerateContent(int contentVersionIdId)
+    {
+        return View(new GenerateBlocksInput { ContentVersionId = contentVersionIdId });
+    }
 
-    public async IAsyncEnumerable<TokenResponse> GenerateContent(GenerateBlocksInput input, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    [HttpPost]
+    public async IAsyncEnumerable<TokenResponse> GenerateContent([FromBody] GenerateBlocksInput input,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await foreach (var rawResponse in _generateBlocksAiTextService.GenerateBlocks(input, cancellationToken))
         {

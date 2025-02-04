@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using JetBrains.Annotations;
 
 namespace MrCMS.AI.Models;
 
-public class EnhanceContentInput
+public class EnhanceContentInput : BaseAiInput
 {
     [Required]
     public int WebpageId { get; set; }
     
-    [CanBeNull] public string Prompt { get; set; }
+  
 }

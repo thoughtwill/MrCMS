@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MrCMS.Settings;
-using OpenAI.Images;
 
 namespace MrCMS.AI.Settings;
 
@@ -14,9 +13,9 @@ public class OpenAiSettings : AiSettingsBase
         TextModel = "gpt-4o";
         ImageModel = "dall-e-3";
         ApiKey = string.Empty;
-        ImageSize = GeneratedImageSize.W1024xH1024;
-        ImageStyle = GeneratedImageStyle.Natural;
-        ImageQuality = GeneratedImageQuality.High;
+        ImageSize = "1024x1024";
+        ImageStyle = "natural";
+        ImageQuality = "hd";
         ImageGenerationCount = 1;
     }
 
@@ -25,13 +24,13 @@ public class OpenAiSettings : AiSettingsBase
     public string ImageModel { get; set; }
 
     [DropDownSelection("AiImageQualityOptions")]
-    public GeneratedImageQuality ImageQuality { get; set; }
+    public string ImageQuality { get; set; }
 
     [DropDownSelection("AiImageSizeOptions")]
-    public GeneratedImageSize ImageSize { get; set; }
+    public string ImageSize { get; set; }
 
     [DropDownSelection("AiImageStyleOptions")]
-    public GeneratedImageStyle ImageStyle { get; set; }
+    public string ImageStyle { get; set; }
 
     [DropDownSelection("AiImageGenerationCountOptions")]
     public int ImageGenerationCount { get; set; }
@@ -44,25 +43,26 @@ public class OpenAiSettings : AiSettingsBase
     {
         viewDataDictionary["AiImageQualityOptions"] = new List<SelectListItem>
         {
-            new("High", GeneratedImageQuality.High.ToString())
+            new("High", "hd", ImageQuality == "hd"),
+            new("Standard","standard", ImageQuality == "standard"),
         };
         viewDataDictionary["AiImageSizeOptions"] = new List<SelectListItem>
         {
-            new("256x256", GeneratedImageSize.W256xH256.ToString()),
-            new("512x512", GeneratedImageSize.W512xH512.ToString()),
-            new("1024x1024", GeneratedImageSize.W1024xH1024.ToString()),
-            new("1024x1792", GeneratedImageSize.W1024xH1792.ToString())
+            new("256x256", "256x256" , ImageSize == "256x256"),
+            new("512x512", "512x512", ImageSize == "512x512"),
+            new("1024x1024", "1024x1024", ImageSize == "1024x1024"),
+            new("1024x1792", "1024x1792", ImageSize == "1024x1792"),
         };
         viewDataDictionary["AiImageStyleOptions"] = new List<SelectListItem>
         {
-            new("Natural", GeneratedImageStyle.Natural.ToString()),
-            new("Vivid", GeneratedImageStyle.Vivid.ToString())
+            new("Natural", "natural", ImageStyle == "natural"),
+            new("Vivid", "vivid", ImageStyle == "vivid"),
         };
         viewDataDictionary["AiImageGenerationCountOptions"] = new List<SelectListItem>
         {
-            new("1", "1"),
-            new("2", "2"),
-            new("4", "4")
+            new("1", "1", ImageGenerationCount == 1),
+            new("2", "2", ImageGenerationCount == 2),
+            new("4", "4", ImageGenerationCount == 4),
         };
     }
 }
