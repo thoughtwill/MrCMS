@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using MrCMS.AI;
 using MrCMS.AI.Models;
 using MrCMS.Shortcodes.Forms;
 using MrCMS.Web.Admin.Infrastructure.Services;

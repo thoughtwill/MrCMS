@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MrCMS.AI;
 using MrCMS.AI.Entities;
 using MrCMS.AI.Models;
 using NHibernate;
