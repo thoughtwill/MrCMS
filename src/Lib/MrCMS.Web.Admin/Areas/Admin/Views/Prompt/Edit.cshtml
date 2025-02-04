@@ -6,7 +6,7 @@
     var typeOptions = EnumHelper<PromptType>.GetOptions();
 }
 <form method="post" asp-controller="Prompt" asp-action="Edit">
-    @Html.HiddenFor(f=>f.Id)
+    @Html.HiddenFor(f => f.Id)
     <fieldset>
         <legend>
             Edit Prompt Template
@@ -28,11 +28,15 @@
             @Html.DropDownListFor(x => x.Type, typeOptions, new { @class = "form-control" })
             @Html.ValidationMessageFor(x => x.Type)
         </div>
-        
+
         <div class="form-group mt-3">
             @Html.LabelFor(m => m.Template)
             @Html.TextAreaFor(m => m.Template, new { @class = "form-control code-enabled", rows = 5 })
         </div>
-        
+        <div class="alert alert-info" role="alert">
+            <p>The prompt is a reusable piece of text that can contain variables that can have different values on every use. Supports Markdown syntax.</p>
+            <hr>
+            <p class="mb-0">To create a variable use the <strong>{{ name }}</strong> syntax in the prompt content.</p>
+        </div>
     </fieldset>
 </form>

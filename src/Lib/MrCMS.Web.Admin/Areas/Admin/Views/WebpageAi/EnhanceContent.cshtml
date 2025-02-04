@@ -1,0 +1,11 @@
+@model MrCMS.AI.Models.EnhanceContentInput
+
+<form asp-controller="WebpageAi" asp-action="EnhanceContent" prompt-form method="post" autocomplete="off">
+    @Html.HiddenFor(m => m.WebpageId)
+    <div class="form-group">
+        <label asp-for="Prompt"></label>
+        <Prompt asp-for="Prompt" Type="TextPrompt"></Prompt>
+        <span asp-validation-for="Prompt"></span>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

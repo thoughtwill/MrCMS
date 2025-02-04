@@ -26,9 +26,9 @@
 
 @if (_webpageMetadataService.GetWebpageMetadata(Html, Model.Id).HasBodyContent)
 {
-    <button type="button" class="btn btn-ai mb-2" data-ai-enhance-content="@Model.Id" data-title="[name='Name']" data-content="[name='BodyContent']">
+    <a type="button" class="btn btn-ai mb-2" asp-controller="WebpageAi" asp-action="EnhanceContent" asp-route-webpageId="@Model.Id" data-toggle="fb-modal">
         <i class="fa fa-magic"></i> Enhance Content
-    </button>
+    </a>
     <div class="body-content mb-3" data-body-content>
         <!-- leave this class here for fixing the bar to top only for body content -->
         <textarea asp-for="BodyContent" class="ckedit-enabled"></textarea>

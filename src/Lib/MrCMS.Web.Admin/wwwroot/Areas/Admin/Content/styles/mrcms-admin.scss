@@ -306,6 +306,16 @@ ul#sidebar-nav > li > ul.nav > li > ul.nav {
     }
 }
 
+.float-button-container{
+    position: relative;
+    .float-button{
+        position: absolute;
+        right: .25rem;
+        bottom: 0;
+        margin: .25rem;
+    }
+}
+
 @include media-breakpoint-up(md) {
     .media-preview {
         .img-fluid {
