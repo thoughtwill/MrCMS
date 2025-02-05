@@ -50,10 +50,10 @@ public class OllamaAiTextProvider : IAiTextProvider
         response.EnsureSuccessStatusCode();
 
         // Read the response stream line by line
-        await using var stream = await response.Content.ReadAsStreamAsync();
+        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
         using var reader = new StreamReader(stream);
 
-        while (await reader.ReadLineAsync() is { } line)
+        while (await reader.ReadLineAsync(cancellationToken) is { } line)
         {
             // Parse the JSON line
             using var document = JsonDocument.Parse(line);
