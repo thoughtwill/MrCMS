@@ -8,8 +8,8 @@
 
     <ItemGroup>
         <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.12" />
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     </ItemGroup>
 

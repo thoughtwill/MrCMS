@@ -15,10 +15,10 @@
 
     <ItemGroup>
         <PackageReference Include="ClosedXML" Version="0.102.0" />
-        <PackageReference Include="Hangfire.NetCore" Version="1.8.4" />
+        <PackageReference Include="Hangfire.NetCore" Version="1.8.17" />
         <PackageReference Include="Lindhart.Analyser.MissingAwaitWarning" Version="2.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-        <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
+        <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.4" />
         <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="8.1.0" />
         <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.7" />
     </ItemGroup>

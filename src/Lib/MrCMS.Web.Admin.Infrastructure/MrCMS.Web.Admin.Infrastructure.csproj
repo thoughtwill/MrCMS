@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Lindhart.Analyser.MissingAwaitWarning" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
