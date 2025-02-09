@@ -1,6 +1,7 @@
 import {initTagging} from "./tagging";
 import {initSortable} from "./sort";
 import {initMediaUploader} from "./media-uploader";
+import {initAceEditor} from "./ace";
 
 export function initializePlugins() {
     CKEDITOR.replaceAll('ckedit-enabled');
@@ -30,9 +31,8 @@ export function initializePlugins() {
         const form = $(element);
         form.areYouSure({message: form.data('are-you-sure')});
     });
-
     initSortable();
-
+    initAceEditor();
 
     $(document).trigger('initialize-plugins', {});
 }

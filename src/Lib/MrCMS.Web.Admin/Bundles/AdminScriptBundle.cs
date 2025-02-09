@@ -48,6 +48,11 @@ namespace MrCMS.Web.Admin.Bundles
                 yield return "/Areas/Admin/Content/lib/spectrum/spectrum.js";
                 yield return "/Areas/Admin/Content/lib/cropper/cropper.js";
                 yield return "/Areas/Admin/Content/lib/cropper/jquery-cropper.js";
+                yield return "/Areas/Admin/Content/lib/aceeditor/js/ace.js";
+                yield return "/Areas/Admin/Content/lib/aceeditor/js/mode-css.js";
+                yield return "/Areas/Admin/Content/lib/aceeditor/js/mode-html.js";
+                yield return "/Areas/Admin/Content/lib/aceeditor/js/mode-javascript.js";
+                yield return "/Areas/Admin/Content/lib/aceeditor/js/ext-language_tools.js";
                 yield return "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js";
                 yield return "/Areas/Admin/Content/lib/aceeditor/js/ace.js";
                 yield return "/Areas/Admin/Content/lib/jquery.serializejson.js";
